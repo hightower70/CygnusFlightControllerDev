@@ -29,6 +29,7 @@ static void MX_USART6_UART_Init(void);
 extern void drvServoInit(void);
 extern void drvStatLEDInit(void);
 void drvStatLEDSetDim(uint8_t in_dim);
+void drvIMUInit(void);
 
 GPIO_InitTypeDef  GPIO_InitStruct;
 USBD_HandleTypeDef USBD_Device;
@@ -148,6 +149,8 @@ MX_USB_DEVICE_Init();
 
 drvServoInit();
 drvStatLEDInit();
+
+drvIMUInit();
 
 //SH_SendString("Hello\n\r");
 

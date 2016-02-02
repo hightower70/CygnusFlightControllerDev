@@ -8,6 +8,17 @@
 /* of the BSD license.  See the LICENSE file for details.                    */
 /*****************************************************************************/
 
+/*****************************************************************************/
+/* Used system resources:                                                    */
+/*                                                                           */
+/*   Servo:        TIM3 - CH4,                                               */
+/*                 PC0, PC1, PC2                                             */
+/*                                                                           */
+/*   Status LED:   TIM12 - CH12                                              */
+/*                 PB15                                                      */
+/*****************************************************************************/
+
+
 #ifndef __drvIODefinitions_h
 #define __drvIODefinitions_h
 
@@ -15,6 +26,7 @@
 /* Includes                                                                  */
 /*****************************************************************************/
 #include <sysTypes.h>
+
 
 
 #define SPI_CS_Pin GPIO_PIN_13
@@ -37,6 +49,10 @@
 #define VBAT_GPIO_Port GPIOB
 #define SERVO_Pin GPIO_PIN_1
 #define SERVO_GPIO_Port GPIOB
+#define SCL_Pin GPIO_PIN_10
+#define SCL_GPIO_Port GPIOB
+#define SDA_Pin GPIO_PIN_11
+#define SDA_GPIO_Port GPIOB
 #define STAT_Pin GPIO_PIN_15
 #define STAT_GPIO_Port GPIOB
 #define PPM_Pin GPIO_PIN_8

@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/* Status LED driver (dimming) functions                                     */
+/* ADXL345 Acceleration sensor driver                                        */
 /*                                                                           */
 /* Copyright (C) 2016 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
@@ -8,18 +8,20 @@
 /* of the BSD license.  See the LICENSE file for details.                    */
 /*****************************************************************************/
 
-#ifndef __drvStatLED_h
-#define __drvStatLED_h
+#ifndef __drvADXL345_h
+#define __drvADXL345_h
 
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
 #include <sysTypes.h>
+#include <drvI2CMaster.h>
 
 /*****************************************************************************/
-/* Includes                                                                  */
+/* Function prototypes                                                       */
 /*****************************************************************************/
-void drvStatLEDInit(void);
-void drvStatLEDSetDim(uint8_t in_dim);
+void drvADXL345Init(drvI2CMasterModule* in_imu_i2c);
+
+
 
 #endif

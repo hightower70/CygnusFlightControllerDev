@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/* Hardware Abstraction Layer Functions (general, system wide functions)     */
+/* Status LED driver (dimming) functions                                     */
 /*                                                                           */
 /* Copyright (C) 2016 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
@@ -7,7 +7,6 @@
 /* This software may be modified and distributed under the terms             */
 /* of the BSD license.  See the LICENSE file for details.                    */
 /*****************************************************************************/
-
 
 /*****************************************************************************/
 /* Includes                                                                  */
@@ -17,7 +16,7 @@
 #include <drvHAL.h>
 
 /*****************************************************************************/
-/* Includes                                                                  */
+/* Constants                                                                 */
 /*****************************************************************************/
 #define drvLED_CLOCK 100000
 #define drvLED_DIM_STEP_COUNT 10
@@ -29,12 +28,17 @@
 static TIM_HandleTypeDef l_led_timer;
 static uint16_t l_dim_table[drvLED_DIM_STEP_COUNT] = {0, 0, 50, 100, 300, 500, 700, 900, 950, 1000 };
 
+/*****************************************************************************/
+/* Function implementation                                                   */
+/*****************************************************************************/
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Status LED driver initialization function
 void drvStatLEDInit(void)
 {
   TIM_ClockConfigTypeDef sClockSourceConfig;
   TIM_OC_InitTypeDef sConfigOC;
   GPIO_InitTypeDef GPIO_InitStruct;
-
 
   // Init GPIO
   // PB15     ------> TIM12_CH2
@@ -70,9 +74,12 @@ void drvStatLEDInit(void)
   HAL_TIM_PWM_Start(&l_led_timer, TIM_CHANNEL_2);
 
   HAL_TIM_Base_Start(&l_led_timer);
-
 }
 
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Set status LED current dimming value
+/// @param in_dim Dimming value index. The dimming is nonlinear with the specified value.
+///        The l_dim_table contains the dimming value for each dimming index.
 void drvStatLEDSetDim(uint8_t in_dim)
 {
 	if (in_dim < drvLED_DIM_STEP_COUNT)

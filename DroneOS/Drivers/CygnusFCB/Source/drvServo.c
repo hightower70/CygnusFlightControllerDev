@@ -1,4 +1,14 @@
 /*****************************************************************************/
+/* Eight channel servo output driver                                         */
+/*                                                                           */
+/* Copyright (C) 2016 Laszlo Arvai                                           */
+/* All rights reserved.                                                      */
+/*                                                                           */
+/* This software may be modified and distributed under the terms             */
+/* of the BSD license.  See the LICENSE file for details.                    */
+/*****************************************************************************/
+
+/*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
 #include <drvIODefinitions.h>
@@ -18,6 +28,12 @@
 static TIM_HandleTypeDef l_servo_timer;
 static uint8_t l_current_channel = 0;
 
+/*****************************************************************************/
+/* Function implementation                                                   */
+/*****************************************************************************/
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Initializes servo driver
 void drvServoInit(void)
 {
   TIM_ClockConfigTypeDef sClockSourceConfig;
