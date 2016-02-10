@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/* Status LED driver (dimming) functions                                     */
+/* High resolution (1us resolution) timer driver                             */
 /*                                                                           */
 /* Copyright (C) 2016 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
@@ -14,70 +14,75 @@
 #include <drvIODefinitions.h>
 #include <stm32f4xx_hal.h>
 #include <drvHAL.h>
+#include <sysHighresTimer.h>
 
 /*****************************************************************************/
 /* Constants                                                                 */
 /*****************************************************************************/
-#define drvLED_CLOCK 100000
-#define drvLED_PERIOD 100
+#define drvHIGHRESTIMER_CLOCK 1000000
 
 /*****************************************************************************/
 /* Module global variables                                                   */
 /*****************************************************************************/
-static TIM_HandleTypeDef l_led_timer;
+static TIM_HandleTypeDef l_high_res_timer;
+static volatile uint16_t l_timer_high = 0;
 
 /*****************************************************************************/
 /* Function implementation                                                   */
 /*****************************************************************************/
 
 ///////////////////////////////////////////////////////////////////////////////
-/// @brief Status LED driver initialization function
-void drvStatLEDInit(void)
+/// @brief Initializes high resolution timer
+void drvHighresTimerInit(void)
 {
   TIM_ClockConfigTypeDef sClockSourceConfig;
-  TIM_OC_InitTypeDef sConfigOC;
-  GPIO_InitTypeDef GPIO_InitStruct;
 
-  // Init GPIO
-  // PB15     ------> TIM12_CH2
-  GPIO_InitStruct.Pin = STAT_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-  GPIO_InitStruct.Alternate = GPIO_AF9_TIM12;
-  HAL_GPIO_Init(STAT_GPIO_Port, &GPIO_InitStruct);
+    // Clock Init
+  __TIM9_CLK_ENABLE();
 
-  // clock init
-  __TIM12_CLK_ENABLE();
-
-  // configure timer
-  l_led_timer.Instance = TIM12;
-  l_led_timer.Init.Prescaler = drvHALTimerGetSourceFrequency(12) / drvLED_CLOCK - 1;
-  l_led_timer.Init.CounterMode = TIM_COUNTERMODE_UP;
-  l_led_timer.Init.Period = drvLED_PERIOD - 1;
-  l_led_timer.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  HAL_TIM_Base_Init(&l_led_timer);
+  l_high_res_timer.Instance = TIM9;
+  l_high_res_timer.Init.Prescaler = drvHALTimerGetSourceFrequency(9) / drvHIGHRESTIMER_CLOCK - 1;
+  l_high_res_timer.Init.CounterMode = TIM_COUNTERMODE_UP;
+  l_high_res_timer.Init.Period = 0xffff;
+  l_high_res_timer.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  HAL_TIM_Base_Init(&l_high_res_timer);
 
   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  HAL_TIM_ConfigClockSource(&l_led_timer, &sClockSourceConfig);
+  HAL_TIM_ConfigClockSource(&l_high_res_timer, &sClockSourceConfig);
 
-  HAL_TIM_PWM_Init(&l_led_timer);
+  // Interrupt enable
+  HAL_NVIC_SetPriority(TIM1_BRK_TIM9_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(TIM1_BRK_TIM9_IRQn);
 
-  sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_LOW;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  HAL_TIM_PWM_ConfigChannel(&l_led_timer, &sConfigOC, TIM_CHANNEL_2);
-
-  HAL_TIM_PWM_Start(&l_led_timer, TIM_CHANNEL_2);
-
-  HAL_TIM_Base_Start(&l_led_timer);
+  HAL_TIM_Base_Start_IT(&l_high_res_timer);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-/// @brief Set status LED current dimming value
-/// @param in_dim Dimming value [0..100]
-void drvStatLEDSetDim(uint8_t in_dim)
+/// @brief Gets high resolution time timestamp
+sysHighresTimestamp sysHighresTimerGetTimestamp(void)
 {
-	__HAL_TIM_SET_COMPARE(&l_led_timer, TIM_CHANNEL_2, in_dim);
+	uint32_t timestamp;
+	uint16_t upper_word;
+
+	do
+	{
+		upper_word = l_timer_high;
+		timestamp =  __HAL_TIM_GetCounter(&l_high_res_timer);
+	} while(upper_word != l_timer_high);
+
+  return (((uint32_t)upper_word)<<16) | timestamp;
+}
+/*****************************************************************************/
+/* Interrupt handler                                                         */
+/*****************************************************************************/
+void TIM1_BRK_TIM9_IRQHandler(void)
+{
+  if (__HAL_TIM_GET_FLAG(&l_high_res_timer, TIM_FLAG_UPDATE) != RESET)      //In case other interrupts are also running
+  {
+  	if (__HAL_TIM_GET_ITSTATUS(&l_high_res_timer, TIM_IT_UPDATE) != RESET)
+  	{
+  		l_timer_high++;
+  		__HAL_TIM_CLEAR_FLAG(&l_high_res_timer, TIM_FLAG_UPDATE);
+  	}
+  }
 }

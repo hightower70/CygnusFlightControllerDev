@@ -15,6 +15,7 @@
 #include <stm32f4xx_hal.h>
 #include <drvHAL.h>
 #include <drvI2CMaster.h>
+#include <drvIMU.h>
 
 /*****************************************************************************/
 /* Constants                                                                 */
@@ -23,9 +24,17 @@
 
 
 /*****************************************************************************/
+/* External functions                                                        */
+/*****************************************************************************/
+
+/*****************************************************************************/
+/* Global variables                                                          */
+/*****************************************************************************/
+
+/*****************************************************************************/
 /* Module global variables                                                   */
 /*****************************************************************************/
-drvI2CMasterModule l_imu_i2c;
+static drvI2CMasterModule l_imu_i2c;
 
 /*****************************************************************************/
 /* Function implementation                                                   */
@@ -59,7 +68,7 @@ void drvIMUInit(void)
   HAL_NVIC_EnableIRQ(I2C2_ER_IRQn);
 
   // I2C init
-	l_imu_i2c.I2CPort.Instance = I2C2;
+  l_imu_i2c.I2CPort.Instance = I2C2;
   l_imu_i2c.I2CPort.Init.ClockSpeed = 400000;
   l_imu_i2c.I2CPort.Init.DutyCycle = I2C_DUTYCYCLE_2;
   l_imu_i2c.I2CPort.Init.OwnAddress1 = 0;
@@ -69,9 +78,6 @@ void drvIMUInit(void)
   l_imu_i2c.I2CPort.Init.GeneralCallMode = I2C_GENERALCALL_DISABLED;
   l_imu_i2c.I2CPort.Init.NoStretchMode = I2C_NOSTRETCH_DISABLED;
   HAL_I2C_Init(&l_imu_i2c.I2CPort);
-
-  drvADXL345Init(&l_imu_i2c);
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -89,3 +95,18 @@ void I2C2_ER_IRQHandler(void)
 	// call interrupt handler of HAL
 	drvI2CMasterErrorInterruptHandler(&l_imu_i2c);
 }
+
+void drvIMUStartWriteAndReadBlock(uint8_t in_address, uint8_t* in_write_buffer, uint8_t in_write_buffer_length, uint8_t* in_read_buffer, uint8_t in_read_buffer_length, drvIMUCallbackFunction in_callback_function)
+{
+	l_imu_i2c.CallbackFunction = in_callback_function;
+
+	drvI2CMasterStartWriteAndReadBlock(&l_imu_i2c, in_address, in_write_buffer, in_write_buffer_length, in_read_buffer, in_read_buffer_length);
+}
+
+void drvIMUStartWriteAndWriteBlock(uint8_t in_address, uint8_t* in_buffer1, uint8_t in_buffer1_length, uint8_t* in_buffer2, uint8_t in_buffer2_length, drvIMUCallbackFunction in_callback_function)
+{
+	l_imu_i2c.CallbackFunction = in_callback_function;
+
+	drvI2CMasterStartWriteAndWriteBlock(&l_imu_i2c, in_address, in_buffer1, in_buffer1_length, in_buffer2, in_buffer2_length);
+}
+

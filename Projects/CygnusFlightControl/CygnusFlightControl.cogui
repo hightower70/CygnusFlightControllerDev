@@ -18,58 +18,13 @@
 <folder appearance="1" expanded="2">
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
-<part id="1"/>
-<part id="2"/>
-<part id="3"/>
-<part id="4"/>
-<part id="5"/>
-<part id="6"/>
-<part id="7"/>
-<part id="8"/>
-<part id="9"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="drvIMU.c" partName="drvIMU.c" path="D:/Projects/CygnusFCS/DroneOS/Drivers/CygnusFCB/Source/drvIMU.c" title="drvIMU.c" tooltip="D:/Projects/CygnusFCS/DroneOS/Drivers/CygnusFCB/Source/drvIMU.c" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvIMU.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="3489" selectionTopPixel="1050"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="drvServo.c" partName="drvServo.c" path="D:/Projects/CygnusFCS/DroneOS/Drivers/CygnusFCB/Source/drvServo.c" title="drvServo.c" tooltip="D:/Projects/CygnusFCS/DroneOS/Drivers/CygnusFCB/Source/drvServo.c" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvServo.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4301" selectionTopPixel="1110"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="drvStatLED.c" partName="drvStatLED.c" path="D:/Projects/CygnusFCS/DroneOS/Drivers/CygnusFCB/Source/drvStatLED.c" title="drvStatLED.c" tooltip="D:/Projects/CygnusFCS/DroneOS/Drivers/CygnusFCB/Source/drvStatLED.c" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvStatLED.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="1299" selectionOffset="0" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="stm32f4xx_hal_i2c.c" partName="stm32f4xx_hal_i2c.c" path="D:/Projects/CygnusFCS/DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_i2c.c" title="stm32f4xx_hal_i2c.c" tooltip="D:/Projects/CygnusFCS/DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_i2c.c" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CygnusFlightControl/DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_i2c.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="56654" selectionTopPixel="25439"/>
-</editor>
-<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="drvI2CMaster.c" partName="drvI2CMaster.c" path="D:/Projects/CygnusFCS/DroneOS/Drivers/CygnusFCB/Source/drvI2CMaster.c" title="drvI2CMaster.c" tooltip="D:/Projects/CygnusFCS/DroneOS/Drivers/CygnusFCB/Source/drvI2CMaster.c" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvI2CMaster.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="12151" selectionTopPixel="4962"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="stm32f4xx_hal_i2c.h" partName="stm32f4xx_hal_i2c.h" path="D:/Projects/CygnusFCS/DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_i2c.h" title="stm32f4xx_hal_i2c.h" tooltip="D:/Projects/CygnusFCS/DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_i2c.h" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CygnusFlightControl/DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_i2c.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="13" selectionOffset="13821" selectionTopPixel="4245"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="drvADXL345.c" partName="drvADXL345.c" path="D:/Projects/CygnusFCS/DroneOS/Drivers/Source/drvADXL345.c" title="drvADXL345.c" tooltip="D:/Projects/CygnusFCS/DroneOS/Drivers/Source/drvADXL345.c" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CygnusFlightControl/DroneOS/Drivers/Source/drvADXL345.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="6261" selectionTopPixel="1500"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="drvADXL345.h" partName="drvADXL345.h" path="D:/Projects/CygnusFCS/DroneOS/Drivers/Include/drvADXL345.h" title="drvADXL345.h" tooltip="D:/Projects/CygnusFCS/DroneOS/Drivers/Include/drvADXL345.h" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CygnusFlightControl/DroneOS/Drivers/Include/drvADXL345.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1069" selectionTopPixel="0"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="drvI2CMaster.h" partName="drvI2CMaster.h" path="D:/Projects/CygnusFCS/DroneOS/Drivers/CygnusFCB/Include/drvI2CMaster.h" title="drvI2CMaster.h" tooltip="D:/Projects/CygnusFCS/DroneOS/Drivers/CygnusFCB/Include/drvI2CMaster.h" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Include/drvI2CMaster.h"/>
-<editorState selectionHorizontalPixel="0" selectionLength="34" selectionOffset="2842" selectionTopPixel="447"/>
-</editor>
-<editor id="org.eclipse.cdt.ui.editor.CEditor" name="initCygnusFCB.c" partName="initCygnusFCB.c" path="D:/Projects/CygnusFCS/DroneOS/Drivers/CygnusFCB/Source/initCygnusFCB.c" title="initCygnusFCB.c" tooltip="D:/Projects/CygnusFCS/DroneOS/Drivers/CygnusFCB/Source/initCygnusFCB.c" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/initCygnusFCB.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1059" selectionTopPixel="495"/>
+<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="drvMPU6050.c" partName="drvMPU6050.c" path="D:/Projects/CygnusFCS/DroneOS/Drivers/Source/drvMPU6050.c" title="drvMPU6050.c" tooltip="D:/Projects/CygnusFCS/DroneOS/Drivers/Source/drvMPU6050.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/CygnusFlightControl/DroneOS/Drivers/Source/drvMPU6050.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="40173" selectionTopPixel="14447"/>
 </editor>
 </editors>
 <views>
@@ -79,21 +34,29 @@
 <element path="/CygnusFlightControl"/>
 <element path="/CygnusFlightControl/DroneOS"/>
 <element path="/CygnusFlightControl/DroneOS/Drivers"/>
-<element path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB"/>
-<element path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source"/>
 <element path="/CygnusFlightControl/DroneOS/Drivers/Source"/>
-<element path="/CygnusFlightControl/FreeRTOS"/>
+<element path="/CygnusFlightControl/DroneOS/Source"/>
+<element path="/CygnusFlightControl/Source"/>
 </expanded>
 <selection>
-<element path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/initCygnusFCB.c"/>
+<element path="/CygnusFlightControl/DroneOS/Drivers/Source/drvMPU6050.c"/>
 </selection>
 </viewState>
 </view>
 <view id="org.coocox.codebugger.trace.ui.traceview" partName="Semihosting">
 <viewState/>
 </view>
+<view id="org.eclipse.search.ui.views.SearchView" partName="Search">
+<viewState isPinned="false">
+<view IMemento.internal.id="" org.eclipse.search.lastActivation="0"/>
+<view IMemento.internal.id="org.eclipse.search.text.FileSearchResultPage" org.eclipse.search.lastActivation="1" org.eclipse.search.resultpage.layout="2" org.eclipse.search.resultpage.limit="1000" org.eclipse.search.resultpage.sorting="2"/>
+</viewState>
+</view>
 <view id="org.eclipse.debug.ui.DebugView" partName="Debug">
 <viewState/>
+</view>
+<view id="org.eclipse.cdt.ui.typeHierarchy" partName="Type Hierarchy">
+<viewState filterFields="false" filterNonPublic="false" filterStatic="false" showFilesInLabels="false" showInheritedMembers="false" splitterWeight1="350" splitterWeight2="650" viewOrientation="0"/>
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
@@ -110,14 +73,6 @@
 </view>
 <view id="org.eclipse.ui.console.ConsoleView" partName="Console">
 <viewState/>
-</view>
-<view id="org.coocox.coassistant.view.CoAssistantView_debug" partName="Peripherals">
-<viewState horizontalPosition="0" verticalPosition="28">
-<selection>
-<element name="TIM1"/>
-</selection>
-<registerValues baseAddress="Base Address: 0x40010000" description="Description:  Advanced-timers"/>
-</viewState>
 </view>
 <view id="org.eclipse.debug.ui.VariableView" partName="Variables">
 <viewState/>
@@ -156,6 +111,8 @@
 <hide_toolbar_item_id id="org.eclipse.debug.ui.commands.TerminateAndRelaunch"/>
 <view id="org.eclipse.ui.views.ProblemView"/>
 <view id="org.eclipse.ui.console.ConsoleView"/>
+<view id="org.eclipse.search.ui.views.SearchView"/>
+<view id="org.eclipse.cdt.ui.typeHierarchy"/>
 <view id="org.coocox.builder.ui.views.ProjectView"/>
 <view id="org.eclipse.ui.views.ContentOutline"/>
 <fastViewBars/>
@@ -176,14 +133,17 @@
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@1dd2ce3" ratio="0.79578394" ratioLeft="604" ratioRight="155" relationship="4" relative="org.eclipse.ui.internal.ViewStack@1ae06b5">
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@1dd2ce3" ratio="0.76943344" ratioLeft="584" ratioRight="175" relationship="4" relative="org.eclipse.ui.internal.ViewStack@1ae06b5">
 <folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
-<page content="org.eclipse.search.ui.views.SearchView" label="LabelNotFound"/>
+<page content="org.eclipse.search.ui.views.SearchView" label="Search"/>
+<page content="org.eclipse.cdt.ui.typeHierarchy" label="Type Hierarchy"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
 <part id="1"/>
+<part id="2"/>
+<part id="3"/>
 </presentation>
 </folder>
 </info>
@@ -244,13 +204,17 @@
 <hide_toolbar_item_id id="org.coocox.welcome.ui.action.welcome"/>
 <hide_toolbar_item_id id="org.coocox.codebugger.configuration.coideProgramDownloadAction"/>
 <hide_toolbar_item_id id="org.coocox.component.ui.ShowRepositoryAction"/>
+<view id="org.coocox.builder.ui.views.ProjectView"/>
+<view id="org.eclipse.debug.ui.VariableView"/>
 <view id="org.eclipse.ui.console.ConsoleView"/>
 <view id="org.eclipse.debug.ui.DebugView"/>
-<view id="org.coocox.codebugger.trace.ui.traceview"/>
-<view id="org.eclipse.debug.ui.VariableView"/>
-<view id="org.coocox.builder.ui.views.ProjectView"/>
-<view id="org.coocox.coassistant.view.CoAssistantView_debug"/>
-<fastViewBars/>
+<fastViewBars>
+<fastViewBar fastViewLocation="1024" id="org.eclipse.ui.internal.ViewStack@1a5a843" orientation="256" selectedTabId="org.eclipse.debug.ui.VariableView" style="0">
+<fastViews>
+<view id="org.coocox.codebugger.trace.ui.traceview" ratio="0.3"/>
+</fastViews>
+</fastViewBar>
+</fastViewBars>
 <viewLayoutRec closeable="false" id="org.eclipse.debug.ui.DebugView"/>
 <layout>
 <mainWindow>
@@ -269,41 +233,42 @@
 </folder>
 </info>
 <info folder="true" part="org.eclipse.ui.internal.ViewStack@11d74ce" ratio="0.513834" ratioLeft="390" ratioRight="369" relationship="4" relative="org.eclipse.ui.internal.ViewStack@14d67cf">
-<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
-<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
-<page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
+<folder appearance="2" expanded="0">
 <page content="org.eclipse.debug.ui.BreakpointView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-<part id="1"/>
-</presentation>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 <info folder="true" part="org.eclipse.ui.internal.ViewStack@1a5a843" ratio="0.5" ratioLeft="956" ratioRight="956" relationship="2" relative="org.eclipse.ui.internal.ViewStack@11d74ce">
-<folder activePageID="org.eclipse.debug.ui.VariableView" appearance="2" expanded="2">
-<page content="org.coocox.codebugger.trace.ui.traceview" label="Semihosting"/>
-<page content="org.eclipse.debug.ui.VariableView" label="Variables"/>
+<folder appearance="2" expanded="0">
+<page content="org.coocox.codebugger.trace.ui.traceview" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.ExpressionView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.MemoryView" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.debug.ui.memory.memorybrowser.MemoryBrowser" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-<part id="1"/>
-</presentation>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 <info folder="true" part="org.eclipse.ui.internal.ViewStack@1c93dc0" ratio="0.75" ratioLeft="1434" ratioRight="478" relationship="2" relative="org.eclipse.ui.internal.ViewStack@14d67cf">
-<folder activePageID="org.coocox.coassistant.view.CoAssistantView_debug" appearance="2" expanded="2">
-<page content="org.coocox.coassistant.view.CoAssistantView_debug" label="Peripherals"/>
+<folder appearance="2" expanded="2">
+<page content="org.coocox.coassistant.view.CoAssistantView_debug" label="LabelNotFound"/>
 <page content="org.eclipse.cdt.dsf.debug.ui.disassembly.view" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ContentOutline" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.RegisterView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-</presentation>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.26534295" ratioLeft="294" ratioRight="814" relationship="2" relative="org.eclipse.ui.internal.ViewStack@14d67cf"/>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@198bdef" ratio="0.7493438" ratioLeft="571" ratioRight="191" relationship="4" relative="org.eclipse.ui.editorss">
+<folder activePageID="org.eclipse.debug.ui.DebugView" appearance="2" expanded="2">
+<page content="org.eclipse.debug.ui.VariableView" label="Variables"/>
+<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
+<page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+<part id="2"/>
+</presentation>
+</folder>
+</info>
 </mainWindow>
 </layout>
 </perspective>
@@ -311,163 +276,161 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CygnusFlightControl/DroneOS/Drivers/Source/drvADXL345.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CygnusFlightControl/DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_i2c.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvI2CMaster.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.asm.AsmEditor" path="/CygnusFlightControl/DroneOS/Drivers/STM32F4xxCMSIS/startup_stm32f405xx.s"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/initCygnusFCB.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvIMU.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/initCygnusFCB.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CygnusFlightControl/DroneOS/Drivers/Source/drvMPU6050.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvHAL.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CygnusFlightControl/DroneOS/Source/imuTask.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CygnusFlightControl/DroneOS/Drivers/Source/drvHMC5883.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/CygnusFlightControl/DroneOS/Drivers/Source/drvMPU6050.c"/>
 </editors>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="98039" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="35613" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="9451" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="35660" y="0"/>
 </item>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="97970" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="35752" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="9587" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="35783" y="0"/>
 </item>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="81197" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="35878" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="10596" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="35752" y="0"/>
 </item>
-<item historyLabel="drvADXL345.c" index="0">
-<position info="not_deleted" x="6154" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="35783" y="0"/>
 </item>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="55622" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="35878" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="9957" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="35752" y="0"/>
 </item>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="55714" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="35783" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="10365" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="35878" y="0"/>
 </item>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="56245" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="35752" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="35990" y="0"/>
 </item>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="56400" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36064" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36097" y="0"/>
 </item>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="56400" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36134" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36206" y="0"/>
 </item>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="55784" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36271" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36064" y="0"/>
 </item>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="55784" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36097" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="5466" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36134" y="0"/>
 </item>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="55784" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36206" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36271" y="0"/>
 </item>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="55784" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36064" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="11137" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36097" y="0"/>
 </item>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="55784" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36134" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="10849" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36206" y="0"/>
 </item>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="55784" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36271" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="10848" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36064" y="0"/>
 </item>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="55784" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36347" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36379" y="0"/>
 </item>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="56654" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36414" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36484" y="0"/>
 </item>
-<item historyLabel="stm32f4xx_hal_i2c.c" index="1">
-<position info="not_deleted" x="56654" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36347" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="10778" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36379" y="0"/>
 </item>
-<item historyLabel="drvADXL345.c" index="0">
-<position info="not_deleted" x="6262" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36414" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="6709" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36484" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="10026" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36347" y="0"/>
 </item>
-<item historyLabel="startup_stm32f405xx.s" index="3">
-<position/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36379" y="0"/>
 </item>
-<item historyLabel="initCygnusFCB.c" index="4">
-<position info="not_deleted" x="1059" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36414" y="0"/>
 </item>
-<item historyLabel="drvADXL345.c" index="0">
-<position info="not_deleted" x="6261" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36484" y="0"/>
 </item>
-<item historyLabel="drvIMU.c" index="5">
-<position info="not_deleted" x="3489" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="36347" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="11324" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="33454" y="0"/>
 </item>
-<item historyLabel="startup_stm32f405xx.s" index="3">
-<position info="not_deleted" x="3659" y="0"/>
+<item historyLabel="drvHAL.c" index="1">
+<position info="not_deleted" x="2552" y="0"/>
 </item>
-<item historyLabel="initCygnusFCB.c" index="6">
-<position info="not_deleted" x="1059" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="33454" y="0"/>
 </item>
-<item historyLabel="drvADXL345.c" index="0">
-<position info="not_deleted" x="6261" y="0"/>
+<item historyLabel="drvMPU6050.c" index="0">
+<position info="not_deleted" x="35176" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="10819" y="0"/>
+<item historyLabel="imuTask.c" index="2">
+<position info="not_deleted" x="2702" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="10881" y="0"/>
+<item historyLabel="drvHAL.c" index="1">
+<position info="not_deleted" x="2552" y="0"/>
 </item>
-<item historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="11458" y="0"/>
+<item historyLabel="drvHMC5883.c" index="3">
+<position info="not_deleted" x="0" y="0"/>
 </item>
-<item active="true" historyLabel="drvI2CMaster.c" index="2">
-<position info="not_deleted" x="12141" y="0"/>
+<item active="true" historyLabel="drvMPU6050.c" index="4">
+<position info="not_deleted" x="0" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -476,47 +439,47 @@
 <actionBarAdvisor/>
 </window>
 <mruList>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="initCygnusFCB.c" tooltip="CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/initCygnusFCB.c">
-<persistable path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/initCygnusFCB.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="drvMPU6050.c" tooltip="CygnusFlightControl/DroneOS/Drivers/Source/drvMPU6050.c">
+<persistable path="/CygnusFlightControl/DroneOS/Drivers/Source/drvMPU6050.c"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="drvHMC5883.c" tooltip="CygnusFlightControl/DroneOS/Drivers/Source/drvHMC5883.c">
+<persistable path="/CygnusFlightControl/DroneOS/Drivers/Source/drvHMC5883.c"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="drvHAL.c" tooltip="CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvHAL.c">
+<persistable path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvHAL.c"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.asm.AsmEditor" name="startup_stm32f405xx.s" tooltip="CygnusFlightControl/DroneOS/Drivers/STM32F4xxCMSIS/startup_stm32f405xx.s">
 <persistable path="/CygnusFlightControl/DroneOS/Drivers/STM32F4xxCMSIS/startup_stm32f405xx.s"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="drvI2CMaster.h" tooltip="CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Include/drvI2CMaster.h">
-<persistable path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Include/drvI2CMaster.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="sysHighresTimer.c" tooltip="CygnusFlightControl/DroneOS/Source/sysHighresTimer.c">
+<persistable path="/CygnusFlightControl/DroneOS/Source/sysHighresTimer.c"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="drvStatLED.h" tooltip="CygnusFlightControl/DroneOS/Drivers/Include/drvStatLED.h">
-<persistable path="/CygnusFlightControl/DroneOS/Drivers/Include/drvStatLED.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="sysHighresTimer.h" tooltip="CygnusFlightControl/DroneOS/Include/sysHighresTimer.h">
+<persistable path="/CygnusFlightControl/DroneOS/Include/sysHighresTimer.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="drvADXL345.h" tooltip="CygnusFlightControl/DroneOS/Drivers/Include/drvADXL345.h">
-<persistable path="/CygnusFlightControl/DroneOS/Drivers/Include/drvADXL345.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="sysRTOS.h" tooltip="CygnusFlightControl/DroneOS/Include/sysRTOS.h">
+<persistable path="/CygnusFlightControl/DroneOS/Include/sysRTOS.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="drvADXL345.c" tooltip="CygnusFlightControl/DroneOS/Drivers/Source/drvADXL345.c">
-<persistable path="/CygnusFlightControl/DroneOS/Drivers/Source/drvADXL345.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="port.c" tooltip="CygnusFlightControl/FreeRTOS/Portable/port.c">
+<persistable path="/CygnusFlightControl/FreeRTOS/Portable/port.c"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="stm32f4xx_hal_i2c.h" tooltip="CygnusFlightControl/DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_i2c.h">
-<persistable path="/CygnusFlightControl/DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_i2c.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="drvHighResTimer.c" tooltip="CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvHighResTimer.c">
+<persistable path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvHighResTimer.c"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="drvI2CMaster.c" tooltip="CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvI2CMaster.c">
-<persistable path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvI2CMaster.c"/>
-</file>
-<file factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="drvI2C.c" tooltip="D:\Projects\CygnusFCS\DroneOS\Drivers\CygnusFCB\Source\drvI2C.c">
-<persistable uri="file:/D:/Projects/CygnusFCS/DroneOS/Drivers/CygnusFCB/Source/drvI2C.c"/>
-</file>
-<file factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="drvI2C.h" tooltip="D:\Projects\CygnusFCS\DroneOS\Drivers\CygnusFCB\Include\drvI2C.h">
-<persistable uri="file:/D:/Projects/CygnusFCS/DroneOS/Drivers/CygnusFCB/Include/drvI2C.h"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="drvI2C.h" tooltip="CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Include/drvI2C.h">
-<persistable path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Include/drvI2C.h"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="drvI2C.c" tooltip="CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvI2C.c">
-<persistable path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvI2C.c"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="stm32f4xx_hal_i2c.c" tooltip="CygnusFlightControl/DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_i2c.c">
-<persistable path="/CygnusFlightControl/DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_i2c.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="drvServo.c" tooltip="CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvServo.c">
+<persistable path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Source/drvServo.c"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="drvIODefinitions.h" tooltip="CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Include/drvIODefinitions.h">
 <persistable path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Include/drvIODefinitions.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="drvHAL.h" tooltip="CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Include/drvHAL.h">
+<persistable path="/CygnusFlightControl/DroneOS/Drivers/CygnusFCB/Include/drvHAL.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="sysInitialize.h" tooltip="CygnusFlightControl/DroneOS/Include/sysInitialize.h">
+<persistable path="/CygnusFlightControl/DroneOS/Include/sysInitialize.h"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="task.h" tooltip="CygnusFlightControl/FreeRTOS/Include/task.h">
+<persistable path="/CygnusFlightControl/FreeRTOS/Include/task.h"/>
 </file>
 </mruList>
 </workbench>

@@ -25,6 +25,9 @@
 /*****************************************************************************/
 /* Types                                                                     */
 /*****************************************************************************/
+typedef struct _drvI2CMasterModule drvI2CMasterModule;
+
+typedef void (*drvI2CMasterCallbackFunction)(bool in_success, void* in_interrupt_param);
 
 /// @brief Bus Status codes
 typedef enum
@@ -38,14 +41,14 @@ typedef enum
 	drvI2CM_ST_RESTART,
 	drvI2CM_ST_READ_ADDRESS,
 	drvI2CM_ST_READ_DATA,
-	drvI2CM_ST_READ_ACKNOWLEDGE,
+	drvI2CM_ST_READ_STOP,
 
 	drvI2CM_ST_ERROR = 0x80
 
 } drvI2CMasterStatus;
 
 /// @brief Bus status information
-typedef struct
+typedef struct _drvI2CMasterModule
 {
 	drvI2CMasterStatus Status;
   uint8_t Address;
@@ -64,15 +67,18 @@ typedef struct
 
   I2C_HandleTypeDef I2CPort;
 
+  drvI2CMasterCallbackFunction CallbackFunction;
+
 } drvI2CMasterModule;
+
 
 /*****************************************************************************/
 /* Function prototypes                                                       */
 /*****************************************************************************/
-void drvI2CMasterEventInterruptHandler(drvI2CMasterModule* in_i2c_state);
-void drvI2CMasterErrorInterruptHandler(drvI2CMasterModule* in_i2c_state);
-void drvI2CMasterStartWriteBlock(drvI2CMasterModule* in_i2c_state, uint8_t in_address, uint8_t* in_buffer, uint8_t in_buffer_length);
-void drvI2CMasterStartWriteAndReadBlock(drvI2CMasterModule* in_i2c_state, uint8_t in_address, uint8_t* in_write_buffer, uint8_t in_write_buffer_length, uint8_t* in_read_buffer, uint8_t in_read_buffer_length);
-void drvI2CMasterStartWriteAndWriteBlock(drvI2CMasterModule* in_i2c_state, uint8_t in_address, uint8_t* in_write_buffer1, uint8_t in_write_buffer_length1, uint8_t* in_write_buffer2, uint8_t in_write_buffer_length2);
+void drvI2CMasterEventInterruptHandler(drvI2CMasterModule* in_i2c_module);
+void drvI2CMasterErrorInterruptHandler(drvI2CMasterModule* in_i2c_module);
+void drvI2CMasterStartWriteBlock(drvI2CMasterModule* in_i2c_module, uint8_t in_address, uint8_t* in_buffer, uint8_t in_buffer_length);
+void drvI2CMasterStartWriteAndReadBlock(drvI2CMasterModule* in_i2c_module, uint8_t in_address, uint8_t* in_write_buffer, uint8_t in_write_buffer_length, uint8_t* in_read_buffer, uint8_t in_read_buffer_length);
+void drvI2CMasterStartWriteAndWriteBlock(drvI2CMasterModule* in_i2c_module, uint8_t in_address, uint8_t* in_write_buffer1, uint8_t in_write_buffer_length1, uint8_t* in_write_buffer2, uint8_t in_write_buffer_length2);
 
 #endif

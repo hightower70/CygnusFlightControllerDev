@@ -76,43 +76,43 @@
     <File name="DroneOS/Drivers/STM32F4xxCommon/Include/system_stm32f4xx.h" path="../../DroneOS/Drivers/STM32F4xxCommon/Include/system_stm32f4xx.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f401xe.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f401xe.h" type="1"/>
     <File name="FreeRTOS/Include/deprecated_definitions.h" path="../../FreeRTOS/include/deprecated_definitions.h" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_spdifrx.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_spdifrx.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_usart.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_usart.c" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source" path="" type="2"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_spdifrx.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_spdifrx.c" type="1"/>
     <File name="DroneOS/Drivers/Source" path="" type="2"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f446xx.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f446xx.h" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS" path="" type="2"/>
     <File name="FreeRTOS/Include/FreeRTOS.h" path="../../FreeRTOS/include/FreeRTOS.h" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_pcd_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_pcd_ex.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxUSBHID/Include/usbd_custom_hid_if.h" path="../../DroneOS/Drivers/STM32F4xxUSBHID/Include/usbd_custom_hid_if.h" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_def.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_def.h" type="1"/>
-    <File name="FreeRTOS/Include/mpu_wrappers.h" path="../../FreeRTOS/include/mpu_wrappers.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_ll_sdmmc.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_ll_sdmmc.h" type="1"/>
+    <File name="FreeRTOS/Include/mpu_wrappers.h" path="../../FreeRTOS/include/mpu_wrappers.h" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_def.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_def.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_ll_fsmc.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_ll_fsmc.h" type="1"/>
     <File name="DroneOS/Drivers/CygnusFCB/Include/stm32f4xx_hal_conf.h" path="../../DroneOS/Drivers/CygnusFCB/Include/stm32f4xx_hal_conf.h" type="1"/>
     <File name="DroneOS/Include/sysPackedStructEnd.h" path="../../DroneOS/Include/sysPackedStructEnd.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_hash.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_hash.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_spdifrx.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_spdifrx.h" type="1"/>
     <File name="FreeRTOS/Source/port.c" path="../../FreeRTOS/portable/GCC/ARM_CM4F/port.c" type="1"/>
-    <File name="DroneOS/Include" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_sai.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_sai.h" type="1"/>
+    <File name="DroneOS/Include" path="" type="2"/>
     <File name="DroneOS/Drivers/CygnusFCB/Include" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_usart.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_usart.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_i2c_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_i2c_ex.h" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_ltdc_ex.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_ltdc_ex.c" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxUSBHID/Include/usb_device.h" path="../../DroneOS/Drivers/STM32F4xxUSBHID/Include/usb_device.h" type="1"/>
     <File name="FreeRTOS/Source/croutine.c" path="../../FreeRTOS/croutine.c" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxUSBHID/Include/usb_device.h" path="../../DroneOS/Drivers/STM32F4xxUSBHID/Include/usb_device.h" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_ltdc_ex.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_ltdc_ex.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f469xx.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f469xx.h" type="1"/>
     <File name="FreeRTOS/Include/projdefs.h" path="../../FreeRTOS/include/projdefs.h" type="1"/>
     <File name="DroneOS/Source/sysFreeRTOSExceptions.c" path="../../DroneOS/Source/sysFreeRTOSExceptions.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_rng.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_rng.c" type="1"/>
-    <File name="Source" path="" type="2"/>
     <File name="DroneOS/Include/comSystemPacketDefinitions.h" path="../../DroneOS/Include/comSystemPacketDefinitions.h" type="1"/>
+    <File name="Source" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_wwdg.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_wwdg.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/core_cmFunc.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/core_cmFunc.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f429xx.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f429xx.h" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_rcc_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_rcc_ex.h" type="1"/>
     <File name="FreeRTOS/Source/timers.c" path="../../FreeRTOS/timers.c" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_rcc_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_rcc_ex.h" type="1"/>
     <File name="DroneOS/Source" path="" type="2"/>
     <File name="DroneOS/Include/sysRTOS.h" path="../../DroneOS/Include/sysRTOS.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_i2s.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_i2s.c" type="1"/>
@@ -124,17 +124,17 @@
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/core_cm4.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/core_cm4.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_rtc_ex.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_rtc_ex.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_sdram.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_sdram.c" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_ll_fsmc.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_ll_fsmc.c" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_ltdc.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_ltdc.c" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_dma2d.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_dma2d.h" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_ltdc.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_ltdc.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_gpio_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_gpio_ex.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/core_cm3.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/core_cm3.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_wwdg.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_wwdg.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_smartcard.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_smartcard.h" type="1"/>
     <File name="DroneOS/Drivers/CygnusFCB/Source/drvHAL.c" path="../../DroneOS/Drivers/CygnusFCB/Source/drvHAL.c" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_i2s.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_i2s.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal.c" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_i2s.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_i2s.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_nand.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_nand.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_eth.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_eth.c" type="1"/>
     <File name="DroneOS/Drivers/CygnusFCB/Include/drvIODefinitions.h" path="../../DroneOS/Drivers/CygnusFCB/Include/drvIODefinitions.h" type="1"/>
@@ -144,11 +144,11 @@
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_flash.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_flash.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_ll_usb.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_ll_usb.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/core_cm7.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/core_cm7.h" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_pwr_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_pwr_ex.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_i2c_ex.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_i2c_ex.c" type="1"/>
     <File name="FreeRTOS/Include/portmacro.h" path="../../FreeRTOS/portable/GCC/ARM_CM4F/portmacro.h" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_pwr_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_pwr_ex.h" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_sd.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_sd.h" type="1"/>
     <File name="FreeRTOS/Include/timers.h" path="../../FreeRTOS/include/timers.h" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_sd.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_sd.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_dac_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_dac_ex.h" type="1"/>
     <File name="DroneOS/Drivers/CygnusFCB" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_cec.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_cec.h" type="1"/>
@@ -158,15 +158,15 @@
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/core_sc000.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/core_sc000.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f410cx.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f410cx.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_cortex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_cortex.h" type="1"/>
+    <File name="DroneOS/Include/imuTask.h" path="../../DroneOS/Include/imuTask.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_adc.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_adc.h" type="1"/>
     <File name="FreeRTOS/Include" path="" type="2"/>
     <File name="DroneOS/Drivers/Source/drvADXL345.c" path="../../DroneOS/Drivers/Source/drvADXL345.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal.h" type="1"/>
-    <File name="DroneOS/Drivers/CygnusFCB/Source/initCygnusFCB.c" path="../../DroneOS/Drivers/CygnusFCB/Source/initCygnusFCB.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_gpio.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_gpio.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_pcd.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_pcd.c" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCommon/Include" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxCommon/Source/semihosting.c" path="../../DroneOS/Drivers/STM32F4xxCommon/Source/semihosting.c" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCommon/Include" path="" type="2"/>
     <File name="DroneOS/Drivers/CygnusFCB/Include/drvHAL.h" path="../../DroneOS/Drivers/CygnusFCB/Include/drvHAL.h" type="1"/>
     <File name="Include" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_dcmi_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_dcmi_ex.h" type="1"/>
@@ -175,8 +175,8 @@
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_sram.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_sram.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_cryp.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_cryp.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_sdram.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_sdram.h" type="1"/>
-    <File name="FreeRTOS/Source" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_cryp_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_cryp_ex.h" type="1"/>
+    <File name="FreeRTOS/Source" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_uart.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_uart.c" type="1"/>
     <File name="DroneOS/Drivers/CygnusFCB/Source/drvServo.c" path="../../DroneOS/Drivers/CygnusFCB/Source/drvServo.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_fmpi2c.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_fmpi2c.c" type="1"/>
@@ -190,7 +190,6 @@
     <File name="DroneOS/Include/comFileRequestHandler.h" path="../../DroneOS/Include/comFileRequestHandler.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_fmpi2c.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_fmpi2c.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_pwr.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_pwr.c" type="1"/>
-    <File name="DroneOS/Drivers/Include/drvADXL345.h" path="../../DroneOS/Drivers/Include/drvADXL345.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_i2c.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_i2c.c" type="1"/>
     <File name="DroneOS/Include/comManager.h" path="../../DroneOS/Include/comManager.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_ll_fmc.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_ll_fmc.h" type="1"/>
@@ -209,20 +208,24 @@
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_nand.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_nand.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_hcd.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_hcd.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f427xx.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f427xx.h" type="1"/>
+    <File name="DroneOS/Include/imuCommunication.h" path="../../DroneOS/Include/imuCommunication.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_smartcard.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_smartcard.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f407xx.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f407xx.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_irda.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_irda.h" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/core_cmInstr.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/core_cmInstr.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_flash_ramfunc.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_flash_ramfunc.c" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/core_cmInstr.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/core_cmInstr.h" type="1"/>
     <File name="FreeRTOS/Source/tasks.c" path="../../FreeRTOS/tasks.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f415xx.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f415xx.h" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_cryp.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_cryp.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_pwr_ex.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_pwr_ex.c" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_cryp.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_cryp.c" type="1"/>
+    <File name="DroneOS/Source/imuCommunication.c" path="../../DroneOS/Source/imuCommunication.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f410tx.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f410tx.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/core_sc300.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/core_sc300.h" type="1"/>
     <File name="DroneOS/Include/sysCRC16.h" path="../../DroneOS/Include/sysCRC16.h" type="1"/>
+    <File name="DroneOS/Drivers/Source/drvHMC5883.c" path="../../DroneOS/Drivers/Source/drvHMC5883.c" type="1"/>
     <File name="DroneOS/Include/sysTypes.h" path="../../DroneOS/Include/sysTypes.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/arm_math.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/arm_math.h" type="1"/>
+    <File name="Source/tskHeartBeat.c" path="../../Source/tskHeartBeat.c" type="1"/>
     <File name="DroneOS/Drivers/CygnusFCB/Source/usbd_conf.c" path="../../DroneOS/Drivers/CygnusFCB/Source/usbd_conf.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/arm_common_tables.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/arm_common_tables.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_crc.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_crc.c" type="1"/>
@@ -244,6 +247,8 @@
     <File name="DroneOS" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxCommon/Include/semihosting.h" path="../../DroneOS/Drivers/STM32F4xxCommon/Include/semihosting.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_pcd_ex.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_pcd_ex.c" type="1"/>
+    <File name="DroneOS/Include/sysHighresTimer.h" path="../../DroneOS/Include/sysHighresTimer.h" type="1"/>
+    <File name="DroneOS/Source/sysHighresTimer.c" path="../../DroneOS/Source/sysHighresTimer.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/system_stm32f4xx.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/system_stm32f4xx.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_crc.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_crc.h" type="1"/>
@@ -251,41 +256,43 @@
     <File name="DroneOS/Drivers/STM32F4xxUSBHID/Source/usbd_ioreq.c" path="../../DroneOS/Drivers/STM32F4xxUSBHID/Source/usbd_ioreq.c" type="1"/>
     <File name="FreeRTOS/Portable" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_spi.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_spi.h" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_hcd.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_hcd.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_ll_fmc.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_ll_fmc.c" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_lptim.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_lptim.c" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_hcd.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_hcd.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_dcmi_ex.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_dcmi_ex.c" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxUSBHID/Source/usbd_core.c" path="../../DroneOS/Drivers/STM32F4xxUSBHID/Source/usbd_core.c" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_spi.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_spi.c" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_lptim.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_lptim.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_iwdg.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_iwdg.c" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_spi.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_spi.c" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxUSBHID/Source/usbd_core.c" path="../../DroneOS/Drivers/STM32F4xxUSBHID/Source/usbd_core.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxUSBHID/Include/usbd_desc.h" path="../../DroneOS/Drivers/STM32F4xxUSBHID/Include/usbd_desc.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_flash_ex.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_flash_ex.c" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_fmpi2c_ex.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_fmpi2c_ex.c" type="1"/>
-    <File name="DroneOS/Drivers/CygnusFCB/Source/stm32f4xx_it.c" path="../../DroneOS/Drivers/CygnusFCB/Source/stm32f4xx_it.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_dma.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_dma.c" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_fmpi2c_ex.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_fmpi2c_ex.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_dac.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_dac.c" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f439xx.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f439xx.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_qspi.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_qspi.c" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f439xx.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f439xx.h" type="1"/>
     <File name="DroneOS/Include/comInterfaces.h" path="../../DroneOS/Include/comInterfaces.h" type="1"/>
+    <File name="Source/cfgCreateTask.c" path="../../Source/cfgCreateTask.c" type="1"/>
     <File name="DroneOS/Drivers/Include" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxUSBHID/Include/usbd_ctlreq.h" path="../../DroneOS/Drivers/STM32F4xxUSBHID/Include/usbd_ctlreq.h" type="1"/>
+    <File name="DroneOS/Drivers/Include/drvIMU.h" path="../../DroneOS/Drivers/Include/drvIMU.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_rtc.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_rtc.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f405xx.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f405xx.h" type="1"/>
     <File name="DroneOS/Include/comQueue.h" path="../../DroneOS/Include/comQueue.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxUSBHID/Include/usbd_def.h" path="../../DroneOS/Drivers/STM32F4xxUSBHID/Include/usbd_def.h" type="1"/>
-    <File name="FreeRTOS/Include/queue.h" path="../../FreeRTOS/include/queue.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f411xe.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f411xe.h" type="1"/>
+    <File name="FreeRTOS/Include/queue.h" path="../../FreeRTOS/include/queue.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_rcc.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_rcc.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_pcd.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_pcd.h" type="1"/>
     <File name="FreeRTOS/Source/queue.c" path="../../FreeRTOS/queue.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/arm_const_structs.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/arm_const_structs.h" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxUSBHID/Source/usbd_custom_hid_if.c" path="../../DroneOS/Drivers/STM32F4xxUSBHID/Source/usbd_custom_hid_if.c" type="1"/>
     <File name="DroneOS/Drivers/CygnusFCB/Source/drvI2CMaster.c" path="../../DroneOS/Drivers/CygnusFCB/Source/drvI2CMaster.c" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxUSBHID/Source/usbd_custom_hid_if.c" path="../../DroneOS/Drivers/STM32F4xxUSBHID/Source/usbd_custom_hid_if.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_dcmi.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_dcmi.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCommon/Source/sh_cmd.s" path="../../DroneOS/Drivers/STM32F4xxCommon/Source/sh_cmd.s" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_i2c.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_i2c.h" type="1"/>
     <File name="DroneOS/Include/sysInitialize.h" path="../../DroneOS/Include/sysInitialize.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_sai_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_sai_ex.h" type="1"/>
+    <File name="DroneOS/Drivers/Source/drvMPU6050.c" path="../../DroneOS/Drivers/Source/drvMPU6050.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxUSBHID/Source/usbd_customhid.c" path="../../DroneOS/Drivers/STM32F4xxUSBHID/Source/usbd_customhid.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_sram.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_sram.c" type="1"/>
     <File name="FreeRTOS/Portable/port.c" path="../../FreeRTOS/portable/GCC/ARM_CM4F/port.c" type="1"/>
@@ -298,23 +305,25 @@
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_cortex.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_cortex.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_sai.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_sai.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_conf_template.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_conf_template.h" type="1"/>
+    <File name="DroneOS/Source/imuTask.c" path="../../DroneOS/Source/imuTask.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/startup_stm32f405xx.s" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Startup/startup_stm32f405xx.s" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_fmpi2c_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_fmpi2c_ex.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_hash_ex.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_hash_ex.c" type="1"/>
-    <File name="FreeRTOS/Include/StackMacros.h" path="../../FreeRTOS/include/StackMacros.h" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_fmpi2c_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_fmpi2c_ex.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_dma_ex.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_dma_ex.c" type="1"/>
+    <File name="FreeRTOS/Include/StackMacros.h" path="../../FreeRTOS/include/StackMacros.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_rcc.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_rcc.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxUSBHID/Source/usbd_ctlreq.c" path="../../DroneOS/Drivers/STM32F4xxUSBHID/Source/usbd_ctlreq.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxUSBHID/Source/usbd_desc.c" path="../../DroneOS/Drivers/STM32F4xxUSBHID/Source/usbd_desc.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_ll_usb.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_ll_usb.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_adc_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_adc_ex.h" type="1"/>
     <File name="FreeRTOS/Include/event_groups.h" path="../../FreeRTOS/include/event_groups.h" type="1"/>
-    <File name="DroneOS/Drivers" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_rtc.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_rtc.c" type="1"/>
+    <File name="DroneOS/Drivers" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_rng.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_rng.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f401xc.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f401xc.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_can.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_can.c" type="1"/>
     <File name="FreeRTOS/Include/portable.h" path="../../FreeRTOS/include/portable.h" type="1"/>
+    <File name="DroneOS/Drivers/CygnusFCB/Source/drvHighResTimer.c" path="../../DroneOS/Drivers/CygnusFCB/Source/drvHighResTimer.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxUSBHID/Include/usbd_ioreq.h" path="../../DroneOS/Drivers/STM32F4xxUSBHID/Include/usbd_ioreq.h" type="1"/>
     <File name="DroneOS/Include/sysMD5.h" path="../../DroneOS/Include/sysMD5.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxUSBHID/Include/usbd_core.h" path="../../DroneOS/Drivers/STM32F4xxUSBHID/Include/usbd_core.h" type="1"/>
@@ -334,12 +343,12 @@
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_can.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_can.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_dac_ex.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_hal_dac_ex.c" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_ll_sdmmc.c" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Source/stm32f4xx_ll_sdmmc.c" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_pwr.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_pwr.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_pccard.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_pccard.h" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_pwr.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_pwr.h" type="1"/>
     <File name="FreeRTOS/Source/event_groups.c" path="../../FreeRTOS/event_groups.c" type="1"/>
-    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_dma_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_dma_ex.h" type="1"/>
     <File name="DroneOS/Include/sysConfig.h" path="../../DroneOS/Include/sysConfig.h" type="1"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_rtc_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_rtc_ex.h" type="1"/>
+    <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_dma_ex.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/stm32f4xx_hal_dma_ex.h" type="1"/>
     <File name="DroneOS/Drivers/Include/drvStatLED.h" path="../../DroneOS/Drivers/Include/drvStatLED.h" type="1"/>
     <File name="FreeRTOS" path="" type="2"/>
     <File name="DroneOS/Drivers/STM32F4xxCMSIS/Include/core_cm0.h" path="../../DroneOS/Drivers/STM32F4xxCMSIS/Include/core_cm0.h" type="1"/>

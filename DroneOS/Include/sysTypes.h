@@ -42,4 +42,6 @@ typedef const sysChar* sysConstString;
 
 #define sysNULL 0
 
+#define sysUNUSED(x) (void)(x)
+
 #endif

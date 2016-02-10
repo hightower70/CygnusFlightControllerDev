@@ -11,18 +11,17 @@
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
-#include <drvADXL345.h>
-
-
+#include <drvIMU.h>
+#include <imuCommunication.h>
+#include <sysRTOS.H>
 /*****************************************************************************/
 /* Constants                                                                 */
 /*****************************************************************************/
-#define drvADXL345_REGISTER_ADRRESS_SIZE 1
-#define drvADXL345_DATA_BUFFER_SIZE 16
+#define drvADXL345_DATA_BUFFER_SIZE 30
 
+// I2C addresses
 #define drvADXL345_PRI_ADDRESS    0x53    // Device primary I2C address
 #define drvADXL345_SEC_ADDRESS    0x1d    // Secondary address
-
 
 //drvADXL345_ Registers Start
 #define drvADXL345_DEVID           0x00    // R  // Device ID.
@@ -36,7 +35,7 @@
 #define drvADXL345_THRESH_ACT      0x24    // RW // Activity threshold 62.5mg/LSB
 #define drvADXL345_THRESH_INACT    0x25    // RW // Inactivity Threshold 62.5mg/LSB
 #define drvADXL345_TIME_INACT      0x26    // RW // Inactivity Time. 1s/LSB
-#define drvADXL345_ACT_INACT_CTL   0x27    // RW // xis enable control for activity and inactivity detection.
+#define drvADXL345_ACT_INACT_CTL   0x27    // RW // axis enable control for activity and inactivity detection.
 #define drvADXL345_THRESH_FF       0x28    // RW // Free-fall threshold. 62.5mg/LSB
 #define drvADXL345_TIME_FF         0x29    // RW // Free-fall Time 5ms/LSB (values 0x14 to 0x46 are recommended)
 #define drvADXL345_TAP_AXES        0x2A    // RW // Axis control for tap/double tap
@@ -46,7 +45,7 @@
 #define drvADXL345_INT_ENABLE      0x2E    // RW // Interrupt enable control
 #define drvADXL345_INT_MAP         0x2F    // RW // Interrupt mapping control
 #define drvADXL345_INT_SOURCE      0x30    // R  // Source of interrupts
-#define drvADXL345_DATAFORMAT      0x31    // RW // Data format control
+#define drvADXL345_DATA_FORMAT     0x31    // RW // Data format control
 #define drvADXL345_DATAX0          0x32    // R  // X-Axis
 #define drvADXL345_DATAY0          0x34    // R  // Y-Axis
 #define drvADXL345_DATAZ0          0x36    // R  // Z-Axis
@@ -54,9 +53,7 @@
 #define drvADXL345_FIFO_STATE      0x39    // R  // FIFO status
 //ADXL Registers End
 
-#define drvADXL345_MEASURE_MODE    0x08
-#define drvADXL345_STANDBY_MODE    0xF7
-#define drvADXL345_SLEEP_MODE      0x04
+#define drvADXL345_DEVID_VALUE			0xe5
 
 // DATAFORMAT register bits
 #define drvADXL345_DF_RANGE_2G    0
@@ -91,12 +88,23 @@
 #define drvADXL345_PC_AUTO_SLP  (1<<4)   //Auto Sleep Mode bit
 #define drvADXL345_PC_LINK      (1<<5)   //Link bit
 
+// FIFO control bits
+#define drvADXL345_FC_BYPASS		(0<<6)
+#define drvADXL345_FC_FIFO			(1<<6)
+#define drvADXL345_FC_STREAM		(2<<6)
+#define drvADXL345_FC_TRIGGER		(3<<6)
 
 /*****************************************************************************/
 /* Module global variables                                                   */
 /*****************************************************************************/
-uint8_t l_register_address_buffer[drvADXL345_REGISTER_ADRRESS_SIZE];
-uint8_t l_data_buffer[drvADXL345_DATA_BUFFER_SIZE ];
+static uint8_t l_i2c_address;
+static uint8_t l_data_buffer[drvADXL345_DATA_BUFFER_SIZE ];
+
+/*****************************************************************************/
+/* Local functions                                                           */
+/*****************************************************************************/
+static void drvADXL345Detect(drvIMUDetectParameter* in_parameter);
+static void drvADXL345SelfTest(drvIMUSelfTestParameter* in_parameter);
 
 
 /*****************************************************************************/
@@ -104,18 +112,111 @@ uint8_t l_data_buffer[drvADXL345_DATA_BUFFER_SIZE ];
 /*****************************************************************************/
 
 ///////////////////////////////////////////////////////////////////////////////
-/// @brief Initialize ADXL345 driver and detect chip
-/// @param in_imu_i2c I2C bus state variable
-void drvADXL345Init(drvI2CMasterModule* in_imu_i2c)
+/// @brief Starts any sensor configuration function
+/// @param in_imu_i2c I2C bus for IMU sensor
+/// @param in_function Functon code to start
+/// @param in_function_parameter Function parameter (if applicable)
+void drvADXL345Control(drvIMUControlFunction in_function, void* in_function_parameter)
 {
-	l_register_address_buffer[0] = drvADXL345_DEVID;
+	// start function
+	switch(in_function)
+	{
+		// detect sensor function
+		case drvIMU_CF_Detect:
+			drvADXL345Detect((drvIMUDetectParameter*)in_function_parameter);
+			break;
 
+		// activate self test
+		case drvIMU_CF_SelfTest:
+			drvADXL345SelfTest((drvIMUSelfTestParameter*)in_function_parameter);
+			break;
 
-	/* Write command to device */
-  //HAL_I2C_Mem_Write(&in_imu_i2c->I2CPort, drvADXL345_PRI_ADDRESS << 1, l_register_address_buffer, I2C_MEMADD_SIZE_8BIT, l_register_address_buffer, 1, 1000);
-  //HAL_I2C_Mem_Read(&in_imu_i2c->I2CPort, drvADXL345_PRI_ADDRESS << 1, 0, I2C_MEMADD_SIZE_8BIT, l_data_buffer, 1, 1000);
-
-	drvI2CMasterStartWriteAndReadBlock(in_imu_i2c, drvADXL345_PRI_ADDRESS, l_register_address_buffer, drvADXL345_REGISTER_ADRRESS_SIZE, l_data_buffer, 1 );
-
+		case drvIMU_CF_Unknown:
+		default:
+			// TODO: error
+			break;
+	}
 }
 
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Sensor detection function
+/// @param in_parameter Detection function parameter
+static void drvADXL345Detect(drvIMUDetectParameter* in_parameter)
+{
+	bool success = true;
+	uint8_t id_value;
+
+	l_i2c_address = drvADXL345_PRI_ADDRESS;
+	imuReadByteRegister(l_i2c_address, drvADXL345_DEVID, &id_value, &success);
+	if(!success)
+	{
+		l_i2c_address = drvADXL345_SEC_ADDRESS;
+		imuReadByteRegister(l_i2c_address, drvADXL345_DEVID, &id_value, &success);
+	}
+
+	if(success && id_value == drvADXL345_DEVID_VALUE)
+	{
+		in_parameter->Success = true;
+		in_parameter->Class = drvIMU_SC_ACCELERATION;
+		in_parameter->Control = drvADXL345Control;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Runs sensor self test
+/// @param in_parameter Self test function parameter
+static void drvADXL345SelfTest(drvIMUSelfTestParameter* in_parameter)
+{
+	bool success = true;
+	int8_t fifo_depth = 16;
+	uint8_t sample_count;
+	uint8_t samples_remaining;
+	int32_t x,y,z;
+	int32_t orig_acc_x, orig_acc_y, orig_acc_z;
+
+	// init
+	in_parameter->Success = false;
+
+	// setup sensor
+	imuWriteByteRegister(l_i2c_address, drvADXL345_POWER_CTL, drvADXL345_PC_MEASURE, &success);
+	imuWriteByteRegister(l_i2c_address, drvADXL345_DATA_FORMAT, /* drvADXL345_DF_FULLRES |drvADXL345_DF_RANGE_2G*/drvADXL345_DF_SELF_TEST, &success);
+	imuWriteByteRegister(l_i2c_address, drvADXL345_BW_RATE, drvADXL345_BW_100, &success);
+	imuWriteByteRegister(l_i2c_address, drvADXL345_FIFO_CTL,  drvADXL345_FC_BYPASS /* (fifo_depth & 0x1F) | drvADXL345_FC_STREAM*/, &success);
+
+	imuReadRegisterBlock(l_i2c_address, drvADXL345_THRESH_TAP, l_data_buffer, 30, &success);
+
+	sysDelay(12);
+
+	// read t least 100 samples
+	sample_count = 0;
+	x = 0; y = 0; z = 0;
+	while(sample_count < 100)
+	{
+		do
+		{
+			imuReadRegisterBlock(l_i2c_address, drvADXL345_DATAX0, l_data_buffer, 8, &success);
+
+			x += (int16_t)(l_data_buffer[0] + (l_data_buffer[1] << 8));
+			y += (int16_t)(l_data_buffer[2] + (l_data_buffer[3] << 8));
+			z += (int16_t)(l_data_buffer[4] + (l_data_buffer[5] << 8));
+
+			samples_remaining = l_data_buffer[7] & 0x7F;
+
+			sample_count++;
+
+		} while ((samples_remaining > 0) && success);
+
+		sysDelay(12);
+	}
+
+ 	if(sample_count > 0)
+	{
+		orig_acc_x = x / sample_count;
+		orig_acc_y = y / sample_count;
+		orig_acc_z = z / sample_count;
+	}
+	else
+	{
+		in_parameter->Success = false;
+	}
+}

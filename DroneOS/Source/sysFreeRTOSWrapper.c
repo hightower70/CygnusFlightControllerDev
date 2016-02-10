@@ -8,9 +8,26 @@
 /* of the BSD license.  See the LICENSE file for details.                    */
 /*****************************************************************************/
 
+
+ #if   defined ( __CC_ARM )
+  #define __ASM            __asm                                      /*!< asm keyword for ARM Compiler          */
+  #define __INLINE         __inline                                   /*!< inline keyword for ARM Compiler       */
+  #define __STATIC_INLINE  static __inline
+#elif defined ( __ICCARM__ )
+  #define __ASM            __asm                                      /*!< asm keyword for IAR Compiler          */
+  #define __INLINE         inline                                     /*!< inline keyword for IAR Compiler. Only available in High optimization mode! */
+  #define __STATIC_INLINE  static inline
+#elif defined ( __GNUC__ )
+  #define __ASM            __asm                                      /*!< asm keyword for GNU Compiler          */
+  #define __INLINE         inline                                     /*!< inline keyword for GNU Compiler       */
+  #define __STATIC_INLINE  static inline
+#endif
+
+
 ///////////////////////////////////////////////////////////////////////////////
 // Includes
 #include <sysRTOS.h>
+#include <core_cmFunc.h>
 
 
 /********************** NOTES **********************************************
@@ -41,7 +58,17 @@ static uint32_t       l_cpu_idle_spent_time = 0;
 static uint32_t       l_cpu_total_idle_time = 0;
 
 
-uint32_t rtosCreateTask(TaskFunction_t pvTaskCode, const char * const pcName, uint16_t usStackDepth, void *pvParameters, UBaseType_t uxPriority, TaskHandle_t *pvCreatedTask )
+extern void xPortSysTickHandler(void);
+static int inHandlerMode (void);
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Creates a task
+/// @param pvTaskCode Task function pointer
+/// @param pcName Name string of the task
+/// @param usStackDepth Stack size
+/// @param pcParameters User defined parameter for the task function
+/// @param uxPriority Priority of the task
+uint32_t sysTaskCreate(TaskFunction_t pvTaskCode, const char * const pcName, uint16_t usStackDepth, void *pvParameters, UBaseType_t uxPriority, TaskHandle_t *pvCreatedTask )
 {
 	TaskHandle_t handle;
 
@@ -54,6 +81,37 @@ uint32_t rtosCreateTask(TaskFunction_t pvTaskCode, const char * const pcName, ui
 	}
 
 	return (uint32_t)handle;
+}
+
+uint32_t rtosGetSystemTick(void)
+{
+	if (inHandlerMode())
+	{
+		return xTaskGetTickCountFromISR();
+  }
+  else
+  {
+  return xTaskGetTickCount();
+  }
+}
+
+void rtosSystickHandler(void)
+{
+#if (INCLUDE_xTaskGetSchedulerState  == 1 )
+	if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED)
+	{
+#endif  /* INCLUDE_xTaskGetSchedulerState */
+		xPortSysTickHandler();
+#if (INCLUDE_xTaskGetSchedulerState  == 1 )
+	}
+#endif  /* INCLUDE_xTaskGetSchedulerState */
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///  Determine whether we are in thread mode or handler mode.
+static int inHandlerMode (void)
+{
+	return __get_IPSR() != 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

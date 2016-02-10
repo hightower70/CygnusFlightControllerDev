@@ -60,11 +60,11 @@ typedef HANDLE rtosMutexHandle_t;
 
 #define sysINFINITE_TIMEOUT INFINITE
 
-#define rtosCreateMutex(x) x = CreateMutex( NULL, FALSE, NULL)
-#define rtosDeleteMutex(x) CloseHandle(x)
-#define rtosRequestMutex(x,t) ((WaitForSingleObject(x, t) == WAIT_OBJECT_0) ? true : false)
-#define rtosReleaseMutex(x) ReleaseMutex(x)
-#define rtosGiveMutexFromISR(x) ReleaseMutex(x)
+#define sysCreateMutex(x) x = CreateMutex( NULL, FALSE, NULL)
+#define sysDeleteMutex(x) CloseHandle(x)
+#define sysRequestMutex(x,t) ((WaitForSingleObject(x, t) == WAIT_OBJECT_0) ? true : false)
+#define sysReleaseMutex(x) ReleaseMutex(x)
+#define sysGiveMutexFromISR(x) ReleaseMutex(x)
 
 typedef HANDLE sysBinarySemaphore;
 #define sysBinarySemaphoreCreate(x) x = CreateSemaphore( NULL, 1, 1, NULL)
@@ -89,11 +89,11 @@ typedef HANDLE sysBinarySemaphore;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Constants
-#define rtos_DEFAULT_STACK_SIZE configMINIMAL_STACK_SIZE
+#define sys_DEFAULT_STACK_SIZE configMINIMAL_STACK_SIZE
 
 ///////////////////////////////////////////////////////////////////////////////
 // Types
-typedef TaskHandle_t rtosTaskHandle_t;
+typedef TaskHandle_t sysTask;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Function prototypes
@@ -101,20 +101,46 @@ typedef void (*TaskFunction_t)(void*);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Function prototypes
-uint32_t rtosCreateTask(TaskFunction_t pvTaskCode, const char * const pcName, uint16_t usStackDepth, void *pvParameters, UBaseType_t uxPriority, TaskHandle_t *pvCreatedTask );
+uint32_t sysTaskCreate(TaskFunction_t pvTaskCode, const char * const pcName, uint16_t usStackDepth, void *pvParameters, UBaseType_t uxPriority, sysTask* pvCreatedTask );
+uint32_t sysGetSystemTick(void);
 
 ///////////////////////////////////////////////////////////////////////////////
 // FreeRTOS wrappers
-#define rtosDelay(x) vTaskDelay((portTickType) (x) / portTICK_RATE_MS)
-#define rtosStartScheduler() vTaskStartScheduler()
-#define rtosShutdown()
-#define rtosTaskLoop() 1
+#define sysStartSheduler() vTaskStartScheduler()
+#define sysDelay(x) vTaskDelay((portTickType) (x) / portTICK_RATE_MS)
+#define sysStartScheduler() vTaskStartScheduler()
+#define sysShutdown()
+#define sysTaskLoop() 1
 
-#define rtosGetSystemTick() xTaskGetTickCount()
+#define sysBeginInterruptRoutine() BaseType_t xHigherPriorityTaskWoken = pdFALSE
+#define sysEndInterruptRoutine() portYIELD_FROM_ISR( xHigherPriorityTaskWoken )
+#define sysInterruptParam() &xHigherPriorityTaskWoken
 
 // Semaphore related definitions
+/*
 typedef SemaphoreHandle_t rtosSemaphoreHandle_t;
 #define rtosCreateBinarySemaphore(x) vSemaphoreCreateBinary(x)
+
+
+typedef SemaphoreHandle_t sysBinarySemaphore;
+#define sysBinarySemaphoreCreate(x) x = CreateSemaphore( NULL, 1, 1, NULL)
+#define sysBinarySemaphoreDelete(x) CloseHandle(x)
+#define sysBinarySemaphoreLock(x,t) ((WaitForSingleObject(x, t) == WAIT_OBJECT_0) ? true : false)
+#define sysBinarySemaphoreUnlock(x) ReleaseSemaphore( x, 1, NULL)
+#define sysBinarySemaphoreUnlockFromISR(x) ReleaseSemaphore( x, 1, NULL)
+*/
+
+
+typedef TaskHandle_t sysTaskNotify;
+#define sysTaskNotifyCreate(x) x = xTaskGetCurrentTaskHandle()
+#define sysTaskNotifyDelete(x)
+#define sysTaskNotifyTake(x,t) ulTaskNotifyTake( pdTRUE, t )
+#define sysTaskNotifyGive(x) xTaskNotifyGive( x )
+#define sysTaskNotifyFromGiveFromISR(x, interrupt_param) vTaskNotifyGiveFromISR( x, interrupt_param )
+
+
+
+#define sysNOP() asm("nop")
 
 #endif
 
