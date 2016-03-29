@@ -16,84 +16,200 @@
     <Filter Include="DroneOS">
       <UniqueIdentifier>{9eb33d4a-1a17-444b-9f19-5b460382ee80}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DroneOS\source">
+    <Filter Include="DroneOS\Source Files">
       <UniqueIdentifier>{7f1ec6ea-762f-43b7-a563-5d87bd38207e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DroneOS\include">
+    <Filter Include="DroneOS\Header Files">
       <UniqueIdentifier>{cdc6b384-bdb5-4190-96a6-16ac40848212}</UniqueIdentifier>
     </Filter>
-    <Filter Include="DroneOS\drivers">
+    <Filter Include="DroneOS\HAL Files">
       <UniqueIdentifier>{d0a08c45-6504-4dc3-98c0-859217fbe3fd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\DroneOS\Drivers\Win32\sysMain.c">
-      <Filter>DroneOS\drivers</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\cfcSystemInit.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\DroneOS\Source\comManager.c">
-      <Filter>DroneOS\source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\DroneOS\Drivers\Win32\drvEthernet.c">
-      <Filter>DroneOS\drivers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\DroneOS\Drivers\Win32\drvRTOSWapper.c">
-      <Filter>DroneOS\drivers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\DroneOS\Source\sysCRC16.c">
-      <Filter>DroneOS\source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\DroneOS\Source\comSLIP.c">
-      <Filter>DroneOS\source</Filter>
+      <Filter>DroneOS\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DroneOS\Source\roxStorage.c">
+      <Filter>DroneOS\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DroneOS\Source\comPacketQueue.c">
+      <Filter>DroneOS\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DroneOS\HAL\Win32\Source\halMain.c">
+      <Filter>DroneOS\HAL Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DroneOS\HAL\Win32\Source\halRTOSWapper.c">
+      <Filter>DroneOS\HAL Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DroneOS\HAL\Win32\Source\halUART.c">
+      <Filter>DroneOS\HAL Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DroneOS\Source\comPacketBuilder.c">
+      <Filter>DroneOS\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DroneOS\Source\comManager.c">
+      <Filter>DroneOS\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DroneOS\HAL\Win32\Source\halUDP.c">
+      <Filter>DroneOS\HAL Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DroneOS\Source\comUDP.c">
+      <Filter>DroneOS\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\fileSystemFilesStorage.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DroneOS\Source\fileTransfer.c">
+      <Filter>DroneOS\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DroneOS\Source\crcCITT16.c">
+      <Filter>DroneOS\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DroneOS\Source\crcMD5.c">
+      <Filter>DroneOS\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DroneOS\Source\strString.c">
+      <Filter>DroneOS\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DroneOS\HAL\Win32\Source\halRTC.c">
+      <Filter>DroneOS\HAL Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DroneOS\Source\sysDateTime.c">
+      <Filter>DroneOS\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\DroneOS\Include\sysCRC16.h">
-      <Filter>DroneOS\include</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\DroneOS\Include\sysInitialize.h">
-      <Filter>DroneOS\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\DroneOS\Include\sysMD5.h">
-      <Filter>DroneOS\include</Filter>
+      <Filter>DroneOS\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\DroneOS\Include\sysPackedStructEnd.h">
-      <Filter>DroneOS\include</Filter>
+      <Filter>DroneOS\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\DroneOS\Include\sysPackedStructStart.h">
-      <Filter>DroneOS\include</Filter>
+      <Filter>DroneOS\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\DroneOS\Include\sysRTOS.h">
-      <Filter>DroneOS\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\DroneOS\Include\sysString.h">
-      <Filter>DroneOS\include</Filter>
+      <Filter>DroneOS\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\DroneOS\Include\sysTypes.h">
-      <Filter>DroneOS\include</Filter>
+      <Filter>DroneOS\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\DroneOS\Include\comInterfaces.h">
-      <Filter>DroneOS\include</Filter>
+      <Filter>DroneOS\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\DroneOS\Include\comManager.h">
-      <Filter>DroneOS\include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\DroneOS\Include\comQueue.h">
-      <Filter>DroneOS\include</Filter>
+      <Filter>DroneOS\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\DroneOS\Include\comSLIP.h">
-      <Filter>DroneOS\include</Filter>
+      <Filter>DroneOS\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\DroneOS\Include\comSystemPacketDefinitions.h">
-      <Filter>DroneOS\include</Filter>
+      <Filter>DroneOS\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\DroneOS\Include\sysConfig.h">
-      <Filter>DroneOS\include</Filter>
+    <ClInclude Include="..\..\DroneOS\Include\comPacketQueue.h">
+      <Filter>DroneOS\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\DroneOS\Include\comFileRequestHandler.h">
-      <Filter>DroneOS\include</Filter>
+    <ClInclude Include="..\..\DroneOS\Drivers\Include\drvUART.h">
+      <Filter>DroneOS\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Drivers\Win32\Include\drvIODefinitions.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\cfgStorage.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\drvADXL345.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\drvEEPROM.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\drvHMC5883.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\drvIMU.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\drvL3GD20.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\drvLSM303DLHC.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\drvSPI.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\drvStatLED.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\drvUART.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\FreeRTOSConfig.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\imuCommunication.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\imuTask.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\sysHighresTimer.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\HAL\Win32\Include\halIODefinitions.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\comPacketBuilder.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\comESP8266.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\comUDP.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\cfgValues.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\halUDP.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Include\cfgSettingsConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\fileSystemFiles.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\fileTransfer.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\crcMD5.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\strString.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\crcCITT16.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\sysDateTime.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\halRTC.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Include\cfgSettingsDefaultData.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\Include\cfgSettingsXML.inl">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -88,6 +88,7 @@ static void tskIMU(void* in_argument)
 	driver_index = 0;
 	while( l_imu_sensor_config_functions[driver_index] != sysNULL)
 	{
+		param.Success = false;
 		l_imu_sensor_config_functions[driver_index](drvIMU_CF_Detect, &param);
 
 		if(param.Success)

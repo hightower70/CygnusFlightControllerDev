@@ -1,47 +1,35 @@
 /*****************************************************************************/
-/* Communication manager functions                                           */
+/* UDP Communication routines                                                */
 /*                                                                           */
-/* Copyright (C) 20152016 Laszlo Arvai                                       */
+/* Copyright (C) 2016 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
 /* of the BSD license.  See the LICENSE file for details.                    */
 /*****************************************************************************/
 
-#ifndef __comManager_h
-#define __comManager_h
+#ifndef __comUDP_h
+#define __comUDP_h
 
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
 #include <sysTypes.h>
-#include <comManager.h>
-#include <comInterfaces.h>
-#include <comPacketQueue.h>
-
 
 /*****************************************************************************/
 /* Constants                                                                 */
 /*****************************************************************************/
-#define comCRC_BYTE_COUNT 2
-#define comMAX_PACKET_LENGTH 255
-#define comINVALID_INTERFACE_INDEX 0xff
+#define comUDP_PERIODIC_CALLBACK_TIME 100
+
+#define comUDP_MAKE_BROADCAST_ADDRESS(x) (x | 0x000000ff)
+
 
 /*****************************************************************************/
 /* Function prototypes                                                       */
 /*****************************************************************************/
-void comManagerInit(void);
-void comManagerTaskStop(void);
-
-uint8_t comAddInterface(comInterfaceDescription* in_interface);
-
-void comManagerStoreReceivedPacket(uint8_t in_interface_index, uint8_t* in_packet, uint8_t in_packet_size);
-
-uint8_t comIncrementAndGetTransmittedPacketCounter(void);
-
-
-uint8_t* comManagerTransmitPacketPushStart(uint8_t in_packet_size, uint8_t in_interface_index, uint8_t in_packet_type, uint16_t *out_packet_index);
-void comManagerTransmitPacketPushEnd(uint16_t in_packet_index);
-void comManagerTransmitPacketPushCancel(uint16_t in_packet_index);
+void comUDPInit(void);
+void comUDPProcessReceivedPacket(uint8_t* in_packet, uint8_t in_packet_size);
+void comUDPPeriodicCallback(void);
+bool comUDPSendPacket(uint8_t* in_packet, uint16_t in_packet_length);
 
 #endif

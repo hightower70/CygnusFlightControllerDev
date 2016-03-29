@@ -23,3 +23,10 @@ disassembly/
 *.map
 *.log
 *.xlsx
+*.tlog
+*.idb
+*.pdb
+*.lastbuildstate
+*.ilk
+*.exe
+

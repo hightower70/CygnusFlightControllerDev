@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/* RTOS Independent Type Definitions                                         */
+/* MD5 Hash Calculation Routines                                             */
 /*                                                                           */
 /* Copyright (C) 2014 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
@@ -7,43 +7,30 @@
 /* This software may be modified and distributed under the terms             */
 /* of the BSD license.  See the LICENSE file for details.                    */
 /*****************************************************************************/
-#ifndef __RTOSTypes_h
-#define __RTOSTypes_h
+#ifndef __crcMD5_h
+#define __crcMD5_h
 
 ///////////////////////////////////////////////////////////////////////////////
-// Type definitions
-#include <stdint.h>
-
-#ifdef _WIN32
-#pragma once
-
-#define false   0
-#define true    1
-
-#define bool int
-#else
-#include <stdbool.h>
-#endif
-
-/* string types */
-typedef uint16_t sysStringLength;
-typedef char sysChar;
-typedef sysChar*	sysString;
-typedef const sysChar* sysConstString;
-
-typedef uint32_t sysSize;
+// Includes
+#include <sysTypes.h>
 
 ///////////////////////////////////////////////////////////////////////////////
-// Macros
-#define sysLOW(x) ((x)&0xff)
-#define sysHIGH(x) ((x)>>8)
-#define sysBV(x) (1<<(x))
+// Constants
+#define crcMD5_CHECKSUM_SIZE 16
 
-#define sysSTRINGIZE(x) ___sysSTRINGIZE(x)
-#define ___sysSTRINGIZE(x) #x
+///////////////////////////////////////////////////////////////////////////////
+// Types
+typedef struct 
+{
+	uint32_t BitCount[2];			/* message length in bits, lsw first */
+  uint32_t DigestBuffer[4];	/* digest buffer */
+  uint8_t InputBuffer[64];	/* accumulate block */
+} crcMD5State;
 
-#define sysNULL 0
-
-#define sysUNUSED(x) (void)(x)
+///////////////////////////////////////////////////////////////////////////////
+// Function prototypes
+void crcMD5Open(crcMD5State* in_state);
+void crcMD5Update(crcMD5State* in_state, const uint8_t* in_data, uint32_t in_length);
+void crcMD5Close(crcMD5State* in_state, uint8_t out_hash[]);
 
 #endif

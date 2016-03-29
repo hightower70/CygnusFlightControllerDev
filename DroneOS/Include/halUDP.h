@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/* Communication manager functions                                           */
+/* UDP HAL driver                                                            */
 /*                                                                           */
 /* Copyright (C) 2015 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
@@ -8,8 +8,8 @@
 /* of the BSD license.  See the LICENSE file for details.                    */
 /*****************************************************************************/
 
-#ifndef __comInterfaces_h
-#define __comInterfaces_h
+#ifndef __halUDP_h
+#define __halUDP_h
 
 /*****************************************************************************/
 /* Includes                                                                  */
@@ -17,18 +17,13 @@
 #include <sysTypes.h>
 
 /*****************************************************************************/
-/* Constants                                                                 */
+/* Function prototypes                                                       */
 /*****************************************************************************/
+void halUDPInit(void);
 
-/*****************************************************************************/
-/* Types                                                                     */
-/*****************************************************************************/
-typedef bool (*comInterfacePacketSendFunction)(uint8_t* in_packet, uint16_t in_packet_length);
-
-typedef struct
-{
-	comInterfacePacketSendFunction PacketSendFunction;
-
-} comInterfaceDescription;
+uint8_t* halUDPAllocTransmitBuffer(void);
+void halUDPTransmitData(uint16_t in_data_length, uint32_t in_destination_address);
+uint32_t halUDPGetLocalIPAddress(void);
+bool halUDPIsConnected(void);
 
 #endif

@@ -1,47 +1,35 @@
 /*****************************************************************************/
-/* Communication manager functions                                           */
+/* External I2C bus driver                                                   */
 /*                                                                           */
-/* Copyright (C) 20152016 Laszlo Arvai                                       */
+/* Copyright (C) 2016 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
 /* of the BSD license.  See the LICENSE file for details.                    */
 /*****************************************************************************/
 
-#ifndef __comManager_h
-#define __comManager_h
+#ifndef __drvEXT_h
+#define __drvEXT_h
 
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
 #include <sysTypes.h>
-#include <comManager.h>
-#include <comInterfaces.h>
-#include <comPacketQueue.h>
-
 
 /*****************************************************************************/
 /* Constants                                                                 */
 /*****************************************************************************/
-#define comCRC_BYTE_COUNT 2
-#define comMAX_PACKET_LENGTH 255
-#define comINVALID_INTERFACE_INDEX 0xff
+
+/*****************************************************************************/
+/* Types                                                                     */
+/*****************************************************************************/
+typedef void (*drvEXTCallbackFunction)(bool in_success, void* in_interupt_param);
 
 /*****************************************************************************/
 /* Function prototypes                                                       */
 /*****************************************************************************/
-void comManagerInit(void);
-void comManagerTaskStop(void);
-
-uint8_t comAddInterface(comInterfaceDescription* in_interface);
-
-void comManagerStoreReceivedPacket(uint8_t in_interface_index, uint8_t* in_packet, uint8_t in_packet_size);
-
-uint8_t comIncrementAndGetTransmittedPacketCounter(void);
-
-
-uint8_t* comManagerTransmitPacketPushStart(uint8_t in_packet_size, uint8_t in_interface_index, uint8_t in_packet_type, uint16_t *out_packet_index);
-void comManagerTransmitPacketPushEnd(uint16_t in_packet_index);
-void comManagerTransmitPacketPushCancel(uint16_t in_packet_index);
+void drvEXTInit(void);
+void drvEXTStartWriteAndReadBlock(uint8_t in_address, uint8_t* in_write_buffer, uint8_t in_write_buffer_length, uint8_t* in_read_buffer, uint8_t in_read_buffer_length, drvEXTCallbackFunction in_callback_function);
+void drvEXTStartWriteAndWriteBlock(uint8_t in_address, uint8_t* in_buffer1, uint8_t in_buffer1_length, uint8_t* in_buffer2, uint8_t in_buffer2_length, drvEXTCallbackFunction in_callback_function);
 
 #endif

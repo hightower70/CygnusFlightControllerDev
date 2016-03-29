@@ -1,34 +1,23 @@
 /*****************************************************************************/
-/* Communication manager functions                                           */
+/* Communication packet builder functions                                    */
 /*                                                                           */
-/* Copyright (C) 2015 Laszlo Arvai                                           */
+/* Copyright (C) 2016 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
 /* of the BSD license.  See the LICENSE file for details.                    */
 /*****************************************************************************/
-
-#ifndef __comInterfaces_h
-#define __comInterfaces_h
+#ifndef __comPacketBuilder_h
+#define __comPacketBuilder_h
 
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
-#include <sysTypes.h>
+#include <comSystemPacketDefinitions.h>
 
 /*****************************************************************************/
-/* Constants                                                                 */
+/* Function prototypes                                                       */
 /*****************************************************************************/
-
-/*****************************************************************************/
-/* Types                                                                     */
-/*****************************************************************************/
-typedef bool (*comInterfacePacketSendFunction)(uint8_t* in_packet, uint16_t in_packet_length);
-
-typedef struct
-{
-	comInterfacePacketSendFunction PacketSendFunction;
-
-} comInterfaceDescription;
+void comFillPacketHeader(comPacketHeader* in_header, uint8_t in_type, uint8_t in_length);
 
 #endif

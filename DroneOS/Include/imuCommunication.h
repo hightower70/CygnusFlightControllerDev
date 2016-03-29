@@ -1,47 +1,33 @@
 /*****************************************************************************/
-/* Communication manager functions                                           */
+/* IMU Communication function                                                */
 /*                                                                           */
-/* Copyright (C) 20152016 Laszlo Arvai                                       */
+/* Copyright (C) 2016 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
 /* of the BSD license.  See the LICENSE file for details.                    */
 /*****************************************************************************/
 
-#ifndef __comManager_h
-#define __comManager_h
+#ifndef __imuCommunication_h
+#define __imuCommunication_h
 
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
 #include <sysTypes.h>
-#include <comManager.h>
-#include <comInterfaces.h>
-#include <comPacketQueue.h>
-
 
 /*****************************************************************************/
 /* Constants                                                                 */
 /*****************************************************************************/
-#define comCRC_BYTE_COUNT 2
-#define comMAX_PACKET_LENGTH 255
-#define comINVALID_INTERFACE_INDEX 0xff
+
 
 /*****************************************************************************/
 /* Function prototypes                                                       */
 /*****************************************************************************/
-void comManagerInit(void);
-void comManagerTaskStop(void);
-
-uint8_t comAddInterface(comInterfaceDescription* in_interface);
-
-void comManagerStoreReceivedPacket(uint8_t in_interface_index, uint8_t* in_packet, uint8_t in_packet_size);
-
-uint8_t comIncrementAndGetTransmittedPacketCounter(void);
-
-
-uint8_t* comManagerTransmitPacketPushStart(uint8_t in_packet_size, uint8_t in_interface_index, uint8_t in_packet_type, uint16_t *out_packet_index);
-void comManagerTransmitPacketPushEnd(uint16_t in_packet_index);
-void comManagerTransmitPacketPushCancel(uint16_t in_packet_index);
+void imuCommunicationInit(void);
+void imuReadByteRegister(uint8_t in_i2caddress, uint8_t in_register_address, uint8_t* out_register_value, bool* inout_success);
+void imuWriteByteRegister(uint8_t in_i2c_address, uint8_t in_register_address, uint8_t in_register_value, bool* inout_success);
+void imuReadRegisterBlock(uint8_t in_i2c_address, uint8_t in_register_address, uint8_t* out_register_block, uint8_t in_register_block_length, bool* inout_success);
+void imuWriteRegisterBlock(uint8_t in_i2c_address, uint8_t in_register_address, uint8_t* in_register_block, uint8_t in_register_block_length, bool* inout_success);
 
 #endif

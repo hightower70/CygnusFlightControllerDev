@@ -1,47 +1,29 @@
 /*****************************************************************************/
-/* Communication manager functions                                           */
+/* CITT16 CRC calculation routines                                           */
 /*                                                                           */
-/* Copyright (C) 20152016 Laszlo Arvai                                       */
+/* Copyright (C) 2015 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
 /* of the BSD license.  See the LICENSE file for details.                    */
 /*****************************************************************************/
-
-#ifndef __comManager_h
-#define __comManager_h
+#ifndef __crcCITT16_h
+#define __sysCITT16_h
 
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
-#include <sysTypes.h>
-#include <comManager.h>
-#include <comInterfaces.h>
-#include <comPacketQueue.h>
-
+#include <stdint.h>
 
 /*****************************************************************************/
 /* Constants                                                                 */
 /*****************************************************************************/
-#define comCRC_BYTE_COUNT 2
-#define comMAX_PACKET_LENGTH 255
-#define comINVALID_INTERFACE_INDEX 0xff
+#define crc16_INIT_VALUE 0xffff
 
 /*****************************************************************************/
 /* Function prototypes                                                       */
 /*****************************************************************************/
-void comManagerInit(void);
-void comManagerTaskStop(void);
-
-uint8_t comAddInterface(comInterfaceDescription* in_interface);
-
-void comManagerStoreReceivedPacket(uint8_t in_interface_index, uint8_t* in_packet, uint8_t in_packet_size);
-
-uint8_t comIncrementAndGetTransmittedPacketCounter(void);
-
-
-uint8_t* comManagerTransmitPacketPushStart(uint8_t in_packet_size, uint8_t in_interface_index, uint8_t in_packet_type, uint16_t *out_packet_index);
-void comManagerTransmitPacketPushEnd(uint16_t in_packet_index);
-void comManagerTransmitPacketPushCancel(uint16_t in_packet_index);
+uint16_t crc16Calculate(uint16_t in_crc, uint8_t in_data);
+uint16_t crc16CalculateForBlock(uint16_t in_crc, uint8_t* in_buffer, uint16_t in_buffer_length);
 
 #endif

@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/* Communication manager functions                                           */
+/* System (flash) files content and information table                        */
 /*                                                                           */
 /* Copyright (C) 2015 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
@@ -8,27 +8,34 @@
 /* of the BSD license.  See the LICENSE file for details.                    */
 /*****************************************************************************/
 
-#ifndef __comInterfaces_h
-#define __comInterfaces_h
-
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
 #include <sysTypes.h>
+#include <cfgSettingsConstants.h>
+#include <fileSystemFiles.h>
+
 
 /*****************************************************************************/
-/* Constants                                                                 */
+/* File storage                                                              */
 /*****************************************************************************/
 
-/*****************************************************************************/
-/* Types                                                                     */
-/*****************************************************************************/
-typedef bool (*comInterfacePacketSendFunction)(uint8_t* in_packet, uint16_t in_packet_length);
-
-typedef struct
+const uint8_t g_settings_xml[cfgSETTINGS_XML_FILE_LENGTH] =
 {
-	comInterfacePacketSendFunction PacketSendFunction;
+#include "cfgSettingsXML.inl"
+};
 
-} comInterfaceDescription;
+const uint8_t g_settings_default_data[cfgSETTINGS_BINARY_FILE_LENGTH] =
+{
+#include "cfgSettingsDefaultData.inl"
+};
 
-#endif
+/*****************************************************************************/
+/* File information table                                                    */
+/*****************************************************************************/
+fileInternalFileTableEntry g_system_files_info_table[] =
+{
+	{ "SettingsXML", g_settings_xml, cfgSETTINGS_XML_FILE_LENGTH },
+	{ "SettingsData", 	g_settings_default_data, cfgSETTINGS_BINARY_FILE_LENGTH },
+	{ sysNULL, 0, 0 }
+};
