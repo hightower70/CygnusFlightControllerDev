@@ -43,5 +43,7 @@ uint8_t comIncrementAndGetTransmittedPacketCounter(void);
 uint8_t* comManagerTransmitPacketPushStart(uint8_t in_packet_size, uint8_t in_interface_index, uint8_t in_packet_type, uint16_t *out_packet_index);
 void comManagerTransmitPacketPushEnd(uint16_t in_packet_index);
 void comManagerTransmitPacketPushCancel(uint16_t in_packet_index);
+uint8_t* comManagerGetTransmitPacketGetBuffer(uint16_t in_packet_index);
+
 
 #endif

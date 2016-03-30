@@ -74,9 +74,6 @@ static uint8_t l_transmitter_packet_buffer[comManager_TRANSMITTER_PACKET_LENGTH]
 // heartbeat timestamp
 static sysTick l_last_heartbeat_timestamp;
 
-
-
-
 /*****************************************************************************/
 /* Local function prototypes                                                 */
 /*****************************************************************************/
@@ -285,6 +282,15 @@ uint8_t* comManagerTransmitPacketPushStart(uint8_t in_packet_size, uint8_t in_in
 	return packet_pointer;
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+/// @brief Gets packet buffer pointer for the selected transmit packet
+/// @param in_packet_index Packet index to get buffer
+/// @return Pointer to the packet buffer
+uint8_t* comManagerGetTransmitPacketGetBuffer(uint16_t in_packet_index)
+{
+	return comPacketQueueGetPacketBuffer(&l_transmitter_queue, in_packet_index);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Finished packet push operation on transmitter queue
 /// @param in_packet_index Packet index to finish
@@ -294,6 +300,10 @@ void comManagerTransmitPacketPushEnd(uint16_t in_packet_index)
 	uint16_t packet_size;
 	uint8_t* packet_data_buffer;
 	uint16_t crc;
+
+	// sanity check
+	if (in_packet_index == comINVALID_PACKET_INDEX)
+		return;
 
 	// get packet information
 	packet_info = comPacketQueueGetPacketInfo(&l_transmitter_queue, in_packet_index);
@@ -419,8 +429,34 @@ static void comProcessCommunicationPacket(comPacketInfo* in_packet_info, uint8_t
 		case comPT_HOST_HEARTBEAT:
 		{
 			comPacketHostHeartbeat* packet = (comPacketHostHeartbeat*)in_packet;
+			sysDateTime host_time;
+			sysDateTime device_time;
+			uint32_t host_time_in_seconds;
+			uint32_t device_time_in_seconds;
+			int32_t diff_time;
 
+			// get host time in second
+			host_time.Year = packet->Year;
+			host_time.Month = packet->Month;
+			host_time.Day = packet->Day;
 
+			host_time.Hour = packet->Hour;
+			host_time.Minute = packet->Minute;
+			host_time.Second = packet->Second;
+
+			host_time_in_seconds = sysDateTimeConvertToSeconds(&host_time);
+
+			// get device time in second
+			sysDateTimeGet(&device_time);
+
+			device_time_in_seconds = sysDateTimeConvertToSeconds(&device_time);
+
+			// calculate difference time
+			diff_time = (int32_t)(host_time_in_seconds - device_time_in_seconds);
+
+			// if difference if igher than one second -> update RTC
+			if (diff_time > 1 || diff_time < -1)
+				sysDateTimeSet(&host_time);
 		}
 		break;
 	}

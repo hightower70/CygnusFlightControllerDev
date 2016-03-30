@@ -14,6 +14,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Includes
 #include <sysTypes.h>
+#include <crcMD5.h>
 
 ///////////////////////////////////////////////////////////////////////////////
 // Constants
@@ -47,9 +48,9 @@
 #define comPT_FILE_INFO_REQUEST		(comPT_FILE_INFO | comPT_REQUEST_FLAG)
 #define comPT_FILE_INFO_RESPONSE	(comPT_FILE_INFO)
 
-#define comPT_FILE_BLOCK					(comPT_SYSTEM_FLAG | comPT_CLASS_FILE | 2)
-#define comPT_FILE_BLOCK_REQUEST	(comPT_FILE_BLOCK | comPT_REQUEST_FLAG)
-#define comPT_FILE_BLOCK_RESPONSE	(comPT_FILE_BLOCK)
+#define comPT_FILE_DATA						(comPT_SYSTEM_FLAG | comPT_CLASS_FILE | 2)
+#define comPT_FILE_DATA_REQUEST		(comPT_FILE_DATA | comPT_REQUEST_FLAG)
+#define comPT_FILE_DATA_RESPONSE	(comPT_FILE_DATA)
 
 // packet definitions
 
@@ -104,7 +105,7 @@ typedef struct
 
 	uint8_t Hour;
 	uint8_t Minute;
-	uint8_t Seconds;
+	uint8_t Second;
 
 } comPacketHostHeartbeat;
 
@@ -141,7 +142,7 @@ typedef struct
 
 	uint8_t FileID;
 	uint32_t FileLength;
-	uint8_t FileHash[16];
+	uint8_t FileHash[crcMD5_CHECKSUM_SIZE];
 } comPacketFileInfoResponse;
 
 ////////////////////

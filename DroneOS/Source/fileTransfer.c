@@ -19,8 +19,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Module local functions
 static void fileProcessFileInfoRequestPacket(comPacketInfo* in_packet_info, comPacketFileInfoRequest* in_request);
-static void gcscomProcessGetFileDataPacket(uint8_t* in_packet);
+static void fileProcessFileDataRequestPacket(comPacketInfo* in_packet_info, comPacketFileDataRequest* in_request_packet);
 static uint8_t fileGetSystemFileIndex(sysString in_file_name);
+static uint8_t fileGetSystemFileCount(void);
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -36,7 +37,8 @@ void fileProcessFileTransfer(comPacketInfo* in_packet_info, uint8_t* in_packet)
 			fileProcessFileInfoRequestPacket(in_packet_info, (comPacketFileInfoRequest*)in_packet);
 			return;
 
-		case comPT_FILE_BLOCK_REQUEST:
+		case comPT_FILE_DATA_REQUEST:
+			fileProcessFileDataRequestPacket(in_packet_info, (comPacketFileInfoRequest*)in_packet);
 			return;
 	}
 }
@@ -54,7 +56,7 @@ static void fileProcessFileInfoRequestPacket(comPacketInfo* in_packet_info, comP
 	crcMD5State md5_state;
 	uint16_t packet_index;
 
-	response_packet = (comPacketFileInfoResponse*)comManagerTransmitPacketPushStart(sizeof(comPacketFileInfoResponse), in_packet_info->Interface, comPT_FILE_INFO_RESPONSE, packet_index);
+	response_packet = (comPacketFileInfoResponse*)comManagerTransmitPacketPushStart(sizeof(comPacketFileInfoResponse), in_packet_info->Interface, comPT_FILE_INFO_RESPONSE, &packet_index);
 	if (response_packet != sysNULL)
 	{
 		// get file index (ID) file the file name
@@ -68,17 +70,57 @@ static void fileProcessFileInfoRequestPacket(comPacketInfo* in_packet_info, comP
 			crcMD5Open(&md5_state);
 			crcMD5Update(&md5_state, g_system_files_info_table[response_packet->FileID].Content, g_system_files_info_table[response_packet->FileID].Length);
 			crcMD5Close(&md5_state, response_packet->FileHash);
-		}
 
-		// start packet transmission
-		comManagerTransmitPacketPushEnd(packet_index);
+			// start packet transmission
+			comManagerTransmitPacketPushEnd(packet_index);
+		}
 	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Process file data request packet
-static void gcscomProcessGetFileDataPacket(comPacketInfo* in_packet_info, comPacketFileDataRequest* in_request_packet)
+static void fileProcessFileDataRequestPacket(comPacketInfo* in_packet_info, comPacketFileDataRequest* in_request_packet)
 {
+	uint16_t packet_index;
+	comFileDataResponseHeader* response_packet;
+	uint8_t data_length = in_request_packet->Length;
+	uint8_t* file_data_source;
+	uint8_t* file_data_destination;
+	uint32_t file_data_length;
+	uint8_t system_file_count;
+
+	// check file id validity
+	system_file_count = fileGetSystemFileCount();
+	if (in_request_packet->FileID >= system_file_count)
+		return;
+
+	// check file length
+	if (in_request_packet->FilePos >= g_system_files_info_table[in_request_packet->FileID].Length)
+		return;
+
+	file_data_length = in_request_packet->Length;
+	if (in_request_packet->FilePos + in_request_packet->Length >= g_system_files_info_table[in_request_packet->FileID].Length)
+	{
+		file_data_length = g_system_files_info_table[in_request_packet->FileID].Length - in_request_packet->FilePos;
+	}
+
+	// reserve packet storage
+	response_packet = (comFileDataResponseHeader*)comManagerTransmitPacketPushStart(sizeof(comFileDataResponseHeader) + data_length, in_packet_info->Interface, comPT_FILE_DATA_RESPONSE, &packet_index);
+	if (response_packet != sysNULL)
+	{
+		// fill pout response information
+		response_packet->FileID = in_request_packet->FileID;
+		response_packet->FilePos = in_request_packet->FilePos;
+
+		// copy response file data
+		file_data_source = &g_system_files_info_table[in_request_packet->FileID].Content[in_request_packet->FilePos];
+		file_data_destination = (uint8_t*)(comManagerGetTransmitPacketGetBuffer(packet_index) + sizeof(comFileDataResponseHeader));
+
+		sysMemCopy(file_data_destination, file_data_source, file_data_length);
+
+		// start packet transmission
+		comManagerTransmitPacketPushEnd(packet_index);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -103,4 +145,21 @@ static uint8_t fileGetSystemFileIndex(sysString in_file_name)
 	}
 
 	return fileINVALID_SYSTEM_FILE_ID;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Gets system file count
+/// @return Number of system files
+static uint8_t fileGetSystemFileCount(void)
+{
+	uint8_t index;
+
+	// file entries
+	index = 0;
+	while (g_system_files_info_table[index].Name != sysNULL)
+	{
+		index++;
+	}
+
+	return index;
 }
