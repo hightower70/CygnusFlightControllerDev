@@ -26,7 +26,7 @@ sysStringLength strGetLength( sysString in_string )
 	while(*string != '\0')
 		string++;
 
-	return (string - in_string);
+	return (sysStringLength)(string - in_string);
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -207,14 +207,14 @@ sysStringLength strFillString( sysString in_destination, sysStringLength in_dest
 // Char To Upper
 sysChar strCharToUpper( sysChar in_char )
 {
-	return toupper( in_char );
+	return (sysChar)toupper( (int)in_char );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // Char To Lower
 sysChar strCharToLower( sysChar in_char )
 {
-	return tolower( in_char );
+	return (sysChar)tolower( (int)in_char );
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -301,7 +301,7 @@ sysStringLength strWordToStringPos( sysString in_buffer, sysStringLength in_buff
 		field_length = in_field_length;
 	
 	// parameter checking
-	if( in_buffer_length - buffer_index <= 1 || in_buffer == NULL || field_length < 1 )
+	if( in_buffer_length - buffer_index <= 1 || in_buffer == sysNULL || field_length < 1 )
 		return in_pos;
 		
 	if( (in_options & strSCO_DISPLAY_MINUS_SIGN) != 0 )
@@ -334,7 +334,7 @@ sysStringLength strWordToStringPos( sysString in_buffer, sysStringLength in_buff
 		}
 	
 		// calculate remaining
-		in_value -= digit * divisor;
+		in_value -= (uint16_t)(digit * divisor);
 	
 		// next digit
 		digit_index--;

@@ -20,10 +20,10 @@
 /* UART definitions                                                          */
 /*****************************************************************************/
 
-extern void drvESP8266UARTRxCallback(uint8_t in_char, void* in_interrupt_param);
+//extern void drvESP8266UARTRxCallback(uint8_t in_char, void* in_interrupt_param);
 
-#define drvUART_MAX_COUNT 1
-#define drvUART_INIT_NAMES { L"\\\\.\\COM10" }
+#define halUART_MAX_COUNT 3
+#define halUART_INIT_NAMES { L"\\\\.\\COM10", L"\\\\.\\COM5", L"\\\\.\\COM62" }
 
 
 

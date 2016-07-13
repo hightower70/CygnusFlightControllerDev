@@ -1,41 +1,52 @@
 /*****************************************************************************/
-/* UART Driver                                                               */
+/* USB HID Communication HAL routines                                        */
 /*                                                                           */
-/* Copyright (C) 2014 Laszlo Arvai                                           */
+/* Copyright (C) 2016 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
 /* of the BSD license.  See the LICENSE file for details.                    */
 /*****************************************************************************/
-#ifndef __drvUART_h
-#define __drvUART_h
+
+#ifndef __halHID_h
+#define __halHID_h
 
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
+#include <usbd_desc.h>
+#include <usbd_customhid.h>
 #include <sysTypes.h>
+
+/*****************************************************************************/
+/* Constants                                                                 */
+/*****************************************************************************/
+#define halHID_TRANSMITER_PACKET_MAX_SIZE CUSTOM_HID_EPIN_SIZE
+#define halHID_RECEIVER_PACKET_MAX_SIZE CUSTOM_HID_EPOUT_SIZE
 
 /*****************************************************************************/
 /* Types                                                                     */
 /*****************************************************************************/
-typedef void(*drvUARTRxReceivedCallback)(uint8_t in_byte, void* in_interrupt_param);
-typedef void(*drvUARTTxEmptyCallback)(void* in_interrupt_param);
+typedef void(*halHIDPacketReceivedCallback)(uint8_t* in_packet_buffer, void* in_interrupt_param);
+typedef void(*halHIDTransmitterEmptyCallback)(void* in_interrupt_param);
 
 typedef struct
 {
-	drvUARTRxReceivedCallback RxReceivedCallback;
-	drvUARTTxEmptyCallback TxEmptyCallback;
+	halHIDPacketReceivedCallback PacketReceivedCallback;
+	halHIDTransmitterEmptyCallback TransmitterEmptyCallback;
 
-} drvUARTConfigInfo;
-
+} halHIDConfigInfo;
 
 /*****************************************************************************/
 /* Function prototypes                                                       */
 /*****************************************************************************/
-void drvUARTInit(uint8_t in_uart_index);
-void drvUARTConfig(uint8_t in_uart_index, drvUARTConfigInfo* in_config_info);
-void drvUARTConfigInfoInit(drvUARTConfigInfo* in_config_info);
-bool drvUARTSetBaudRate(uint8_t in_uart_index, uint32_t in_baud_rate);
-void drvUARTSendBlock(uint8_t in_uart_index, uint8_t* in_buffer, uint16_t in_buffer_length);
+void halHIDInit(void);
+
+void halHIDConfig(halHIDConfigInfo* in_config_info);
+void halHIDConfigInfoInit(halHIDConfigInfo* in_config_info);
+
+bool halHIDIsConnected(void);
+bool halHIDSendReport( uint8_t *in_report, uint16_t in_length);
+
 
 #endif

@@ -48,32 +48,62 @@ void slipEncodeByte(slipEncoderState* in_state, uint8_t in_byte)
 /// @param in_state Pointer to the decoder state structure
 /// @param in_buffer Pointer to the buffer
 /// @param in_length Number of bytes to store
-void slipEncodeBlock(slipEncoderState* in_state, uint8_t* in_buffer, uint8_t in_length)
+/// @return True if if was success, False when buffer is too small
+bool slipEncodeBlock(slipEncoderState* in_state, uint8_t* in_buffer, uint8_t in_length)
 {
 	uint8_t data;
+	bool success = true;
 
-	while(in_length > 0)
+	// slip packet start
+	in_state->TargetBuffer[in_state->TargetBufferPos++] = slip_END;
+	
+	while(in_length > 0 && in_state->TargetBufferPos < in_state->TargetBufferSize)
 	{
 		data = *in_buffer;
 		slipEncodeByte(in_state, data);
-		in_state->CyclicRedundancyCheck = crc16Calculate(in_state->CyclicRedundancyCheck, data);
 
 		in_buffer++;
 		in_length--;
 	}
+
+	// store SLIP END
+	if (in_state->TargetBufferPos < in_state->TargetBufferSize - 1)
+	{
+		in_state->TargetBuffer[in_state->TargetBufferPos++] = slip_END;
+	}
+	else
+	{
+		success = false;
+	}
+
+	return success;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Initializes SLIP decoder 
+/// @param in_state Decoder state
 void slipDecodeInitialize(slipDecoderState* in_state)
 {
 	in_state->Status = slip_ES_Idle;
+	in_state->TargetBufferPos = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief SLIP decodes one byte
 /// @brief in_state SLIP decoder state
 /// @brief in_byte Byte to decode
-void slipDecodeByte(slipDecoderState* in_state, uint8_t in_byte)
+/// @return True if block end was found
+bool slipDecodeByte(slipDecoderState* in_state, uint8_t in_byte)
 {
+	bool retval = false;
+
+	// buffer is full, there is no full packet in the buffer ->clear buffer content
+	if (in_state->TargetBufferPos == in_state->TargetBufferSize)
+	{
+		in_state->Status = slip_ES_Idle;
+		in_state->TargetBufferPos = 0;
+	}
+
 	switch (in_state->Status)
 	{
 		// waiting for packet start
@@ -81,21 +111,45 @@ void slipDecodeByte(slipDecoderState* in_state, uint8_t in_byte)
 			if(in_byte == slip_END)
 			{
 				in_state->Status = slip_ES_Data;
+
+				// report only packet with non-zero length
+				if (in_state->TargetBufferPos != 0)
+				{
+					retval = true;
+					in_state->LastPacketLength = in_state->TargetBufferPos;
+				}
+
+				// prepare to receive next packet
 				in_state->TargetBufferPos = 0;
-				in_state->CyclicRedundancyCheck = crc16_INIT_VALUE;
 			}
 			break;
 
 		// processing packet data
 		case slip_ES_Data:
-			if(in_byte == slip_ESC)
+			switch (in_byte)
 			{
-				in_state->Status = slip_ES_Escape;
-			}
-			else
-			{
-				in_state->TargetBuffer[in_state->TargetBufferPos++] = in_byte;
-				in_state->CyclicRedundancyCheck = crc16Calculate(in_state->CyclicRedundancyCheck, in_byte);
+				// escape code
+				case slip_ESC:
+					in_state->Status = slip_ES_Escape;
+					break;
+
+				// packet end
+				case slip_END:
+					// report only packet with non-zero length
+					if (in_state->TargetBufferPos != 0)
+					{
+						retval = true;
+						in_state->LastPacketLength = in_state->TargetBufferPos;
+					}
+
+					// prepare to receive next packet
+					in_state->TargetBufferPos = 0;
+					break;
+
+				// normal data
+				default:
+					in_state->TargetBuffer[in_state->TargetBufferPos++] = in_byte;
+					break;
 			}
 			break;
 
@@ -105,14 +159,15 @@ void slipDecodeByte(slipDecoderState* in_state, uint8_t in_byte)
 			{
 				case slip_ESC_ESC:
 					in_state->TargetBuffer[in_state->TargetBufferPos++] = slip_ESC;
-					in_state->CyclicRedundancyCheck = crc16Calculate(in_state->CyclicRedundancyCheck, slip_ESC);
 					break;
 
 				case slip_ESC_END:
 					in_state->TargetBuffer[in_state->TargetBufferPos++] = slip_END;
-					in_state->CyclicRedundancyCheck = crc16Calculate(in_state->CyclicRedundancyCheck, slip_END);
 					break;
 			}
+			in_state->Status = slip_ES_Data;
 			break;
 	}
+
+	return retval;
 }

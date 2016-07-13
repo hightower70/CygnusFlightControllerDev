@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/* Eight channel servo output driver                                         */
+/* Eight channel servo output HAL                                            */
 /*                                                                           */
 /* Copyright (C) 2016 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
@@ -11,16 +11,16 @@
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
-#include <drvIODefinitions.h>
+#include <halIODefinitions.h>
 #include <stm32f4xx_hal.h>
-#include <drvHAL.h>
+#include <halHelpers.h>
+#include <drvServo.h>
 
 /*****************************************************************************/
 /* Constants                                                                 */
 /*****************************************************************************/
-#define drvSERVO_CHANNEL_COUNT 8
-#define drvSERVO_CHANNEL_PERIOD 2500
-#define drvSERVO_TIME_CLOCK 1000000
+#define halSERVO_CHANNEL_PERIOD 2500
+#define halSERVO_TIME_CLOCK 1000000
 
 /*****************************************************************************/
 /* Module global variables                                                   */
@@ -34,7 +34,7 @@ static uint8_t l_current_channel = 0;
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Initializes servo driver
-void drvServoInit(void)
+void halServoInit(void)
 {
   TIM_ClockConfigTypeDef sClockSourceConfig;
   TIM_MasterConfigTypeDef sMasterConfig;
@@ -65,9 +65,9 @@ void drvServoInit(void)
   __TIM3_CLK_ENABLE();
 
   l_servo_timer.Instance = TIM3;
-  l_servo_timer.Init.Prescaler = drvHALTimerGetSourceFrequency(3) / drvSERVO_TIME_CLOCK - 1;
+  l_servo_timer.Init.Prescaler = halTimerGetSourceFrequency(3) / halSERVO_TIME_CLOCK - 1;
   l_servo_timer.Init.CounterMode = TIM_COUNTERMODE_UP;
-  l_servo_timer.Init.Period = drvSERVO_CHANNEL_PERIOD - 1;
+  l_servo_timer.Init.Period = halSERVO_CHANNEL_PERIOD - 1;
   l_servo_timer.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   HAL_TIM_Base_Init(&l_servo_timer);
 
@@ -81,7 +81,7 @@ void drvServoInit(void)
   HAL_TIMEx_MasterConfigSynchronization(&l_servo_timer, &sMasterConfig);
 
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = drvSERVO_CHANNEL_PERIOD-1500;
+  sConfigOC.Pulse = halSERVO_CHANNEL_PERIOD-1500;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_LOW;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   HAL_TIM_PWM_ConfigChannel(&l_servo_timer, &sConfigOC, TIM_CHANNEL_4);
@@ -99,20 +99,19 @@ void TIM3_IRQHandler(void)
 {
   if (__HAL_TIM_GET_FLAG(&l_servo_timer, TIM_FLAG_UPDATE) != RESET)      //In case other interrupts are also running
   {
-      if (__HAL_TIM_GET_ITSTATUS(&l_servo_timer, TIM_IT_UPDATE) != RESET)
-      {
-          __HAL_TIM_CLEAR_FLAG(&l_servo_timer, TIM_FLAG_UPDATE);
+  	if (__HAL_TIM_GET_ITSTATUS(&l_servo_timer, TIM_IT_UPDATE) != RESET)
+    {
+  		__HAL_TIM_CLEAR_FLAG(&l_servo_timer, TIM_FLAG_UPDATE);
 
-          l_current_channel++;
+      l_current_channel++;
 
-          if(l_current_channel >= drvSERVO_CHANNEL_COUNT)
-          	l_current_channel = 0;
+      if(l_current_channel >= drvSERVO_CHANNEL_COUNT)
+      	l_current_channel = 0;
 
-          drvHAL_SetPinValue(SERVO_SEL_A_GPIO_Port, SERVO_SEL_A_Pin, l_current_channel & 0x01);
-          drvHAL_SetPinValue(SERVO_SEL_B_GPIO_Port, SERVO_SEL_B_Pin, l_current_channel & 0x02);
-          drvHAL_SetPinValue(SERVO_SEL_C_GPIO_Port, SERVO_SEL_C_Pin, l_current_channel & 0x04);
-          /*put your code here */
-      }
+        drvHAL_SetPinValue(SERVO_SEL_A_GPIO_Port, SERVO_SEL_A_Pin, l_current_channel & 0x01);
+        drvHAL_SetPinValue(SERVO_SEL_B_GPIO_Port, SERVO_SEL_B_Pin, l_current_channel & 0x02);
+        drvHAL_SetPinValue(SERVO_SEL_C_GPIO_Port, SERVO_SEL_C_Pin, l_current_channel & 0x04);
+    }
   }
 }
 

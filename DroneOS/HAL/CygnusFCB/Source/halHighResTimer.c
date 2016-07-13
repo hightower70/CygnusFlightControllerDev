@@ -11,9 +11,9 @@
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
-#include <drvIODefinitions.h>
+#include <halIODefinitions.h>
 #include <stm32f4xx_hal.h>
-#include <drvHAL.h>
+#include <halHelpers.h>
 #include <sysHighresTimer.h>
 
 /*****************************************************************************/
@@ -33,7 +33,7 @@ static volatile uint16_t l_timer_high = 0;
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Initializes high resolution timer
-void drvHighresTimerInit(void)
+void halHighresTimerInit(void)
 {
   TIM_ClockConfigTypeDef sClockSourceConfig;
 
@@ -41,10 +41,11 @@ void drvHighresTimerInit(void)
   __TIM9_CLK_ENABLE();
 
   l_high_res_timer.Instance = TIM9;
-  l_high_res_timer.Init.Prescaler = drvHALTimerGetSourceFrequency(9) / drvHIGHRESTIMER_CLOCK - 1;
+  l_high_res_timer.Init.Prescaler = halTimerGetSourceFrequency(9) / drvHIGHRESTIMER_CLOCK - 1;
   l_high_res_timer.Init.CounterMode = TIM_COUNTERMODE_UP;
   l_high_res_timer.Init.Period = 0xffff;
   l_high_res_timer.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  l_high_res_timer.Init.RepetitionCounter = 0;
   HAL_TIM_Base_Init(&l_high_res_timer);
 
   sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
@@ -86,3 +87,4 @@ void TIM1_BRK_TIM9_IRQHandler(void)
   	}
   }
 }
+

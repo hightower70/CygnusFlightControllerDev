@@ -15,19 +15,24 @@
 #include <stdio.h>
 #include <conio.h>
 
-///////////////////////////////////////////////////////////////////////////////
-// Global variables
+/*****************************************************************************/
+/* Global variables                                                          */
+/*****************************************************************************/
+int g_argc;
+char** g_argv;
 
 /*****************************************************************************/
-/* Module global variables                                                   */
+/* Module local variables                                                    */
 /*****************************************************************************/
 static CRITICAL_SECTION l_critical_section;
 
-
 ///////////////////////////////////////////////////////////////////////////////
 // Main entry function
-int main(void)
+int main(int argc, char* argv[])
 {
+	g_argc = argc;
+	g_argv = argv;
+
 	InitializeCriticalSection(&l_critical_section);
 
 	// initialize system

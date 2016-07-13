@@ -14,9 +14,9 @@
 #include <sysHighresTimer.h>
 
 /*****************************************************************************/
-/* Functions implemented in the driver                                       */
+/* Functions implemented in the HAL                                          */
 /*****************************************************************************/
-extern void drvHighresTimerInit(void);
+extern void halHighresTimerInit(void);
 
 /*****************************************************************************/
 /* Function implementation                                                   */
@@ -26,7 +26,7 @@ extern void drvHighresTimerInit(void);
 /// @brief Initializes high resolution timer
 void sysHighresTimerInit(void)
 {
-	drvHighresTimerInit();
+	halHighresTimerInit();
 }
 
 ///////////////////////////////////////////////////////////////////////////////

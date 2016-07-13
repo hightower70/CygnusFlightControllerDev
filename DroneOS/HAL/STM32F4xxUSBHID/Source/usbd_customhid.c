@@ -440,6 +440,10 @@ static uint8_t  USBD_CUSTOM_HID_DataIn (USBD_HandleTypeDef *pdev,
   be caused by  a new transfer before the end of the previous transfer */
   ((USBD_CUSTOM_HID_HandleTypeDef *)pdev->pClassData)->state = CUSTOM_HID_IDLE;
 
+  /* Call user event handler */
+  if(((USBD_CUSTOM_HID_ItfTypeDef *)pdev->pUserData)->InEvent != NULL)
+    ((USBD_CUSTOM_HID_ItfTypeDef *)pdev->pUserData)->InEvent();
+
   return USBD_OK;
 }
 

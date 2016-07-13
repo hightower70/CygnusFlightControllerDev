@@ -68,7 +68,7 @@ static int inHandlerMode (void);
 /// @param usStackDepth Stack size
 /// @param pcParameters User defined parameter for the task function
 /// @param uxPriority Priority of the task
-uint32_t sysTaskCreate(TaskFunction_t pvTaskCode, const char * const pcName, uint16_t usStackDepth, void *pvParameters, UBaseType_t uxPriority, TaskHandle_t *pvCreatedTask )
+uint32_t sysTaskCreate(TaskFunction_t pvTaskCode, const char * const pcName, uint16_t usStackDepth, void *pvParameters, UBaseType_t uxPriority, TaskHandle_t *pvCreatedTask, sysTaskStopFunction in_stop_function)
 {
 	TaskHandle_t handle;
 
@@ -83,7 +83,10 @@ uint32_t sysTaskCreate(TaskFunction_t pvTaskCode, const char * const pcName, uin
 	return (uint32_t)handle;
 }
 
-uint32_t rtosGetSystemTick(void)
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Gets system ticks (elapsed time since the system boot in ms)
+/// @return System time in ms
+uint32_t sysGetSystemTick(void)
 {
 	if (inHandlerMode())
 	{
@@ -117,9 +120,9 @@ static int inHandlerMode (void)
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Gets CPU usage in percentage
 /// @retval Usage in percentage
-uint16_t rtosGetCPUUsage(void)
+uint8_t sysGetCPUUsage(void)
 {
-  return (uint16_t)l_cpu_usage;
+  return (uint8_t)l_cpu_usage;
 }
 
 /* Private functions ---------------------------------------------------------*/

@@ -12,22 +12,27 @@
 /* Includes                                                                  */
 /*****************************************************************************/
 #include <sysTypes.h>
-#include <cfgSettingsConstants.h>
+#include <cfgConstants.h>
 #include <fileSystemFiles.h>
-
+#include <cfgStorage.h>
 
 /*****************************************************************************/
 /* File storage                                                              */
 /*****************************************************************************/
 
-const uint8_t g_settings_xml[cfgSETTINGS_XML_FILE_LENGTH] =
+static const uint8_t l_configuration_xml[cfg_XML_DATA_FILE_LENGTH] =
 {
-#include "cfgSettingsXML.inl"
+#include "cfgXML.inl"
 };
 
-const uint8_t g_settings_default_data[cfgSETTINGS_BINARY_FILE_LENGTH] =
+static const uint8_t l_configuration_default_data[cfg_VALUE_DATA_FILE_LENGTH] =
 {
-#include "cfgSettingsDefaultData.inl"
+#include "cfgDefault.inl"
+};
+
+static const uint8_t l_configuration_value_info_data[cfg_VALUE_INFO_DATA_FILE_LENGTH] =
+{
+#include "cfgValueInfo.inl"
 };
 
 /*****************************************************************************/
@@ -35,7 +40,9 @@ const uint8_t g_settings_default_data[cfgSETTINGS_BINARY_FILE_LENGTH] =
 /*****************************************************************************/
 fileInternalFileTableEntry g_system_files_info_table[] =
 {
-	{ "SettingsXML", g_settings_xml, cfgSETTINGS_XML_FILE_LENGTH },
-	{ "SettingsData", 	g_settings_default_data, cfgSETTINGS_BINARY_FILE_LENGTH },
-	{ sysNULL, 0, 0 }
+	{ "ConfigurationXML",					(uint8_t*)l_configuration_xml,							sysNULL,									cfg_XML_DATA_FILE_LENGTH,					fileSFF_READ_ONLY },
+	{ "DefaultConfigurationData",	(uint8_t*)l_configuration_default_data,			sysNULL,									cfg_VALUE_DATA_FILE_LENGTH,				fileSFF_READ_ONLY },
+	{ "ConfigurationData",				sysNULL,																		cfgValueDataFileHandler,	cfg_VALUE_DATA_FILE_LENGTH,				fileSFF_READ_WRITE },
+	{ "ConfigurationValueInfo",		(uint8_t*)l_configuration_value_info_data,	sysNULL,									cfg_VALUE_INFO_DATA_FILE_LENGTH,	fileSFF_READ_ONLY },
+	{ sysNULL,										sysNULL,																		sysNULL,									0,																0 }
 };

@@ -11,9 +11,9 @@
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
-#include <drvIODefinitions.h>
+#include <halIODefinitions.h>
 #include <stm32f4xx_hal.h>
-#include <drvHAL.h>
+#include <halHelpers.h>
 
 /*****************************************************************************/
 /* Constants                                                                 */
@@ -52,7 +52,7 @@ void drvStatLEDInit(void)
 
   // configure timer
   l_led_timer.Instance = TIM12;
-  l_led_timer.Init.Prescaler = drvHALTimerGetSourceFrequency(12) / drvLED_CLOCK - 1;
+  l_led_timer.Init.Prescaler = halTimerGetSourceFrequency(12) / drvLED_CLOCK - 1;
   l_led_timer.Init.CounterMode = TIM_COUNTERMODE_UP;
   l_led_timer.Init.Period = drvLED_PERIOD - 1;
   l_led_timer.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;

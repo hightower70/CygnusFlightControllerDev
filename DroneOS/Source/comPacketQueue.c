@@ -49,7 +49,7 @@ void comPacketQueueInitialize(comPacketQueue* in_queue, uint8_t* in_packet_buffe
 /// @param in_packet_index Packet index
 comPacketInfo* comPacketQueueGetPacketInfo(comPacketQueue* in_queue, uint16_t in_packet_index)
 {
-	return (comPacketInfo*)&in_queue->Buffer[in_packet_index];
+	return (comPacketInfo*)&(in_queue->Buffer[in_packet_index]);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -58,7 +58,7 @@ comPacketInfo* comPacketQueueGetPacketInfo(comPacketQueue* in_queue, uint16_t in
 /// @param in_packet_index Packet index
 uint8_t* comPacketQueueGetPacketBuffer(comPacketQueue* in_queue, uint16_t in_packet_index)
 {
-	return &in_queue->Buffer[in_packet_index] + sizeof(comPacketInfo);
+	return ((uint8_t*)&(in_queue->Buffer[in_packet_index])) + sizeof(comPacketInfo);
 }
 
 /*****************************************************************************/
@@ -89,7 +89,7 @@ uint16_t comPacketQueuePushBegin(comPacketQueue* in_queue, uint8_t in_size, uint
 	{
 		// there is enough space at the end of the buffer
 		packet_index = in_queue->PushIndex;
-		packet_info = (comPacketInfo*)&in_queue->Buffer[packet_index];
+		packet_info = (comPacketInfo*)&(in_queue->Buffer[packet_index]);
 		in_queue->PushIndex += total_size;
 		packet_info->Status = comPQS_Reserved;
 
@@ -114,7 +114,7 @@ uint16_t comPacketQueuePushBegin(comPacketQueue* in_queue, uint8_t in_size, uint
 		if (in_queue->PushIndex + total_size + 1 < in_queue->PopIndex)	// +1 to never have the same value of the push and pop index except when queue is empty
 		{
 			packet_index = in_queue->PushIndex;
-			packet_info = (comPacketInfo*)&in_queue->Buffer[packet_index];
+			packet_info = (comPacketInfo*)&(in_queue->Buffer[packet_index]);
 			in_queue->PushIndex += total_size;
 			packet_info->Status = comPQS_Reserved;
 		}
@@ -149,11 +149,11 @@ void comPacketQueuePushEnd(comPacketQueue* in_queue, uint16_t in_packet_index)
 	comPacketInfo* packet_info = sysNULL;
 
 	sysASSERT(in_queue != sysNULL);
-	sysASSERT(in_packet_index < in_queue->QueueSize);
+	sysASSERT(in_packet_index < in_queue->BufferSize);
 
 	// mark packet as 'ready'
-	packet_info = (comPacketInfo*)&in_queue->Buffer[in_packet_index];
-	sysASSERT(packet_header->Status == comPQS_Reserved);
+	packet_info = (comPacketInfo*)&(in_queue->Buffer[in_packet_index]);
+	sysASSERT(packet_info->Status == comPQS_Reserved);
 	packet_info->Status = comPQS_Ready;
 
 	// execute callback
@@ -169,11 +169,11 @@ void comPacketQueuePushCancel(comPacketQueue* in_queue, uint16_t in_packet_index
 	comPacketInfo* packet_info = sysNULL;
 
 	sysASSERT(in_queue != sysNULL);
-	sysASSERT(in_packet_index < in_queue->QueueSize);
+	sysASSERT(in_packet_index < in_queue->BufferSize);
 
 	// mark packet as 'deleted'
 	packet_info = (comPacketInfo*)&in_queue->Buffer[in_packet_index];
-	sysASSERT(packet_header->Status == comPQS_Reserved);
+	sysASSERT(packet_info->Status == comPQS_Reserved);
 	packet_info->Status = comPQS_Deleted;
 
 	// execute callback
@@ -191,11 +191,11 @@ void comPacketQueueStoreByte(comPacketQueue* in_queue, uint16_t in_packet_index,
 	comPacketInfo* packet_info = sysNULL;
 
 	sysASSERT(in_queue != sysNULL);
-	sysASSERT(in_packet_index < in_queue->QueueSize);
+	sysASSERT(in_packet_index < in_queue->BufferSize);
 
-	packet_info = (comPacketInfo*)&in_queue->Buffer[in_packet_index];
-	sysASSERT(packet_header->Status == comPQS_Reserved);
-	sysASSERT(in_byte_index < packet_header->Size);
+	packet_info = (comPacketInfo*)&(in_queue->Buffer[in_packet_index]);
+	sysASSERT(packet_info->Status == comPQS_Reserved);
+	sysASSERT(in_byte_index < packet_info->Size);
 	in_queue->Buffer[sizeof(comPacketInfo) + in_packet_index + in_byte_index] = in_data;
 }
 
@@ -212,11 +212,14 @@ uint16_t comPacketQueuePopBegin(comPacketQueue* in_queue)
 	uint16_t pop_index;
 	uint16_t total_size;
 	comPacketInfo* packet_info = sysNULL;
+	bool next_packet;
 
 	sysASSERT(in_queue != sysNULL);
 
 	do
 	{
+		next_packet = false;
+
 		// if there is no packet in the buffer
 		if (in_queue->PopIndex == in_queue->PushIndex)
 		{
@@ -236,6 +239,7 @@ uint16_t comPacketQueuePopBegin(comPacketQueue* in_queue)
 				case comPQS_EndOfQueue:
 					// wrap around
 					in_queue->PopIndex = 0;
+					next_packet = true;
 					break;
 
 				// deleted packet was found
@@ -251,10 +255,16 @@ uint16_t comPacketQueuePopBegin(comPacketQueue* in_queue)
 					{
 						in_queue->PopIndex = 0;
 					}
+
+					next_packet = true;
+					break;
+
+				default:
+					next_packet = false;
 					break;
 			}
 		}
-	} while (packet_info != sysNULL && (packet_info->Status == comPQS_Deleted || packet_info->Status == comPQS_EndOfQueue)); // skip deleted packets and end of queue
+	} while (packet_info != sysNULL && next_packet); // skip deleted packets and end of queue
 
 	return pop_index;
 }

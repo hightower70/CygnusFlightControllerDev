@@ -19,6 +19,7 @@
 #include <fileTransfer.h>
 #include <crcCITT16.h>
 #include <sysDateTime.h>
+#include <cfgStorage.h>
 
 /*****************************************************************************/
 /* Constants                                                                 */
@@ -29,8 +30,8 @@
 #define comManager_TASK_MAX_CYCLE_TIME 100
 #define comManager_TRANSMIT_PACKET_EXPIRE_INTERVAL 100
 
-#define comManager_RECEIVER_PACKET_LENGTH 4096
-#define comManager_TRANSMITTER_PACKET_LENGTH 1024
+#define comManager_RECEIVER_PACKET_QUEUE_LENGTH 4096
+#define comManager_TRANSMITTER_PACKET_QUEUE_LENGTH 1024
 
 #define comManager_HEARTBEAT_INTERVAL 1000
 
@@ -40,7 +41,7 @@
 /*****************************************************************************/
 typedef struct
 {
-	// adminstration
+	// administration
 	bool Valid;
 	comInterfaceDescription Description;
 
@@ -51,7 +52,7 @@ typedef struct
 /*****************************************************************************/
 
 // communication interfaces
-static comInterfaceState g_com_interfaces[comManager_MAX_INTERFACE_NUMBER] = { 0 };
+static comInterfaceState g_com_interfaces[comManager_MAX_INTERFACE_NUMBER];
 
 // receiver variables
 static uint8_t l_last_received_packet_counter;
@@ -65,11 +66,11 @@ static sysTaskNotify l_task_event;
 
 // packet receiver buffers
 static comPacketQueue l_receiver_queue;
-static uint8_t l_receiver_packet_buffer[comManager_RECEIVER_PACKET_LENGTH];
+static uint8_t l_receiver_packet_buffer[comManager_RECEIVER_PACKET_QUEUE_LENGTH];
 
 // packet transmitter buffers
 static comPacketQueue l_transmitter_queue;
-static uint8_t l_transmitter_packet_buffer[comManager_TRANSMITTER_PACKET_LENGTH];
+static uint8_t l_transmitter_packet_buffer[comManager_TRANSMITTER_PACKET_QUEUE_LENGTH];
 
 // heartbeat timestamp
 static sysTick l_last_heartbeat_timestamp;
@@ -82,6 +83,7 @@ static bool comManagerSendDeviceHeartbeat(void);
 static void comManagerTransmitPacket(void);
 static void comManagerProcessReceivedPackets(void);
 static void comProcessCommunicationPacket(comPacketInfo* in_packet_info, uint8_t* in_packet);
+static void comManagerGenerateQueueEvent(comQueueEvent in_event);
 
 /*****************************************************************************/
 /* Function implementation                                                   */
@@ -91,11 +93,12 @@ static void comProcessCommunicationPacket(comPacketInfo* in_packet_info, uint8_t
 /// @brief Initialize communication manager
 void comManagerInit(void)
 {
-	uint32_t task_id;
+	sysTask task_handle;
 	
+	sysMemZero(g_com_interfaces, sizeof(g_com_interfaces));
+
 	// initialize communication tasks
-	sysTaskNotifyCreate(l_task_event);
-	sysTaskCreate( comManagerTask, "comManager", sysDEFAULT_STACK_SIZE, sysNULL, comManager_TASK_PRIORITY, &task_id, comManagerTaskStop);
+	sysTaskCreate( comManagerTask, "comManager", sysDEFAULT_STACK_SIZE, sysNULL, comManager_TASK_PRIORITY, &task_handle, comManagerTaskStop);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -139,9 +142,13 @@ static void comManagerTask(void* in_param)
 {
 	sysTick difference;
 
+	sysTaskNotifyCreate(l_task_event);
+
 	// initialize
-	comPacketQueueInitialize(&l_receiver_queue, l_receiver_packet_buffer, comManager_RECEIVER_PACKET_LENGTH);
-	comPacketQueueInitialize(&l_transmitter_queue, l_transmitter_packet_buffer, comManager_TRANSMITTER_PACKET_LENGTH);
+	comPacketQueueInitialize(&l_receiver_queue, l_receiver_packet_buffer, comManager_RECEIVER_PACKET_QUEUE_LENGTH);
+	l_receiver_queue.Callback = comManagerGenerateQueueEvent;
+	comPacketQueueInitialize(&l_transmitter_queue, l_transmitter_packet_buffer, comManager_TRANSMITTER_PACKET_QUEUE_LENGTH);
+	l_transmitter_queue.Callback = comManagerGenerateQueueEvent;
 
 	l_last_received_packet_counter = 0;
 	l_transmitter_packet_counter = 0;
@@ -166,12 +173,15 @@ static void comManagerTask(void* in_param)
 			}
 		}
 
-		// handle pending transmitter messages
-		comManagerTransmitPacket();
-
 		// process received packets
 		comManagerProcessReceivedPackets();
+
+		// handle pending transmitter messages
+		comManagerTransmitPacket();
 	}
+
+	sysTaskNotifyDelete(l_task_event);
+	l_task_event = sysNULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -189,7 +199,6 @@ uint8_t comIncrementAndGetTransmittedPacketCounter(void)
 
 	return transmitter_packet_counter;
 }
-
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Stored received packet of any interface
@@ -241,6 +250,7 @@ static bool comManagerSendDeviceHeartbeat(void)
 	if (heartbeat_packet != sysNULL)
 	{
 		// fill out members
+		heartbeat_packet->UniqueID = cfgGetUInt32Value(cfgVAL_SYS_UID);
 		heartbeat_packet->CPULoad = sysGetCPUUsage();
 
 		comManagerTransmitPacketPushEnd(push_index);
@@ -325,6 +335,22 @@ void comManagerTransmitPacketPushEnd(uint16_t in_packet_index)
 void comManagerTransmitPacketPushCancel(uint16_t in_packet_index)
 {
 	comPacketQueuePushCancel(&l_transmitter_queue, in_packet_index);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Callback for queue push event handling
+static void comManagerGenerateQueueEvent(comQueueEvent in_event)
+{
+	// notify thread
+	sysTaskNotifyGive(l_task_event);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Generates event for the communication manager task
+void comManagerGenerateEvent(void)
+{
+	// notify thread
+	sysTaskNotifyGive(l_task_event);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -457,6 +483,25 @@ static void comProcessCommunicationPacket(comPacketInfo* in_packet_info, uint8_t
 			// if difference if igher than one second -> update RTC
 			if (diff_time > 1 || diff_time < -1)
 				sysDateTimeSet(&host_time);
+		}
+		break;
+
+		case comPT_DEVICE_NAME_REQUEST:
+		{
+			comPacketDeviceNameResponse* response_packet;
+			uint16_t packet_index;
+
+			response_packet = (comPacketDeviceNameResponse*)comManagerTransmitPacketPushStart(sizeof(comPacketDeviceNameResponse), in_packet_info->Interface, comPT_DEVICE_NAME_RESPONSE, &packet_index);
+			if (response_packet != sysNULL)
+			{
+				// fill packet data members
+				strCopyString(response_packet->Name, comDEVICE_NAME_LENGTH, 0, cfgGetStringValue(cfgVAL_SYS_NAME));
+				response_packet->UniqueID = cfgGetUInt32Value(cfgVAL_SYS_UID);
+
+				// start packet transmission
+				comManagerTransmitPacketPushEnd(packet_index);
+			}
+
 		}
 		break;
 	}

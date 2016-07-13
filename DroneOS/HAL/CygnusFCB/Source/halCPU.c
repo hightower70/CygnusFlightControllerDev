@@ -13,16 +13,14 @@
 /* Includes                                                                  */
 /*****************************************************************************/
 #include <stm32f4xx_hal.h>
-#include <drvHAL.h>
+#include <halHelpers.h>
 #include <usb_device.h>
 #include <sysRTOS.h>
-#include <imuTask.h>
-#include <drvEEPROM.h>
+
 
 /*****************************************************************************/
 /* Local function prototypes                                                 */
 /*****************************************************************************/
-static void drvHALSystemClockConfig(void);
 
 /*****************************************************************************/
 /* External functions                                                        */
@@ -46,37 +44,9 @@ extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
 /*****************************************************************************/
 
 ///////////////////////////////////////////////////////////////////////////////
-/// @brief Main entry function
-int main(void)
+/// @brief Unused function
+void sysShutdown(void)
 {
-  HAL_Init();
-
-  // systme clock setup
-  drvHALSystemClockConfig();
-
-  // GPIO Ports Clock Enable
-  __HAL_RCC_GPIOH_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
-  __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOD_CLK_ENABLE();
-
-  // Init USB
-  MX_USB_DEVICE_Init();
-
-  // Init drivers
-  drvServoInit();
-  drvStatLEDInit();
-  imuInitialize();
-  sysHighresTimerInit();
-  drvEEPROMInit();
-
-  // Create tasks
-  cfgCreateTasks();
-
-  // start
-  sysStartSheduler();
-  return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -87,7 +57,7 @@ int main(void)
 // If the APB prescaler is 1, then the timer clock is equal to its respective
 // APB clock.  Otherwise (APB prescaler > 1) the timer clock is twice its
 // respective APB clock.  See DM00031020 Rev 4, page 115.
-uint32_t drvHALTimerGetSourceFrequency(uint32_t in_timer_id)
+uint32_t halTimerGetSourceFrequency(uint32_t in_timer_id)
 {
 	uint32_t source;
 
@@ -116,7 +86,7 @@ uint32_t drvHALTimerGetSourceFrequency(uint32_t in_timer_id)
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief System Clock Configuration
-static void drvHALSystemClockConfig(void)
+void halSystemClockConfig(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct;
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
@@ -136,8 +106,7 @@ static void drvHALSystemClockConfig(void)
   HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
 
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK|RCC_CLOCKTYPE_PCLK1
-                              |RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK|RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
@@ -147,7 +116,6 @@ static void drvHALSystemClockConfig(void)
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
 
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
-
 }
 
 /******************************************************************************/

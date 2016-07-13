@@ -17,17 +17,17 @@
 #include <comManager.h>
 #include <comSystemPacketDefinitions.h>
 #include <crcCITT16.h>
-#include <cfgValues.h>
-#include <halUDP.h>
+#include <drvUDP.h>
 #include <strString.h>
 #include <comPacketBuilder.h>
+#include <cfgStorage.h>
 
 /*****************************************************************************/
 /* Constants                                                                 */
 /*****************************************************************************/
 #define comUDP_TASK_PRIORITY 2
 #define comUDP_DEVICE_ANNOUNCE_PERIOD 1000
-#define comUDP_HOST_PACKET_TIMEOUT 2000
+#define comUDP_HOST_PACKET_TIMEOUT 5000
 
 /*****************************************************************************/
 /* Types                                                                     */
@@ -45,8 +45,8 @@ static uint32_t l_device_address;
 /*****************************************************************************/
 /* Local functions prototypes                                                */
 /*****************************************************************************/
-static void comUDPSendDeviceInformation(uint8_t* in_transmit_buffer);
-static void comUDPProcessHostInfoPacket(comPacketHostInformation* in_packet);
+static void comUDPSendDeviceAnounce(uint8_t* in_transmit_buffer);
+static void comUDPProcessHostAnnouncePacket(comPacketHostAnnounce* in_packet);
 
 /*****************************************************************************/
 /* Function implementation                                                   */
@@ -65,7 +65,7 @@ void comUDPInit(void)
 	l_device_announce_time_stamp = sysGetSystemTick();
 	l_host_address = 0;
 
-	halUDPInit();
+	drvUDPInit();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ void comUDPProcessReceivedPacket(uint8_t* in_packet, uint8_t in_packet_size)
 		return;
 
 	// drop own broadcast message
-	if (packet_header->PacketType == comPT_DEVICE_INFO)
+	if (packet_header->PacketType == comPT_DEVICE_ANNOUNCE)
 		return;
 
 	// check CRC
@@ -96,10 +96,10 @@ void comUDPProcessReceivedPacket(uint8_t* in_packet, uint8_t in_packet_size)
 	l_host_last_packet_received = sysGetSystemTick();
 
 	// size and CRC is valid -> process packet
-	if (packet_header->PacketType == comPT_HOST_INFO)
+	if (packet_header->PacketType == comPT_HOST_ANNOUNCE)
 	{
 		// process host info packet
-		comUDPProcessHostInfoPacket((comPacketHostInformation*)in_packet);
+		comUDPProcessHostAnnouncePacket((comPacketHostAnnounce*)in_packet);
 	}
 	else
 	{
@@ -117,24 +117,24 @@ bool comUDPSendPacket(uint8_t* in_packet, uint16_t in_packet_length)
 {
 	uint8_t* transmit_buffer;
 
-	sysASSERT(in_packet_length < comMAX_PACKET_LENGTH);
+	sysASSERT(in_packet_length <= comMAX_PACKET_SIZE);
 	sysASSERT(in_packet != sysNULL);
 
 	// check if connected to the host
-	if (!halUDPIsConnected() ||	l_host_address == 0)
+	if (!drvUDPIsConnected() ||	l_host_address == 0)
 		return false;
 
 	// prepare data content
-	transmit_buffer = halUDPAllocTransmitBuffer();
+	transmit_buffer = drvUDPAllocTransmitBuffer();
 
-	if (transmit_buffer == 0)
+	if (transmit_buffer == sysNULL)
 		return false;
 
 	// store packet
 	sysMemCopy(transmit_buffer, in_packet, in_packet_length);
 
 	// send packet
-	halUDPTransmitData(in_packet_length, l_host_address);
+	drvUDPTransmitData(in_packet_length, l_host_address);
 
 	return true;
 }
@@ -149,35 +149,36 @@ void comUDPPeriodicCallback(void)
 	{
 		// handle device announce period
 		ellapsed_time = sysGetSystemTickSince(l_device_announce_time_stamp);
-		if (ellapsed_time > comUDP_DEVICE_ANNOUNCE_PERIOD)
+		if (ellapsed_time > comUDP_DEVICE_ANNOUNCE_PERIOD && drvUDPIsConnected())
 		{
-			uint8_t* transmit_buffer = halUDPAllocTransmitBuffer();
+			uint8_t* transmit_buffer = drvUDPAllocTransmitBuffer();
 
 			if (transmit_buffer != sysNULL)
 			{
 				l_device_announce_time_stamp += ellapsed_time;
 
 				// send device announce packet
-				comUDPSendDeviceInformation(transmit_buffer);
+				comUDPSendDeviceAnounce(transmit_buffer);
 			}
 		}
 	}
 	else
 	{
-		// Handle host heartbeat timeout
 		if (sysGetSystemTickSince(l_host_last_packet_received) > comUDP_HOST_PACKET_TIMEOUT)
 		{
-			uint8_t* transmit_buffer = halUDPAllocTransmitBuffer();
+			// no paacket received from the host for a while
+			uint8_t* transmit_buffer = drvUDPAllocTransmitBuffer();
 
 			// reset host address
 			l_host_address = 0;
 
-			// send announce message
+			// restart device annoucing
 			if (transmit_buffer != sysNULL)
 			{
 				l_device_announce_time_stamp = sysGetSystemTick();
 
-				comUDPSendDeviceInformation(transmit_buffer);
+				// send device announce packet
+				comUDPSendDeviceAnounce(transmit_buffer);
 			}
 		}
 	}
@@ -186,33 +187,33 @@ void comUDPPeriodicCallback(void)
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Sends device information announce packet
 /// @param in_transmit_buffer Buffer for data storage
-static void comUDPSendDeviceInformation(uint8_t* in_transmit_buffer)
+static void comUDPSendDeviceAnounce(uint8_t* in_transmit_buffer)
 {
 	uint16_t crc;
-	comPacketDeviceInformation* info = (comPacketDeviceInformation*)in_transmit_buffer;
-	uint32_t ip_address = halUDPGetLocalIPAddress();
+	comPacketDeviceAnnounce* info = (comPacketDeviceAnnounce*)in_transmit_buffer;
+	uint32_t ip_address = drvUDPGetLocalIPAddress();
 
 	// fill packet header
-	comFillPacketHeader(&info->Header, comPT_DEVICE_INFO, sizeof(comPacketDeviceInformation));
+	comFillPacketHeader(&info->Header, comPT_DEVICE_ANNOUNCE, sizeof(comPacketDeviceAnnounce));
 
 	// fill packet data members
-	strCopyString(info->Name, comDEVICE_NAME_LENGTH, 0, cfgGetStringValue(cfgVAL_DEVICE_NAME));
-	info->UniqueID = cfgGetUInt32Value(cfgVAL_DEVICE_UNIQUE_ID);
+	strCopyString(info->Name, comDEVICE_NAME_LENGTH, 0, cfgGetStringValue(cfgVAL_SYS_NAME));
+	info->UniqueID = cfgGetUInt32Value(cfgVAL_SYS_UID);
 	info->Address = ip_address;
 
 	// calculate CRC
-	crc = crc16CalculateForBlock(crc16_INIT_VALUE, in_transmit_buffer, sizeof(comPacketDeviceInformation));
-	in_transmit_buffer[sizeof(comPacketDeviceInformation)] = sysLOW(crc);
-	in_transmit_buffer[sizeof(comPacketDeviceInformation) + 1] = sysHIGH(crc);
+	crc = crc16CalculateForBlock(crc16_INIT_VALUE, in_transmit_buffer, sizeof(comPacketDeviceAnnounce));
+	in_transmit_buffer[sizeof(comPacketDeviceAnnounce)] = sysLOW(crc);
+	in_transmit_buffer[sizeof(comPacketDeviceAnnounce) + 1] = sysHIGH(crc);
 
 	// send packet (Broadcast)
-	halUDPTransmitData(sizeof(comPacketDeviceInformation) + comCRC_BYTE_COUNT, comUDP_MAKE_BROADCAST_ADDRESS(ip_address));
+	drvUDPTransmitData(sizeof(comPacketDeviceAnnounce) + comCRC_BYTE_COUNT, comUDP_MAKE_BROADCAST_ADDRESS(ip_address));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-/// @brief Process host information packet
-/// @param in_packet Pointer to the host information packet
-static void comUDPProcessHostInfoPacket(comPacketHostInformation* in_packet)
+/// @brief Process host announce packet
+/// @param in_packet Pointer to the host announce packet
+static void comUDPProcessHostAnnouncePacket(comPacketHostAnnounce* in_packet)
 {
 	// update address only when no host is detected
 	if (l_host_address != 0)

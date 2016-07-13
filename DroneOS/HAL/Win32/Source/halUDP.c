@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/* UDP HAL driver                                                            */
+/* UDP HAL driver (Win32)                                                    */
 /*                                                                           */
 /* Copyright (C) 2015 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
@@ -21,20 +21,22 @@
 #include <comManager.h>
 #include <crcCITT16.h>
 #include <comUDP.h>
-#include <cfgValues.h>
+#include <cfgStorage.h>
+#include "cfgConstants.h"
 
 #pragma comment(lib,"ws2_32.lib") //Winsock Library
 
 /*****************************************************************************/
 /* Constants                                                                 */
 /*****************************************************************************/
-#define halUDP_TRANSMITTER_BUFFER_LENGTH 255
-#define halUDP_RECEIVER_BUFFER_LENGTH 255
-#define halUDP_TASK_MAX_CYCLE_TIME 50
+#define drvUDP_TRANSMITTER_BUFFER_LENGTH 256
+#define drvUDP_RECEIVER_BUFFER_LENGTH 256
+#define drvUDP_TASK_MAX_CYCLE_TIME 50
 
-#define halUDP_TRANSMITTER_BUFFER_RESEVED 0xffff
+#define drvUDP_TRANSMITTER_BUFFER_RESEVED 0xffff
 
-#define halUDP_TASK_PRIORITY 2
+#define drvUDP_TASK_PRIORITY 2
+
 /*****************************************************************************/
 /* Module local variables                                                    */
 /*****************************************************************************/
@@ -50,19 +52,19 @@ struct sockaddr_in l_socket_address;
 static sysTick l_periodic_timestamp;
 
 // receiver variables
-static uint8_t l_receive_buffer[halUDP_RECEIVER_BUFFER_LENGTH];
+static uint8_t l_receive_buffer[drvUDP_RECEIVER_BUFFER_LENGTH];
 static uint16_t l_receive_buffer_length;
 
 // transmitter variables
-static uint8_t l_transmitter_buffer[halUDP_RECEIVER_BUFFER_LENGTH];
+static uint8_t l_transmitter_buffer[drvUDP_RECEIVER_BUFFER_LENGTH];
 static volatile uint16_t l_transmitter_buffer_length;
 static uint32_t l_transmitter_destination_address;
 
 /*****************************************************************************/
 /* Local functions                                                           */
 /*****************************************************************************/
-static void halUDPTask(void* lpParam);
-static void halUDPDeinit(void);
+static void drvUDPTask(void* lpParam);
+static void drvUDPDeinit(void);
 
 /*****************************************************************************/
 /* Functions implementation                                                  */
@@ -70,18 +72,17 @@ static void halUDPDeinit(void);
 
 ///////////////////////////////////////////////////////////////////////////////
 // @brief Initializes ethernet communication service on WIN32
-void halUDPInit(void)
+void drvUDPInit(void)
 {
-	uint32_t task_id;
+	sysTask task_handle;
 
 	// initialize communication tasks
-	sysTaskNotifyCreate(l_task_events[0]);
-	sysTaskCreate(halUDPTask, "halUDP", sysDEFAULT_STACK_SIZE, sysNULL, halUDP_TASK_PRIORITY, &task_id, halUDPDeinit);
+	sysTaskCreate(drvUDPTask, "halUDP", sysDEFAULT_STACK_SIZE, sysNULL, drvUDP_TASK_PRIORITY, &task_handle, drvUDPDeinit);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // @brief Shots down ethernet communication service
-static void halUDPDeinit(void)
+static void drvUDPDeinit(void)
 {
 	l_stop_task = true;
 	sysTaskNotifyGive(l_task_events[0]);
@@ -90,7 +91,7 @@ static void halUDPDeinit(void)
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Allocates and reserves transmitter buffer
 /// @return Transmitter data buffer address or sysNULL if transmitter is not available
-uint8_t* halUDPAllocTransmitBuffer(void)
+uint8_t* drvUDPAllocTransmitBuffer(void)
 {
 	uint8_t* buffer;
 
@@ -98,7 +99,7 @@ uint8_t* halUDPAllocTransmitBuffer(void)
 
 	if (l_transmitter_buffer_length == 0)
 	{
-		l_transmitter_buffer_length = halUDP_TRANSMITTER_BUFFER_RESEVED;
+		l_transmitter_buffer_length = drvUDP_TRANSMITTER_BUFFER_RESEVED;
 		buffer = l_transmitter_buffer;
 	}
 	else
@@ -115,22 +116,23 @@ uint8_t* halUDPAllocTransmitBuffer(void)
 /// @brief Transmits data which is already placed in the transmitter buffer
 /// @param in_data_length Number of bytes to send
 /// @param in_destination_address IP address of the destination
-void halUDPTransmitData(uint16_t in_data_length, uint32_t in_destination_address)
+void drvUDPTransmitData(uint16_t in_data_length, uint32_t in_destination_address)
 {
 	// sanity check
-	if (l_transmitter_buffer_length != halUDP_TRANSMITTER_BUFFER_RESEVED)
+	if (l_transmitter_buffer_length != drvUDP_TRANSMITTER_BUFFER_RESEVED)
 		return;
 
 	// notify thread about the transmission request
 	l_transmitter_destination_address = in_destination_address;
 	l_transmitter_buffer_length = in_data_length;
-	sysTaskNotifyGive(l_task_events);
+
+	sysTaskNotifyGive(l_task_events[0]);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Gets local IP address
 /// @return Local IP address
-uint32_t halUDPGetLocalIPAddress(void)
+uint32_t drvUDPGetLocalIPAddress(void)
 {
 	char host_name[255];
 	DWORD retval;
@@ -161,11 +163,14 @@ uint32_t halUDPGetLocalIPAddress(void)
 
 ///////////////////////////////////////////////////////////////////////////////
 // Telemetry socket thread functions
-static void halUDPTask(void* lpParam)
+static void drvUDPTask(void* lpParam)
 {
 	DWORD wait_result;
 	int one = 1;
 	sysTick ellapsed_time;
+
+	// create notofication
+	sysTaskNotifyCreate(l_task_events[0]);
 
 	// init socket
 	if (WSAStartup(MAKEWORD(2, 2), &l_wsa) != 0)
@@ -187,7 +192,7 @@ static void halUDPTask(void* lpParam)
 	//Prepare the sockaddr_in structure
 	l_socket_address.sin_family = AF_INET;
 	l_socket_address.sin_addr.s_addr = htonl(INADDR_ANY);
-	l_socket_address.sin_port = htons(cfgGetUInt16Value(cfgVAL_UDP_RECEIVER_PORT));
+	l_socket_address.sin_port = htons(cfgGetUInt16Value(cfgVAL_WIFI_LOCAL));
 
 	//Bind
 	if (bind(l_socket, (struct sockaddr*)&l_socket_address, sizeof(l_socket_address)) == SOCKET_ERROR)
@@ -207,7 +212,7 @@ static void halUDPTask(void* lpParam)
 	// task loop
 	while (!l_stop_task)
 	{
-		wait_result = WSAWaitForMultipleEvents(2, (const HANDLE*)&l_task_events, FALSE, halUDP_TASK_MAX_CYCLE_TIME, FALSE);
+		wait_result = WSAWaitForMultipleEvents(2, (const HANDLE*)&l_task_events, FALSE, drvUDP_TASK_MAX_CYCLE_TIME, FALSE);
 
 		if (l_stop_task)
 			break;
@@ -225,7 +230,7 @@ static void halUDPTask(void* lpParam)
 					// process packet received events
 					if ((l_events.lNetworkEvents & FD_READ) != 0)
 					{
-						l_receive_buffer_length = recv(l_socket, l_receive_buffer, halUDP_RECEIVER_BUFFER_LENGTH, 0);
+						l_receive_buffer_length = recv(l_socket, l_receive_buffer, drvUDP_RECEIVER_BUFFER_LENGTH, 0);
 
 						if (l_receive_buffer_length > 0)
 						{
@@ -241,17 +246,21 @@ static void halUDPTask(void* lpParam)
 		}
 
 		// handle transmission request
-		if (l_transmitter_buffer_length > 0 && l_transmitter_buffer_length < halUDP_TRANSMITTER_BUFFER_LENGTH)
+		if (l_transmitter_buffer_length > 0 && l_transmitter_buffer_length < drvUDP_TRANSMITTER_BUFFER_LENGTH)
 		{
 			struct sockaddr_in dest;
 
+			// send packet
 			dest.sin_family = AF_INET;
 			dest.sin_addr.s_addr = ntohl(l_transmitter_destination_address);
-			dest.sin_port = htons(cfgGetUInt16Value(cfgVAL_UDP_TRANSMITTER_PORT));
+			dest.sin_port = htons(cfgGetUInt16Value(cfgVAL_WIFI_REMOTE));
 
 			sendto(l_socket, (const char*)l_transmitter_buffer, l_transmitter_buffer_length, 0, (const struct sockaddr*)&dest, sizeof(dest));
 
 			l_transmitter_buffer_length = 0;
+
+			// Notify communication task about the available send buffer
+			comManagerGenerateEvent();
 		}
 
 		// handle periodic callback
@@ -280,7 +289,7 @@ static void halUDPTask(void* lpParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Returns true when connected to the network media
-bool halUDPIsConnected(void)
+bool drvUDPIsConnected(void)
 {
 	return true;
 }

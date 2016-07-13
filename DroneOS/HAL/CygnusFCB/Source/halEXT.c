@@ -11,9 +11,9 @@
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
-#include <drvIODefinitions.h>
+#include <halIODefinitions.h>
 #include <stm32f4xx_hal.h>
-#include <drvHAL.h>
+#include <halHelpers.h>
 #include <drvI2CMaster.h>
 #include <drvEXT.h>
 

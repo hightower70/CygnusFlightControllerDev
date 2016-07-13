@@ -11,7 +11,7 @@
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
-#include <drvIODefinitions.h>
+#include <halIODefinitions.h>
 #include <drvI2CMaster.h>
 #include <sysRTOS.h>
 
@@ -133,13 +133,13 @@ static void drvI2CMasterStart(drvI2CMasterModule* in_module)
 void drvI2CMasterEventInterruptHandler(drvI2CMasterModule* in_module)
 {
 	uint16_t SR1;
-	uint16_t SR2;
+	//uint16_t SR2;
 
 	sysBeginInterruptRoutine();
 
 	// read status register
 	SR1 = in_module->I2CPort.Instance->SR1;
-	SR2 = in_module->I2CPort.Instance->SR2;
+	//SR2 = in_module->I2CPort.Instance->SR2;
 
 	switch((in_module->Status ) & ~drvI2CM_ST_ERROR)
 	{
@@ -348,13 +348,13 @@ static void drvI2CMasterStopped(drvI2CMasterModule* in_module, void* in_interrup
 
 void drvI2CMasterErrorInterruptHandler(drvI2CMasterModule* in_module)
 {
-	uint16_t SR1;
-	uint16_t SR2;
+	//uint16_t SR1;
+	//uint16_t SR2;
 
 	sysBeginInterruptRoutine();
 
-	SR1 = in_module->I2CPort.Instance->SR1;
-	SR2 = in_module->I2CPort.Instance->SR2;
+	//SR1 = in_module->I2CPort.Instance->SR1;
+	//SR2 = in_module->I2CPort.Instance->SR2;
 
 	__HAL_I2C_CLEAR_FLAG(&in_module->I2CPort, I2C_FLAG_AF);
 

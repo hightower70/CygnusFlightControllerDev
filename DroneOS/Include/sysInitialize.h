@@ -1,7 +1,7 @@
 /*****************************************************************************/
-/* System initialization functinos                                           */
+/* HAL helper functions                                                      */
 /*                                                                           */
-/* Copyright (C) 2014 Laszlo Arvai                                           */
+/* Copyright (C) 2016 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
@@ -10,6 +10,9 @@
 #ifndef __sysInitialize_h
 #define __sysInitialize_h
 
+/*****************************************************************************/
+/* Includes                                                                  */
+/*****************************************************************************/
 #include <sysTypes.h>
 
 ///////////////////////////////////////////////////////////////////////////////

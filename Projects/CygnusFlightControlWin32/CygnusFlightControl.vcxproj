@@ -85,10 +85,10 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\include;..\..\Include;..\..\DroneOS\Include;..\..\DroneOS\HAL\Win32\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);comDISABLE_TIMEOUTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\include;..\..\Include;..\..\DroneOS\Include;..\..\DroneOS\Drivers\Include;..\..\DroneOS\HAL\Include;..\..\DroneOS\HAL\Win32\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,30 +144,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\DroneOS\Drivers\Source\drvESP8266.c" />
+    <ClCompile Include="..\..\DroneOS\HAL\Win32\Source\halEEPROM.c" />
+    <ClCompile Include="..\..\DroneOS\HAL\Win32\Source\halHelpers.c" />
     <ClCompile Include="..\..\DroneOS\HAL\Win32\Source\halMain.c" />
     <ClCompile Include="..\..\DroneOS\HAL\Win32\Source\halRTC.c" />
-    <ClCompile Include="..\..\DroneOS\HAL\Win32\Source\halRTOSWapper.c" />
     <ClCompile Include="..\..\DroneOS\HAL\Win32\Source\halUART.c" />
-    <ClCompile Include="..\..\DroneOS\HAL\Win32\Source\halUDP.c" />
+    <ClCompile Include="..\..\DroneOS\Source\cfgStorage.c" />
     <ClCompile Include="..\..\DroneOS\Source\comManager.c" />
     <ClCompile Include="..\..\DroneOS\Source\comPacketBuilder.c" />
     <ClCompile Include="..\..\DroneOS\Source\comPacketQueue.c" />
     <ClCompile Include="..\..\DroneOS\Source\comSLIP.c" />
+    <ClCompile Include="..\..\DroneOS\Source\comUART.c" />
     <ClCompile Include="..\..\DroneOS\Source\comUDP.c" />
+    <ClCompile Include="..\..\DroneOS\Source\fileSystemFile.c" />
     <ClCompile Include="..\..\DroneOS\Source\fileTransfer.c" />
     <ClCompile Include="..\..\DroneOS\Source\roxStorage.c" />
     <ClCompile Include="..\..\DroneOS\Source\crcCITT16.c" />
     <ClCompile Include="..\..\DroneOS\Source\crcMD5.c" />
     <ClCompile Include="..\..\DroneOS\Source\strString.c" />
     <ClCompile Include="..\..\DroneOS\Source\sysDateTime.c" />
+    <ClCompile Include="..\..\DroneOS\Source\sysTimer.c" />
     <ClCompile Include="..\..\Source\cfcSystemInit.c" />
     <ClCompile Include="..\..\Source\fileSystemFilesStorage.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\DroneOS\Drivers\Include\drvUART.h" />
+    <ClInclude Include="..\..\DroneOS\Drivers\Include\drvUDP.h" />
     <ClInclude Include="..\..\DroneOS\Drivers\Win32\Include\drvIODefinitions.h" />
+    <ClInclude Include="..\..\DroneOS\HAL\Include\halRTC.h" />
+    <ClInclude Include="..\..\DroneOS\HAL\Include\halUART.h" />
     <ClInclude Include="..\..\DroneOS\HAL\Win32\Include\halIODefinitions.h" />
     <ClInclude Include="..\..\DroneOS\Include\cfgStorage.h" />
+    <ClInclude Include="..\..\DroneOS\Include\comUART.h" />
     <ClInclude Include="..\..\DroneOS\Include\fileTransfer.h" />
     <ClInclude Include="..\..\DroneOS\Include\comInterfaces.h" />
     <ClInclude Include="..\..\DroneOS\Include\comManager.h" />
@@ -185,7 +193,7 @@
     <ClInclude Include="..\..\DroneOS\Include\drvLSM303DLHC.h" />
     <ClInclude Include="..\..\DroneOS\Include\drvSPI.h" />
     <ClInclude Include="..\..\DroneOS\Include\drvStatLED.h" />
-    <ClInclude Include="..\..\DroneOS\Include\drvUART.h" />
+    <ClInclude Include="..\..\DroneOS\Include\halUART.h" />
     <ClInclude Include="..\..\DroneOS\Include\fileSystemFiles.h" />
     <ClInclude Include="..\..\DroneOS\Include\FreeRTOSConfig.h" />
     <ClInclude Include="..\..\DroneOS\Include\halRTC.h" />
@@ -201,13 +209,14 @@
     <ClInclude Include="..\..\DroneOS\Include\sysPackedStructStart.h" />
     <ClInclude Include="..\..\DroneOS\Include\sysRTOS.h" />
     <ClInclude Include="..\..\DroneOS\Include\strString.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysTimer.h" />
     <ClInclude Include="..\..\DroneOS\Include\sysTypes.h" />
-    <ClInclude Include="..\..\Include\cfgSettingsConstants.h" />
-    <ClInclude Include="include\cfgValues.h" />
+    <ClInclude Include="include\cfgConstants.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Include\cfgSettingsDefaultData.inl" />
-    <None Include="..\..\Include\cfgSettingsXML.inl" />
+    <None Include="include\cfgDefault.inl" />
+    <None Include="include\cfgValueInfo.inl" />
+    <None Include="include\cfgXML.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

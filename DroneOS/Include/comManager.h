@@ -24,7 +24,7 @@
 /* Constants                                                                 */
 /*****************************************************************************/
 #define comCRC_BYTE_COUNT 2
-#define comMAX_PACKET_LENGTH 255
+#define comMAX_PACKET_SIZE 255
 #define comINVALID_INTERFACE_INDEX 0xff
 
 /*****************************************************************************/
@@ -45,5 +45,6 @@ void comManagerTransmitPacketPushEnd(uint16_t in_packet_index);
 void comManagerTransmitPacketPushCancel(uint16_t in_packet_index);
 uint8_t* comManagerGetTransmitPacketGetBuffer(uint16_t in_packet_index);
 
+void comManagerGenerateEvent(void);
 
 #endif

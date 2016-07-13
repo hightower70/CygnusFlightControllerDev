@@ -35,6 +35,9 @@ void tskHeartbeat(void* in_argument)
 	uint8_t led_dim_index = 0;
 	int8_t led_dim_step = 1;
 
+	// Init LED
+	drvStatLEDInit();
+
 	while(1)
 	{
 		// set LED dimming

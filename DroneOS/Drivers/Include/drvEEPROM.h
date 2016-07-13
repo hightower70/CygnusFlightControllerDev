@@ -20,8 +20,7 @@
 /* Function prototypes                                                       */
 /*****************************************************************************/
 void drvEEPROMInit(void);
-void drvEEPROMReadBlock(uint16_t in_address, uint8_t* out_buffer, uint16_t in_length);
-void drvEEPROMWriteBlock(uint16_t in_address, uint8_t* in_buffer, uint16_t in_length);
-bool drvEEPROMVerifyBlock(uint16_t in_address, uint8_t* in_buffer, uint16_t in_length);
+bool drvEEPROMReadBlock(uint16_t in_address, uint8_t* out_buffer, uint16_t in_length);
+bool drvEEPROMWriteBlock(uint16_t in_address, uint8_t* in_buffer, uint16_t in_length);
 
 #endif

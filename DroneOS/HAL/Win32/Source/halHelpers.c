@@ -1,5 +1,5 @@
 /*****************************************************************************/
-/* Main Entry Function for Win32 application                                 */
+/* HAL helper functions                                                      */
 /*                                                                           */
 /* Copyright (C) 2015 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
@@ -11,6 +11,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Includes
 #include <sysRTOS.h>
+#include <stdio.h>
+
+#pragma comment(lib,"Winmm.lib")
 
 ///////////////////////////////////////////////////////////////////////////////
 // Constants
@@ -23,11 +26,18 @@ static uint8_t l_task_stop_function_count = 0;
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Creates task under Win32
-HANDLE sysWin32TaskCreate(sysTaskFunction in_task_code, const char* const in_task_name, uint16_t in_stack_size, void *in_parameters, uint8_t in_priority, uint32_t* out_thread_id, sysTaskStopFunction in_stop_function)
+uint32_t sysWin32TaskCreate(sysTaskFunction in_task_code, const char* const in_task_name, uint16_t in_stack_size, void *in_parameters, uint8_t in_priority, sysTask* out_thread_handle, sysTaskStopFunction in_stop_function)
 {
+	DWORD thread_id;
+
+	sysUNUSED(in_task_name);
+	sysUNUSED(in_priority); // TODO: implement priority
+
 	sysAddThreadStopFunction(in_stop_function);
 
-	return CreateThread(0, in_stack_size, (LPTHREAD_START_ROUTINE)in_task_code, in_parameters, 0, out_thread_id);
+	*out_thread_handle = CreateThread(0, in_stack_size, (LPTHREAD_START_ROUTINE)in_task_code, in_parameters, 0, &thread_id);
+
+	return thread_id;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -57,32 +67,59 @@ void sysShutdown(void)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// @brief Calculates ellapsed time in ticks (ms) since the given timestamp
-// @param in_start_tick Timestemp for the start time
-// @return Ellapsed tick from the specified time to current timestamp
-uint32_t sysGetSystemTickSince(sysTick in_start_tick)
-{
-	uint32_t diff_time;
-
-	diff_time = sysGetSystemTick() - in_start_tick;
-
-	return diff_time;
-}
-
-///////////////////////////////////////////////////////////////////////////////
 /// @brief Gets program CPU usage
 /// @return Returns CPU usage in percentage
 uint8_t sysGetCPUUsage(void)
 {
-	FILETIME idle;
-	FILETIME kernel;
-	FILETIME user;
-	BOOL val = GetSystemTimes(&idle, &kernel, &user);
-	ULONGLONG lkernel = (((ULONGLONG)kernel.dwHighDateTime) << 32) + kernel.dwLowDateTime;
-	ULONGLONG luser = (((ULONGLONG)user.dwHighDateTime) << 32) + user.dwLowDateTime;
-	ULONGLONG lidle = (((ULONGLONG)idle.dwHighDateTime) << 32) + idle.dwLowDateTime;
-	ULONGLONG lsys = lkernel + luser;
-	uint8_t cpu = (uint8_t)((lsys - lidle) * 100 / lsys);
+	static DWORD prev_timestamp = 0;
+	DWORD timestamp = timeGetTime();
+	FILETIME process_create, process_exit, process_user, process_kernel;
+	uint8_t cpu_usage;
+	DWORD diff_time;
+	LONG kernel, user;
+	static LONG prev_kernel = 0, prev_user = 0;
+	SYSTEMTIME system_time;
 
-	return cpu;
+	// get process time
+	GetProcessTimes(GetCurrentProcess(), &process_create, &process_exit, &process_user, &process_kernel);
+
+	// convert kernel time
+	FileTimeToSystemTime(&process_kernel, &system_time);
+
+	kernel = system_time.wSecond * 1000;
+	kernel += system_time.wMilliseconds;
+
+	// convert user time
+	FileTimeToSystemTime(&process_user, &system_time);
+
+	user = system_time.wSecond * 1000;
+	user += system_time.wMilliseconds;
+
+	diff_time = timestamp - prev_timestamp;
+
+	if (diff_time > 0)
+		cpu_usage = (uint8_t)(((((kernel - prev_kernel) + (user - prev_user)) * 100) / diff_time));
+	else
+		cpu_usage = 0;
+
+	prev_timestamp = timestamp;
+	prev_kernel = kernel;
+	prev_user = user;
+
+	return cpu_usage;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Debug printf function
+/// @param fmt Format string
+void sysDebugPrint(const char *fmt, ...) 
+{
+	char str[1024];
+
+	va_list argptr;
+	va_start(argptr, fmt);
+	vsnprintf(str, sizeof(str), fmt, argptr);
+	va_end(argptr);
+
+	OutputDebugStringA(str);
 }

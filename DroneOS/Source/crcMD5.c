@@ -1,13 +1,145 @@
+/*****************************************************************************/
+/* MD5 Hash calculation routines                                             */
+/*                                                                           */
+/* Copyright (C) 2016 Laszlo Arvai                                           */
+/* All rights reserved.                                                      */
+/*                                                                           */
+/* This software may be modified and distributed under the terms             */
+/* of the BSD license.  See the LICENSE file for details.                    */
+/*****************************************************************************/
 
-///////////////////////////////////////////////////////////////////////////////
-// Includes
+/*****************************************************************************/
+/* Includes                                                                  */
+/*****************************************************************************/
 #include <crcMD5.h>
 #include <sysRTOS.h>
 
+/*****************************************************************************/
+/* Constants                                                                 */
+/*****************************************************************************/
+#define T_MASK ((uint32_t)~0)
+
+/*****************************************************************************/
+/* Local function prototypes                                                 */
+/*****************************************************************************/
+static void crcMD5Process(crcMD5State* in_state, const uint8_t* in_data);
+
+/*****************************************************************************/
+/* Function implementation                                                   */
+/*****************************************************************************/
 
 ///////////////////////////////////////////////////////////////////////////////
-// Constants
-#define T_MASK ((uint32_t)~0)
+/// @brief Initializes MD5 engine
+/// @param in_state MD5 calcaulation engine state 
+void crcMD5Open(crcMD5State* in_state)
+{
+    in_state->BitCount[0] = in_state->BitCount[1] = 0;
+    in_state->DigestBuffer[0] = 0x67452301;
+    in_state->DigestBuffer[1] = T_MASK ^ 0x10325476;
+    in_state->DigestBuffer[2] = T_MASK ^ 0x67452301;
+    in_state->DigestBuffer[3] = 0x10325476;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Updates MD5 hash using data from the specified buffer
+/// @param in_state Current state of the MD5 machine
+/// @param in_data Pointer to the data buffer
+/// @param in_length Number of bytes in the buffer
+void crcMD5Update(crcMD5State* in_state, const uint8_t* in_data, uint32_t in_length)
+{
+	const uint8_t *p = in_data;
+	int left = in_length;
+	int offset = (in_state->BitCount[0] >> 3) & 63;
+	uint32_t nbits = (uint32_t) (in_length << 3);
+	int copy;
+
+	if (in_length <= 0)
+		return;
+
+	// Update the message length.
+	in_state->BitCount[1] += in_length >> 29;
+	in_state->BitCount[0] += nbits;
+	if (in_state->BitCount[0] < nbits)
+		in_state->BitCount[1]++;
+
+	// Process an initial partial block.
+	if (offset)
+	{
+		copy = (offset + in_length > 64 ? 64 - offset : in_length);
+
+		sysMemCopy(in_state->InputBuffer + offset, p, copy);
+		if (offset + copy < 64)
+			return;
+
+		p += copy;
+		left -= copy;
+		crcMD5Process(in_state, in_state->InputBuffer);
+	}
+
+	// Process full blocks.
+	for (; left >= 64; p += 64, left -= 64)
+		crcMD5Process(in_state, p);
+
+	/* Process a final partial block. */
+	if (left)
+		memcpy(in_state->InputBuffer, p, left);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Finisghes MD5 calculation and returns hash value
+/// @param in_state Current state of the MD5 machine
+/// @param out_hash MD5 hash value
+void crcMD5Close(crcMD5State* in_state, crcMD5Hash* out_hash)
+{
+    static const uint8_t pad[64] = 
+		{
+			0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    };
+    uint8_t data[8];
+    int i;
+
+    // Save the length before padding.
+    for (i = 0; i < 8; ++i)
+			data[i] = (uint8_t)(in_state->BitCount[i >> 2] >> ((i & 3) << 3));
+
+    // Pad to 56 bytes mod 64.
+    crcMD5Update(in_state, pad, ((55 - (in_state->BitCount[0] >> 3)) & 63) + 1);
+
+    // Append the length.
+    crcMD5Update(in_state, data, 8);
+
+		// copy hash value
+    for (i = 0; i < crcMD5_HASH_SIZE; ++i)
+			out_hash->Hash[i] = (uint8_t)(in_state->DigestBuffer[i >> 2] >> ((i & 3) << 3));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Compares two MD5 has values, return true if they are equal
+/// @param in_hash1 First hash value to compare
+/// @param in_hash2 Second hash value to comapare
+/// @return True if hash values are equal
+bool crcMD5IsEqual(crcMD5Hash* in_hash1, crcMD5Hash* in_hash2)
+{
+	uint8_t index;
+	bool equal = true;
+
+	for (index = 0; index < crcMD5_HASH_SIZE && equal; index++)
+	{
+		if (in_hash1->Hash[index] != in_hash2->Hash[index])
+			equal = false;
+	}
+
+	return equal;
+}
+
+
+/*****************************************************************************/
+/* Internal routines                                                         */
+/*****************************************************************************/
+
 #define T1 /* 0xd76aa478 */ (T_MASK ^ 0x28955b87)
 #define T2 /* 0xe8c7b756 */ (T_MASK ^ 0x173848a9)
 #define T3    0x242070db
@@ -74,92 +206,7 @@
 #define T64 /* 0xeb86d391 */ (T_MASK ^ 0x14792c6e)
 
 ///////////////////////////////////////////////////////////////////////////////
-// Local function prototypes
-static void crcMD5Process(crcMD5State* in_state, const uint8_t* in_data);
-
-///////////////////////////////////////////////////////////////////////////////
-/// @brief Initializes MD5 engine
-/// @param in_state MD5 calcaulation engine state 
-void crcMD5Open(crcMD5State* in_state)
-{
-    in_state->BitCount[0] = in_state->BitCount[1] = 0;
-    in_state->DigestBuffer[0] = 0x67452301;
-    in_state->DigestBuffer[1] = T_MASK ^ 0x10325476;
-    in_state->DigestBuffer[2] = T_MASK ^ 0x67452301;
-    in_state->DigestBuffer[3] = 0x10325476;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-/// @brief Updates MD5 hash using data from the specified buffer
-/// @param in_state Current state of the MD5 machine
-/// @param in_data Pointer to the data buffer
-/// @param in_length Number of bytes in the buffer
-void crcMD5Update(crcMD5State* in_state, const uint8_t* in_data,
-		uint32_t in_length)
-{
-	const uint8_t *p = in_data;
-	int left = in_length;
-	int offset = (in_state->BitCount[0] >> 3) & 63;
-	uint32_t nbits = (uint32_t) (in_length << 3);
-	int copy;
-
-	if (in_length <= 0)
-		return;
-
-	// Update the message length.
-	in_state->BitCount[1] += in_length >> 29;
-	in_state->BitCount[0] += nbits;
-	if (in_state->BitCount[0] < nbits)
-		in_state->BitCount[1]++;
-
-	// Process an initial partial block.
-	if (offset)
-	{
-		copy = (offset + in_length > 64 ? 64 - offset : in_length);
-
-		sysMemCopy(in_state->InputBuffer + offset, p, copy);
-		if (offset + copy < 64)
-			return;
-
-		p += copy;
-		left -= copy;
-		crcMD5Process(in_state, in_state->InputBuffer);
-	}
-
-	// Process full blocks.
-	for (; left >= 64; p += 64, left -= 64)
-		crcMD5Process(in_state, p);
-
-	/* Process a final partial block. */
-	if (left)
-		memcpy(in_state->InputBuffer, p, left);
-}
-
-void crcMD5Close(crcMD5State* in_state, uint8_t out_hash[])
-{
-    static const uint8_t pad[64] = 
-		{
-			0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    };
-    uint8_t data[8];
-    int i;
-
-    // Save the length before padding.
-    for (i = 0; i < 8; ++i)
-			data[i] = (uint8_t)(in_state->BitCount[i >> 2] >> ((i & 3) << 3));
-
-    // Pad to 56 bytes mod 64.
-    crcMD5Update(in_state, pad, ((55 - (in_state->BitCount[0] >> 3)) & 63) + 1);
-
-    // Append the length.
-    crcMD5Update(in_state, data, 8);
-    for (i = 0; i < 16; ++i)
-			out_hash[i] = (uint8_t)(in_state->DigestBuffer[i >> 2] >> ((i & 3) << 3));
-}
-
+/// @brief Internal MD5 calculation helper routine
 static void crcMD5Process(crcMD5State* in_state, const uint8_t* in_data)
 {
     uint32_t a,b,c,d;
@@ -299,3 +346,4 @@ static void crcMD5Process(crcMD5State* in_state, const uint8_t* in_data)
     in_state->DigestBuffer[2] += c;
     in_state->DigestBuffer[3] += d;
 }
+

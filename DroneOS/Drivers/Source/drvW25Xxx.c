@@ -33,7 +33,7 @@ dosByte l_address_highest;
 
 ///////////////////////////////////////////////////////////////////////////////
 // Initialize EEPROM
-void drvInitEEPROM( void)
+void drvEEPROMInit( void)
 {
 	l_address_highest = 0;
 	InitEEPROMSPI();

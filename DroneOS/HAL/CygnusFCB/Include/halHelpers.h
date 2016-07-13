@@ -8,8 +8,8 @@
 /* of the BSD license.  See the LICENSE file for details.                    */
 /*****************************************************************************/
 
-#ifndef __drvHAL_h
-#define __drvHAL_h
+#ifndef __halHelpers_h
+#define __halHelpers_h
 
 /*****************************************************************************/
 /* Includes                                                                  */
@@ -48,6 +48,8 @@
 /*****************************************************************************/
 /* Function prototypes                                                       */
 /*****************************************************************************/
-uint32_t drvHALTimerGetSourceFrequency(uint32_t in_timer_id);
+void sysShutdown(void);
+uint32_t halTimerGetSourceFrequency(uint32_t in_timer_id);
+void halSystemClockConfig(void);
 
 #endif

@@ -35,7 +35,7 @@ typedef struct
 typedef uint16_t roxObjectAddress;
 typedef uint16_t roxMemberAddress;
 
-typedef (*roxObjectChangedCallbackFunction)(roxObjectAddress in_object_adress);
+typedef void (*roxObjectChangedCallbackFunction)(roxObjectAddress in_object_adress);
 
 typedef enum
 {
@@ -99,7 +99,7 @@ void roxObjectReadBegin(roxObjectAddress in_object_index)
 	roxObjectStorageInfo* object_storage_info;
 
 	// sanity check
-	sysASSERT(in_object_address < roxTOTAL_OBJECT_COUNT);
+	sysASSERT(in_object_index < roxTOTAL_OBJECT_COUNT);
 
 	// cache object info pointer
 	object_storage_info = &l_object_storage_info[in_object_index];
@@ -118,7 +118,7 @@ void roxObjectReadEnd(roxObjectAddress in_object_index)
 	roxObjectStorageInfo* object_storage_info;
 
 	// sanity check
-	sysASSERT(in_object_address < roxTOTAL_OBJECT_COUNT);
+	sysASSERT(in_object_index < roxTOTAL_OBJECT_COUNT);
 
 	// cache object info pointer
 	object_storage_info = &l_object_storage_info[in_object_index];
@@ -155,7 +155,7 @@ bool roxObjectWriteBegin(roxObjectAddress in_object_index)
 	roxObjectStorageInfo* object_storage_info;
 
 	// sanity check
-	sysASSERT(in_object_address < roxTOTAL_OBJECT_COUNT);
+	sysASSERT(in_object_index < roxTOTAL_OBJECT_COUNT);
 
 	// cache object info pointer
 	object_storage_info = &l_object_storage_info[in_object_index];
@@ -190,7 +190,7 @@ void roxObjectUpdateEnd(roxObjectAddress in_object_index)
 	roxObjectStorageInfo* object_storage_info;
 
 	// sanity check
-	sysASSERT(in_object_address < roxTOTAL_OBJECT_COUNT);
+	sysASSERT(in_object_index < roxTOTAL_OBJECT_COUNT);
 
 	// cache object info pointer
 	object_storage_info = &l_object_storage_info[in_object_index];

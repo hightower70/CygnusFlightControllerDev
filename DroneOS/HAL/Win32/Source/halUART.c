@@ -1,7 +1,7 @@
 /*****************************************************************************/
-/* UART Driver                                                               */
+/* UART HAL Driver                                                           */
 /*                                                                           */
-/* Copyright (C) 2014 Laszlo Arvai                                           */
+/* Copyright (C) 2016 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
@@ -14,7 +14,7 @@
 #include <windows.h>
 #include <tchar.h>
 #include <sysRTOS.h>
-#include <drvUART.h>
+#include <halUART.h>
 #include <halIODefinitions.h>
 
 /*****************************************************************************/
@@ -26,30 +26,32 @@
 /* Types                                                                     */
 /*****************************************************************************/
 
-/// UARt driver info
+/// UART driver info
 typedef struct
 {
 	HANDLE UARTHandle;
 	HANDLE UARTThread;
 	HANDLE UARTEvent;
 	OVERLAPPED Overlapped;
-	drvUARTConfigInfo Config;
-} drvUARTDriverInfo;
+	halUARTConfigInfo Config;
+} halUARTDriverInfo;
 
 /*****************************************************************************/
 /* Module global variables                                                   */
 /*****************************************************************************/
-static TCHAR* l_uart_names[drvUART_MAX_COUNT] = drvUART_INIT_NAMES;
+static TCHAR* l_uart_names[halUART_MAX_COUNT] = halUART_INIT_NAMES;
 static volatile bool l_task_stop = false;
 static HANDLE l_system_is_running_event = NULL;
 
-static drvUARTDriverInfo l_uart_info[drvUART_MAX_COUNT] = { 0 };
+static halUARTDriverInfo l_uart_info[halUART_MAX_COUNT] = { 0 };
 
 /*****************************************************************************/
 /* Local functions                                                           */
 /*****************************************************************************/
-static void drvUARTShutdown(void);
-static void drvUARTThread(void* in_param);
+static void halUARTShutdown(void);
+static void halUARTThread(void* in_param);
+static void halUARTInitOneUART(uint8_t in_uart_index);
+
 
 /*****************************************************************************/
 /* UART Functions                                                            */
@@ -57,14 +59,26 @@ static void drvUARTThread(void* in_param);
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Initializes UART driver
-void drvUARTInit(uint8_t in_uart_index)
+void halUARTInit(void)
+{
+	uint8_t i;
+
+	for (i = 0; i < halUART_MAX_COUNT; i++)
+	{
+		halUARTInitOneUART(i);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Initialize one UART
+static void halUARTInitOneUART(uint8_t in_uart_index)
 {
 	BOOL success = TRUE;
 	DCB comm_state;
 	COMMTIMEOUTS time;
-	drvUARTDriverInfo* uart_info;
+	halUARTDriverInfo* uart_info;
 
-	if (in_uart_index >= drvUART_MAX_COUNT)
+	if (in_uart_index >= halUART_MAX_COUNT)
 		return;
 
 
@@ -122,7 +136,7 @@ void drvUARTInit(uint8_t in_uart_index)
 	// create UART thread
 	if (success)
 	{
-		uart_info->UARTThread = sysWin32TaskCreate(drvUARTThread, "drvUARTThread", sysDEFAULT_STACK_SIZE, uart_info, 2, NULL, drvUARTShutdown);
+		sysWin32TaskCreate(halUARTThread, "halUARTThread", sysDEFAULT_STACK_SIZE, uart_info, 2, &uart_info->UARTThread, halUARTShutdown);
 
 		if (uart_info->UARTThread == NULL)
 			success = FALSE;
@@ -141,25 +155,25 @@ void drvUARTInit(uint8_t in_uart_index)
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Changes UART configuration
-void drvUARTConfig(uint8_t in_uart_index, drvUARTConfigInfo* in_config_info)
+void halUARTConfig(uint8_t in_uart_index, halUARTConfigInfo* in_config_info)
 {
 	l_uart_info[in_uart_index].Config = *in_config_info;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Initializes drvUARTConfigInfo struct
-void drvUARTConfigInfoInit(drvUARTConfigInfo* in_config_info)
+void halUARTConfigInfoInit(halUARTConfigInfo* in_config_info)
 {
-	sysMemZero(in_config_info, sizeof(drvUARTConfigInfo));
+	sysMemZero(in_config_info, sizeof(halUARTConfigInfo));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Sets UART baud rate
 /// @param in_uart_index UART index
 /// @param in_baud_rate Baud rate
-bool drvUARTSetBaudRate(uint8_t in_uart_index, uint32_t in_baud_rate)
+bool halUARTSetBaudRate(uint8_t in_uart_index, uint32_t in_baud_rate)
 {
-	drvUARTDriverInfo* uart_info = &l_uart_info[in_uart_index];
+	halUARTDriverInfo* uart_info = &l_uart_info[in_uart_index];
   BOOL success = TRUE;
   DCB comm_state;
 
@@ -176,33 +190,25 @@ bool drvUARTSetBaudRate(uint8_t in_uart_index, uint32_t in_baud_rate)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// Send byte on UART
-/*
-void UART1SendCharacter( dosChar in_byte )
-{
-  DWORD bytes_written;
-
-  WriteFile( l_uart1_handle, &in_byte, sizeof(in_byte), &bytes_written, &l_uart1_overlapped);
-}
-	*/
-
-///////////////////////////////////////////////////////////////////////////////
 /// @brief Sends block of data over the UART
 /// @param in_uart_index Index of the UART
 /// @param in_buffer Buffer containing data to send
 /// @param in_buffer_length Number of bytes to send
-void drvUARTSendBlock(uint8_t in_uart_index, uint8_t* in_buffer, uint16_t in_buffer_length)
+/// @return True if send operation was started
+bool halUARTSendBlock(uint8_t in_uart_index, uint8_t* in_buffer, uint16_t in_buffer_length)
 {
-	drvUARTDriverInfo* uart_info = &l_uart_info[in_uart_index];
+	halUARTDriverInfo* uart_info = &l_uart_info[in_uart_index];
 	DWORD bytes_written;
 
 	// send data
 	WriteFile( uart_info->UARTHandle, in_buffer, in_buffer_length, &bytes_written, &uart_info->Overlapped);
+
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // UART1 Thread function
-static void drvUARTThread(void* in_param)
+static void halUARTThread(void* in_param)
 {
   HANDLE handles[2];
   DWORD event_mask = 0;
@@ -210,7 +216,7 @@ static void drvUARTThread(void* in_param)
   DWORD bytes_read;
 	BYTE buffer;
 	BOOL result;
-	drvUARTDriverInfo* uart_info = (drvUARTDriverInfo*)in_param;
+	halUARTDriverInfo* uart_info = (halUARTDriverInfo*)in_param;
 
   // store handles
   handles[0] = l_system_is_running_event;
@@ -234,7 +240,7 @@ static void drvUARTThread(void* in_param)
 
 			// character received event
 			case WAIT_OBJECT_0+1:
-				//if (GetCommMask(uart_info->UARTHandle, &event_mask))
+				if (GetCommMask(uart_info->UARTHandle, &event_mask))
 				{
 					if ((event_mask & EV_RXCHAR) != 0)
 					{
@@ -245,7 +251,7 @@ static void drvUARTThread(void* in_param)
 							ReadFile(uart_info->UARTHandle, &buffer, sizeof(buffer), &bytes_read, &uart_info->Overlapped);
 
 							// process character
-							if (bytes_read > 0 && uart_info->Config.RxReceivedCallback != NULL)
+							if (bytes_read > 0 && uart_info->Config.RxReceivedCallback != sysNULL)
 								uart_info->Config.RxReceivedCallback(buffer, sysNULL);
 						} while (bytes_read > 0);
 					}
@@ -277,16 +283,16 @@ static void drvUARTThread(void* in_param)
 
 ///////////////////////////////////////////////////////////////////////////////
 // Cleanup function
-static void drvUARTShutdown(void)
+static void halUARTShutdown(void)
 {
-  HANDLE threads[drvUART_MAX_COUNT];
+  HANDLE threads[halUART_MAX_COUNT];
   int uart_index;
 	int thread_index;
 	DWORD result;
 
 	// create thread list
 	thread_index = 0;
-	for (uart_index = 0; uart_index < drvUART_MAX_COUNT; uart_index++)
+	for (uart_index = 0; uart_index < halUART_MAX_COUNT; uart_index++)
 	{
 		if (l_uart_info[uart_index].UARTThread != NULL)
 			threads[thread_index++] = l_uart_info[uart_index].UARTThread;
@@ -303,7 +309,7 @@ static void drvUARTShutdown(void)
 	result = WaitForMultipleObjects(thread_index, threads, TRUE, 1000);
   
   // force releasing resources
-	for(uart_index = 0; uart_index < drvUART_MAX_COUNT; uart_index++)
+	for(uart_index = 0; uart_index < halUART_MAX_COUNT; uart_index++)
 	{
 		// close thread
 		if(l_uart_info[uart_index].UARTThread != NULL)

@@ -29,4 +29,8 @@ disassembly/
 *.lastbuildstate
 *.ilk
 *.exe
+*.bin
+*.elf
+*.hex
+
 

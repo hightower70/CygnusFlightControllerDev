@@ -18,17 +18,17 @@
 /*                 PB15                                                      */
 /*****************************************************************************/
 
-
-#ifndef __drvIODefinitions_h
-#define __drvIODefinitions_h
+#ifndef __halIODefinitions_h
+#define __halIODefinitions_h
 
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
 #include <sysTypes.h>
 
+#define halUART_MAX_COUNT 4
 
-
+// pin definitions
 #define SPI_CS_Pin GPIO_PIN_13
 #define SPI_CS_GPIO_Port GPIOC
 #define SERVO_SEL_A_Pin GPIO_PIN_0
@@ -67,5 +67,8 @@
 #define SCL_EXT_GPIO_Port GPIOB
 #define SDA_EXT_Pin GPIO_PIN_9
 #define SDA_EXT_GPIO_Port GPIOB
+#define PPM_Pin GPIO_PIN_8
+#define PPM_GPIO_Port GPIOA
+
 
 #endif

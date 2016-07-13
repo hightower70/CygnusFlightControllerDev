@@ -49,4 +49,5 @@ void sysDateTimeGet(sysDateTime* out_datetime)
 void sysDateTimeSet(sysDateTime* in_datetime)
 {
 	// empty
+	sysUNUSED(in_datetime);
 }

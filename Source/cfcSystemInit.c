@@ -13,30 +13,34 @@
 /*****************************************************************************/
 #include <comManager.h>
 #include <comInterfaces.h>
-#include <drvUART.h>
+#include <halUART.h>
 #include <halIODefinitions.h>
 #include <comUDP.h>
+#include <comUART.h>
+#include <cfgStorage.h>
 
 /*****************************************************************************/
 /* External functions                                                        */
 /*****************************************************************************/
-extern void drvEthernetInit(uint8_t in_uart_index);
-extern void drvESP8266Init(void);
+//extern void drvEthernetInit(uint8_t in_uart_index);
+//extern void drvESP8266Init(void);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Initializes all system components
 void sysInitialize(void)
 {
-	uint8_t i;
+	// load configuration
+	cfgStorageInit();
+	cfgLoadDefaultConfiguration();
+	cfgLoadConfiguration();
 
-	for (i = 0; i < drvUART_MAX_COUNT; i++)
-	{
-		drvUARTInit(i);
-	}
+	// init uarts
+	halUARTInit();
 
+	// init commuication
 	comManagerInit();
-
 	comUDPInit();
+	//comUARTInit();
 
 
 	//comESP8266Init();

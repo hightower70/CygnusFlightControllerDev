@@ -32,8 +32,8 @@
 typedef struct 
 {
 	uint8_t* TargetBuffer;
-	uint8_t TargetBufferPos;
-	uint16_t CyclicRedundancyCheck;
+	uint16_t TargetBufferSize;
+	uint16_t TargetBufferPos;
 } slipEncoderState;
 
 // Status of the last operation of SLIP encoder
@@ -49,8 +49,9 @@ typedef struct
 {
 	slipEncoderStatus Status;
 	uint8_t* TargetBuffer;
-	uint8_t TargetBufferPos;
-  uint16_t CyclicRedundancyCheck;
+	uint16_t TargetBufferPos;
+	uint16_t TargetBufferSize;
+	uint16_t LastPacketLength;
 } slipDecoderState;
 
 /*****************************************************************************/
@@ -58,10 +59,10 @@ typedef struct
 /*****************************************************************************/
 
 void slipEncodeByte(slipEncoderState* in_state, uint8_t in_byte);
-void slipEncodeBlock(slipEncoderState* in_state, uint8_t* in_buffer, uint8_t in_length);
+bool slipEncodeBlock(slipEncoderState* in_state, uint8_t* in_buffer, uint8_t in_length);
 
 void slipDecodeInitialize(slipDecoderState* in_state);
-void slipDecodeByte(slipDecoderState* in_state, uint8_t in_byte);
+bool slipDecodeByte(slipDecoderState* in_state, uint8_t in_byte);
 
 
 #endif
