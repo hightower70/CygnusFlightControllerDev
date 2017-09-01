@@ -5,7 +5,7 @@
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 
 /*****************************************************************************/
@@ -36,7 +36,7 @@
 /*****************************************************************************/
 /* Module local functions                                                    */
 /*****************************************************************************/
-static void comUARTThread(void* in_param);
+static sysTaskRetval comUARTThread(sysTaskParam in_param);
 
 static void comUARTRxCallback(uint8_t in_char, void* in_interrupt_param);
 static void comUARTTxEmptyCallback(void* in_interrupt_param);
@@ -48,7 +48,7 @@ static uint8_t* comUARTAllocTransmitBuffer(void);
 /*****************************************************************************/
 
 // task variables
-static sysTaskNotify l_task_event = sysNULL; 
+static sysTaskNotify l_task_event; 
 static bool l_stop_task = false;
 static uint8_t l_interface_index;
 static bool l_tx_buffer_empty_event;
@@ -84,6 +84,8 @@ void comUARTInit(void)
 
 	// add this interface to the list of communication interfaces
 	l_interface_index = comAddInterface(&interface_description);
+
+	sysTaskNotifyCreate(l_task_event);
 
 	sysTaskCreate(comUARTThread, "comUART", sysDEFAULT_STACK_SIZE, sysNULL, comUART_TASK_PRIORITY, &task_id, comUARTDeinit);
 }
@@ -169,7 +171,7 @@ bool comUARTSendPacket(uint8_t* in_packet, uint16_t in_packet_length)
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Main communication thread
-static void comUARTThread(void* in_param)
+static sysTaskRetval comUARTThread(sysTaskParam in_param)
 {
 	halUARTConfigInfo uart_config;
 	uint8_t packet_length;
@@ -177,8 +179,6 @@ static void comUARTThread(void* in_param)
 	uint16_t crc;
 
 	sysUNUSED(in_param);
-
-	sysTaskNotifyCreate(l_task_event);
 
 	// UART init
 	l_uart_index = 1;
@@ -241,7 +241,8 @@ static void comUARTThread(void* in_param)
 	}
 
 	sysTaskNotifyDelete(l_task_event);
-	l_task_event = sysNULL;
+
+	return 0;
 }
 
 /*****************************************************************************/

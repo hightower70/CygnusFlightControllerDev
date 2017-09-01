@@ -5,7 +5,7 @@
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 
 /*****************************************************************************/
@@ -25,10 +25,23 @@
 #define cfg_STORAGE_COUNT 2
 
 // configuration value types
-#define cfg_VT_INT 1
-#define cfg_VT_ENUM 2
-#define cfg_VT_FLOAT 3
-#define cfg_VT_STRING 4
+#define cfg_VT_UINT8 1
+#define cfg_VT_INT8 2
+#define cfg_VT_UINT16 3
+#define cfg_VT_INT16 4
+#define cfg_VT_UINT32 5
+#define cfg_VT_INT32 6
+
+#define cfg_VT_UINT8_FIXED 7
+#define cfg_VT_INT8_FIXED 8
+#define cfg_VT_UINT16_FIXED 9
+#define cfg_VT_INT16_FIXED 10
+
+#define cfg_VT_ENUM 11
+
+#define cfg_VT_FLOAT 12
+
+#define cfg_VT_STRING 13
 
 /*****************************************************************************/
 /* Types                                                                     */
@@ -81,7 +94,7 @@ void cfgLoadConfiguration(void)
 {
 	cfgConfigurationDataHeader settings_header;
 	uint8_t xml_file_id;
-	uint16_t xml_file_length;
+	uint32_t xml_file_length;
 	crcMD5Hash xml_file_hash;
 	crcMD5State md5_state;
 	uint16_t value_index;
@@ -152,7 +165,7 @@ void cfgSaveConfiguration(void)
 {
 	cfgConfigurationDataHeader settings_header;
 	uint8_t xml_file_id;
-	uint16_t xml_file_length;
+	uint32_t xml_file_length;
 	crcMD5State md5_state;
 
 	// move config data to the primary buffer
@@ -369,7 +382,7 @@ sysString cfgGetStringValue(uint16_t in_value_index)
 uint16_t cfgGetUInt16Value(uint16_t in_value_index)
 {
 	sysASSERT(in_value_index < cfg_VALUE_COUNT);
-	sysASSERT(l_configuration_value_info[in_value_index].Type == cfg_VT_INT);
+	sysASSERT(l_configuration_value_info[in_value_index].Type == cfg_VT_INT32);
 
 	if (l_config_storage_index[in_value_index] == 0)
 		return *(uint16_t*)&l_configuration_data_primary[l_configuration_value_info[in_value_index].Offset];
@@ -384,7 +397,7 @@ uint16_t cfgGetUInt16Value(uint16_t in_value_index)
 uint32_t cfgGetUInt32Value(uint16_t in_value_index)
 {
 	sysASSERT(in_value_index < cfg_VALUE_COUNT);
-	sysASSERT(l_configuration_value_info[in_value_index].Type == cfg_VT_INT);
+	sysASSERT(l_configuration_value_info[in_value_index].Type == cfg_VT_INT32);
 
 	if (l_config_storage_index[in_value_index] == 0)
 		return *(uint32_t*)&l_configuration_data_primary[l_configuration_value_info[in_value_index].Offset];
@@ -414,7 +427,7 @@ uint8_t cfgGetEnumValue(uint16_t in_value_index)
 float cfgGetFloatValue(uint16_t in_value_index)
 {
 	sysASSERT(in_value_index < cfg_VALUE_COUNT);
-	sysASSERT(l_configuration_value_info[in_value_index].Type == cfg_VT_INT);
+	sysASSERT(l_configuration_value_info[in_value_index].Type == cfg_VT_INT32);
 
 	if (l_config_storage_index[in_value_index] == 0)
 		return *(float*)&l_configuration_data_primary[l_configuration_value_info[in_value_index].Offset];

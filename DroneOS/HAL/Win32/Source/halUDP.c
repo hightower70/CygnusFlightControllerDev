@@ -5,7 +5,7 @@
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 
 /*****************************************************************************/
@@ -63,7 +63,7 @@ static uint32_t l_transmitter_destination_address;
 /*****************************************************************************/
 /* Local functions                                                           */
 /*****************************************************************************/
-static void drvUDPTask(void* lpParam);
+static sysTaskRetval drvUDPTask(sysTaskParam in_param);
 static void drvUDPDeinit(void);
 
 /*****************************************************************************/
@@ -75,6 +75,9 @@ static void drvUDPDeinit(void);
 void drvUDPInit(void)
 {
 	sysTask task_handle;
+
+	// create notofication
+	sysTaskNotifyCreate(l_task_events[0]);
 
 	// initialize communication tasks
 	sysTaskCreate(drvUDPTask, "halUDP", sysDEFAULT_STACK_SIZE, sysNULL, drvUDP_TASK_PRIORITY, &task_handle, drvUDPDeinit);
@@ -138,8 +141,11 @@ uint32_t drvUDPGetLocalIPAddress(void)
 	DWORD retval;
 	struct addrinfo *result = NULL;
 	struct addrinfo *ptr = NULL;
+	int get_host_name_result;
+	int error;
 
-	if (gethostname(host_name, sizeof(host_name)) == 0)
+	get_host_name_result = gethostname(host_name, sizeof(host_name));
+	if (get_host_name_result == 0)
 	{
 		retval = getaddrinfo(host_name, NULL, NULL, &result);
 		if (retval == 0)
@@ -157,20 +163,23 @@ uint32_t drvUDPGetLocalIPAddress(void)
 			}
 		}
 	}
+	else
+	{
+		error = WSAGetLastError();
+	}
 
 	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 // Telemetry socket thread functions
-static void drvUDPTask(void* lpParam)
+static sysTaskRetval drvUDPTask(sysTaskParam in_param)
 {
 	DWORD wait_result;
 	int one = 1;
 	sysTick ellapsed_time;
 
-	// create notofication
-	sysTaskNotifyCreate(l_task_events[0]);
+	sysUNUSED(in_param);
 
 	// init socket
 	if (WSAStartup(MAKEWORD(2, 2), &l_wsa) != 0)
@@ -230,7 +239,7 @@ static void drvUDPTask(void* lpParam)
 					// process packet received events
 					if ((l_events.lNetworkEvents & FD_READ) != 0)
 					{
-						l_receive_buffer_length = recv(l_socket, l_receive_buffer, drvUDP_RECEIVER_BUFFER_LENGTH, 0);
+						l_receive_buffer_length = (uint16_t)recv(l_socket, (char*)l_receive_buffer, drvUDP_RECEIVER_BUFFER_LENGTH, 0);
 
 						if (l_receive_buffer_length > 0)
 						{

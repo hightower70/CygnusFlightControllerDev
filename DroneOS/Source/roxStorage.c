@@ -6,13 +6,23 @@
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
 #include <sysRTOS.h>
+#include <roxTelemetry.h>
+#include <comSystemPacketDefinitions.h>
+
+/*****************************************************************************/
+/* Constants                                                                 */
+/*****************************************************************************/
+#define roxOBJECT_STORAGE_COUNT 2
+#define roxTOTAL_STORAGE_SIZE 1024
+#define roxTOTAL_CALLBACK_FUNCTION_COUNT 20
+#define roxSTORAGE_INVALID_CALLBACK_INDEX 0xffff
 
 /*****************************************************************************/
 /* Types                                                                     */
@@ -32,11 +42,6 @@ typedef struct
 	float MagnetoZ;
 } roxIMURawData;
 
-typedef uint16_t roxObjectAddress;
-typedef uint16_t roxMemberAddress;
-
-typedef void (*roxObjectChangedCallbackFunction)(roxObjectAddress in_object_adress);
-
 typedef enum
 {
 	roxOWS_Unlocked,
@@ -46,45 +51,169 @@ typedef enum
 
 typedef struct
 {
+	roxObjectChangedCallbackFunction Callback;
+	uint16_t NextCallbackFunctionIndex;
+} roxCallbackFunctionColectionEntry;
+
+typedef struct
+{
 	roxObjectWriteState WriteState;
 	uint8_t ReaderCount;
 	uint16_t VersionNumber;
 	uint16_t Address;
 	uint8_t ReadStorageIndex;
 	uint8_t WriteStorageIndex;
-	roxObjectChangedCallbackFunction FirstCallbackFunction;
+	uint16_t FirstCallbackFunctionIndex;
 } roxObjectStorageInfo;
 
-/*****************************************************************************/
-/* Constants                                                                 */
-/*****************************************************************************/
-#define roxOBJECT_STORAGE_COUNT 2
-
-#define roxTOTAL_STORAGE_SIZE 1024
-
-#define roxTOTAL_OBJECT_COUNT 5
-#define roxTOTAL_CALLACK_FUNCTION_COUNT 20
+typedef uint16_t roxCallbackIndex;
 
 /*****************************************************************************/
 /* Module global variables                                                   */
 /*****************************************************************************/
 static uint8_t l_realtime_object_value_storage[roxOBJECT_STORAGE_COUNT][roxTOTAL_STORAGE_SIZE];
 static roxObjectStorageInfo l_object_storage_info[roxTOTAL_OBJECT_COUNT];
-static roxObjectChangedCallbackFunction l_callback_functions[roxTOTAL_CALLACK_FUNCTION_COUNT];
 
+// callback variables
+static roxCallbackFunctionColectionEntry l_callback_collection[roxTOTAL_CALLBACK_FUNCTION_COUNT];
+static sysMutex l_callback_collection_lock;
+
+/*****************************************************************************/
+/* Function implementation                                                   */
+/*****************************************************************************/
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Initializes realtime object storage
+void roxStorageInitialize(void)
+{
+	uint16_t i;
+
+	for (i = 0; i < roxTOTAL_CALLBACK_FUNCTION_COUNT; i++)
+	{
+		l_callback_collection[i].Callback = sysNULL;
+		l_callback_collection[i].NextCallbackFunctionIndex = roxSTORAGE_INVALID_CALLBACK_INDEX;
+	}
+
+	sysMutexCreate(l_callback_collection_lock);
+}
 
 /*****************************************************************************/
 /* Callback function management                                              */
 /*****************************************************************************/
 
-bool roxCallbackFunctionAdd(roxObjectChangedCallbackFunction in_callback_function, roxObjectAddress in_object_address)
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Adds change callback function to a given object
+/// @param in_object_index Index of the object to receive a new change callback
+/// @param in_callback_function Callback function pointer
+void roxCallbackFunctionAdd(roxObjectIndex in_object_index, roxObjectChangedCallbackFunction in_callback_function)
 {
-	return false;
+	roxCallbackIndex callback_to_append_index;
+	roxObjectIndex prev_callback_index;
+	roxObjectIndex callback_index;
+
+	// update list of changed object in a critical section
+	sysMutexTake(l_callback_collection_lock, sysINFINITE_TIMEOUT);
+
+	// find free storage in the callback list
+	callback_to_append_index = 0;
+	while (callback_to_append_index < roxTOTAL_CALLBACK_FUNCTION_COUNT)
+	{
+		if (l_callback_collection[callback_to_append_index].Callback == sysNULL)
+		{
+			l_callback_collection[callback_to_append_index].Callback = in_callback_function;
+			l_callback_collection[callback_to_append_index].NextCallbackFunctionIndex = roxSTORAGE_INVALID_CALLBACK_INDEX;
+
+			break;
+		}
+
+		callback_to_append_index++;
+	}
+
+	// check free space
+	sysASSERT(callback_to_append_index < roxTOTAL_CALLBACK_FUNCTION_COUNT);
+
+	if (callback_to_append_index < roxTOTAL_CALLBACK_FUNCTION_COUNT)
+	{
+		if (l_object_storage_info[in_object_index].FirstCallbackFunctionIndex == roxSTORAGE_INVALID_CALLBACK_INDEX)
+		{
+			// if it is the first callback for the object
+			l_object_storage_info[in_object_index].FirstCallbackFunctionIndex = callback_to_append_index;
+		}
+		else
+		{
+			// append callback to the end of the list
+			prev_callback_index = roxSTORAGE_INVALID_CALLBACK_INDEX;
+			callback_index = l_object_storage_info[in_object_index].FirstCallbackFunctionIndex;
+			while (callback_index != roxSTORAGE_INVALID_CALLBACK_INDEX)
+			{
+				prev_callback_index = callback_index;
+				callback_index = l_callback_collection[callback_index].NextCallbackFunctionIndex;
+			}
+
+			l_callback_collection[prev_callback_index].NextCallbackFunctionIndex = callback_to_append_index;
+		}
+	}
+
+	// release lock
+	sysMutexGive(l_callback_collection_lock);
 }
 
-void roxCallbackFunctionDelete(roxObjectChangedCallbackFunction in_callback_function, roxObjectAddress in_object_address)
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Removes change callback function from a given object
+/// @param in_object_index Index of the object from remove the change callback
+/// @param in_callback_function Callback function pointer
+void roxCallbackFunctionDelete(roxObjectChangedCallbackFunction in_callback_function, roxObjectIndex in_object_index)
 {
+	roxCallbackIndex prev_callback_index;
+	roxCallbackIndex callback_index;
 
+	// update list of changed object in a critical section
+	sysMutexTake(l_callback_collection_lock, sysINFINITE_TIMEOUT);
+
+	// find callback
+	prev_callback_index = roxSTORAGE_INVALID_CALLBACK_INDEX;
+	callback_index = l_object_storage_info[in_object_index].FirstCallbackFunctionIndex;
+	while (callback_index != roxSTORAGE_INVALID_CALLBACK_INDEX && l_callback_collection[callback_index].Callback != in_callback_function)
+	{
+		prev_callback_index = callback_index;
+		callback_index = l_callback_collection[callback_index].NextCallbackFunctionIndex;
+	}
+
+	// remove callback from the list
+	if (prev_callback_index == roxSTORAGE_INVALID_CALLBACK_INDEX)
+	{
+		l_object_storage_info[in_object_index].FirstCallbackFunctionIndex = roxSTORAGE_INVALID_CALLBACK_INDEX;
+	}
+	else
+	{
+		l_callback_collection[prev_callback_index].NextCallbackFunctionIndex = l_callback_collection[callback_index].NextCallbackFunctionIndex;
+	}
+
+	// delete callback
+	l_callback_collection[callback_index].Callback = sysNULL;
+	l_callback_collection[callback_index].NextCallbackFunctionIndex = roxSTORAGE_INVALID_CALLBACK_INDEX;
+
+	// release lock
+	sysMutexGive(l_callback_collection_lock);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Call all callback function of the given object
+/// @param in_object_index Object index to call
+static void roxStorageCallbackExecute(roxObjectIndex in_object_index)
+{
+	roxCallbackIndex callback_index;
+
+	sysASSERT(in_object_index < roxTOTAL_OBJECT_COUNT);
+
+	callback_index = l_object_storage_info[in_object_index].FirstCallbackFunctionIndex;
+	while (callback_index != roxSTORAGE_INVALID_CALLBACK_INDEX)
+	{
+		if (l_callback_collection[callback_index].Callback != sysNULL)
+			(l_callback_collection[callback_index].Callback)(in_object_index);
+
+		callback_index = l_callback_collection[callback_index].NextCallbackFunctionIndex;
+	}
 }
 
 /*****************************************************************************/
@@ -94,7 +223,7 @@ void roxCallbackFunctionDelete(roxObjectChangedCallbackFunction in_callback_func
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Start object read operation
 /// @param in_object_index Index of the object which will be read
-void roxObjectReadBegin(roxObjectAddress in_object_index)
+void roxObjectReadBegin(roxObjectIndex in_object_index)
 {
 	roxObjectStorageInfo* object_storage_info;
 
@@ -113,7 +242,7 @@ void roxObjectReadBegin(roxObjectAddress in_object_index)
 ///////////////////////////////////////////////////////////////////////////////
 /// @param End of object read operation. If there is no more read access and object values are pending after a write operation then the values for read will be updated.
 /// @param in_object_index Index of the object which reading will be ended
-void roxObjectReadEnd(roxObjectAddress in_object_index)
+void roxObjectReadEnd(roxObjectIndex in_object_index)
 {
 	roxObjectStorageInfo* object_storage_info;
 
@@ -139,6 +268,12 @@ void roxObjectReadEnd(roxObjectAddress in_object_index)
 				// set read data to the most current data
 				l_object_storage_info->ReadStorageIndex = l_object_storage_info->WriteStorageIndex;
 				l_object_storage_info->WriteState = roxOWS_Unlocked;
+
+				// call callbacks
+				roxStorageCallbackExecute(in_object_index);
+
+				// update telemetry object list
+				roxTelemetrySetObjectChanged(in_object_index);
 			}
 		}
 	}
@@ -150,7 +285,7 @@ void roxObjectReadEnd(roxObjectAddress in_object_index)
 /// @brief Lock object for write (reading of the actual values ais still possible)
 /// @param in_object_index Index of the object to write
 /// @return true if lock is accquired, false when object is already locked for write
-bool roxObjectWriteBegin(roxObjectAddress in_object_index)
+bool roxObjectWriteBegin(roxObjectIndex in_object_index)
 {
 	roxObjectStorageInfo* object_storage_info;
 
@@ -185,7 +320,7 @@ bool roxObjectWriteBegin(roxObjectAddress in_object_index)
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Releases object write lock
 /// @param Objec index to release write lock
-void roxObjectUpdateEnd(roxObjectAddress in_object_index)
+void roxObjectWriteEnd(roxObjectIndex in_object_index)
 {
 	roxObjectStorageInfo* object_storage_info;
 
@@ -202,10 +337,16 @@ void roxObjectUpdateEnd(roxObjectAddress in_object_index)
 		// there is no active reader -> switch to the newly refreshed buffer
 		object_storage_info->ReadStorageIndex = object_storage_info->WriteStorageIndex;
 		object_storage_info->WriteState = roxOWS_Unlocked;
+
+		// call callbacks
+		roxStorageCallbackExecute(in_object_index);
+
+		// update telemetry object list
+		roxTelemetrySetObjectChanged(in_object_index);
 	}
 	else
 	{
-		// ther is active reader -> mark it as pending data
+		// there is active reader -> mark it as pending data
 		object_storage_info->WriteState = roxOWS_PendingAfterWrite;
 	}
 
@@ -224,15 +365,15 @@ void roxObjectUpdateEnd(roxObjectAddress in_object_index)
 /// @param in_object_address Object address to get value
 /// @param in_member_address Member address to get value
 /// @return Member value as float number
-float roxGetFloat(roxObjectAddress in_object_address, roxMemberAddress in_member_address)
+float roxGetFloat(roxObjectIndex in_object_index, roxMemberAddress in_member_address)
 {
 	roxObjectStorageInfo* object_storage_info;
 
 	// sanity check
-	sysASSERT(in_object_address < roxTOTAL_OBJECT_COUNT);
+	sysASSERT(in_object_index < roxTOTAL_OBJECT_COUNT);
 
 	// cache object info pointer
-	object_storage_info = &l_object_storage_info[in_object_address];
+	object_storage_info = &l_object_storage_info[in_object_index];
 
 	return *(float*)&l_realtime_object_value_storage[object_storage_info->ReadStorageIndex][object_storage_info->Address + in_member_address];
 }
@@ -243,9 +384,8 @@ float roxGetFloat(roxObjectAddress in_object_address, roxMemberAddress in_member
 /// @param in_member_address Address of the member variable to change
 /// @param in_value New value of the member
 /// @param true if operation was success, false if member can't be modified (e.q. object is not in write state)
-bool roxSetFloat(roxObjectAddress in_object_address, roxMemberAddress in_member_address, float in_value)
+bool roxSetFloat(roxObjectIndex in_object_address, roxMemberAddress in_member_address, float in_value)
 {
-
 	roxObjectStorageInfo* object_storage_info;
 
 	// sanity check

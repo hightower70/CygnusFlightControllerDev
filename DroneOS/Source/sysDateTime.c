@@ -5,7 +5,7 @@
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 
 /*****************************************************************************/
@@ -516,18 +516,18 @@ sysStringLength sysDateTimeConvertTimeToString(sysString out_buffer, sysStringLe
 		return in_pos;
 
 	// convert hour
-	in_pos = strWordToStringPos(out_buffer, in_buffer_length, in_pos, in_datetime->Hour, 2, 0, 0);
+	in_pos = sysWordToStringPos(out_buffer, in_buffer_length, in_pos, in_datetime->Hour, 2, 0, 0);
 	if (out_buffer[in_pos - 2] == '0')
 		out_buffer[in_pos - 2] = ' ';
 
 	out_buffer[in_pos++] = ':';
 
 	// convert minute
-	in_pos = strWordToStringPos(out_buffer, in_buffer_length, in_pos, in_datetime->Minute, 2, 0, 0);
+	in_pos = sysWordToStringPos(out_buffer, in_buffer_length, in_pos, in_datetime->Minute, 2, 0, 0);
 	out_buffer[in_pos++] = ':';
 
 	// convert seconds
-	in_pos = strWordToStringPos(out_buffer, in_buffer_length, in_pos, in_datetime->Second, 2, 0, 0);
+	in_pos = sysWordToStringPos(out_buffer, in_buffer_length, in_pos, in_datetime->Second, 2, 0, 0);
 	out_buffer[in_pos] = '\0';
 
 	return in_pos;
@@ -546,15 +546,15 @@ sysStringLength sysDateTimeConvertDateToString(sysString out_buffer, sysStringLe
 		return in_pos;
 
 	// convert year
-	in_pos = strWordToStringPos(out_buffer, in_buffer_length, in_pos, in_date->Year, 4, 0, 0);
+	in_pos = sysWordToStringPos(out_buffer, in_buffer_length, in_pos, in_date->Year, 4, 0, 0);
 	out_buffer[in_pos++] = in_separator;
 
 	// convert month
-	in_pos = strWordToStringPos(out_buffer, in_buffer_length, in_pos, in_date->Month, 2, 0, 0);
+	in_pos = sysWordToStringPos(out_buffer, in_buffer_length, in_pos, in_date->Month, 2, 0, 0);
 	out_buffer[in_pos++] = in_separator;
 
 	// convert day
-	in_pos = strWordToStringPos(out_buffer, in_buffer_length, in_pos, in_date->Day, 2, 0, 0);
+	in_pos = sysWordToStringPos(out_buffer, in_buffer_length, in_pos, in_date->Day, 2, 0, 0);
 	out_buffer[in_pos] = '\0';
 
 	return in_pos;
@@ -574,12 +574,12 @@ void sysDateTimeConvertFromString(sysString in_buffer, sysStringLength in_buffer
 	uint8_t month, day;
 
 	//TODO: format handling
-	strSkipWhitespaces(in_buffer, in_buffer_length, inout_pos);
-	strStringToWord(in_buffer, in_buffer_length, inout_pos, inout_success, &year);
-	strCheckForSeparator(in_buffer, in_buffer_length, inout_pos, inout_success, in_separator);
-	strStringToByte(in_buffer, in_buffer_length, inout_pos, inout_success, &month);
-	strCheckForSeparator(in_buffer, in_buffer_length, inout_pos, inout_success, in_separator);
-	strStringToByte(in_buffer, in_buffer_length, inout_pos, inout_success, &day);
+	sysSkipWhitespaces(in_buffer, in_buffer_length, inout_pos);
+	sysStringToWord(in_buffer, in_buffer_length, inout_pos, inout_success, &year);
+	sysCheckForSeparator(in_buffer, in_buffer_length, inout_pos, inout_success, in_separator);
+	sysStringToByte(in_buffer, in_buffer_length, inout_pos, inout_success, &month);
+	sysCheckForSeparator(in_buffer, in_buffer_length, inout_pos, inout_success, in_separator);
+	sysStringToByte(in_buffer, in_buffer_length, inout_pos, inout_success, &day);
 
 	// validate
 	if (*inout_success)
@@ -618,12 +618,12 @@ void sysDateTimeStringToTime(sysString in_buffer, sysStringLength in_buffer_leng
 	uint8_t hour, minute, second;
 
 	//TODO: format handling
-	strSkipWhitespaces(in_buffer, in_buffer_length, inout_pos);
-	strStringToByte(in_buffer, in_buffer_length, inout_pos, inout_success, &hour);
-	strCheckForSeparator(in_buffer, in_buffer_length, inout_pos, inout_success, in_separator);
-	strStringToByte(in_buffer, in_buffer_length, inout_pos, inout_success, &minute);
-	strCheckForSeparator(in_buffer, in_buffer_length, inout_pos, inout_success, in_separator);
-	strStringToByte(in_buffer, in_buffer_length, inout_pos, inout_success, &second);
+	sysSkipWhitespaces(in_buffer, in_buffer_length, inout_pos);
+	sysStringToByte(in_buffer, in_buffer_length, inout_pos, inout_success, &hour);
+	sysCheckForSeparator(in_buffer, in_buffer_length, inout_pos, inout_success, in_separator);
+	sysStringToByte(in_buffer, in_buffer_length, inout_pos, inout_success, &minute);
+	sysCheckForSeparator(in_buffer, in_buffer_length, inout_pos, inout_success, in_separator);
+	sysStringToByte(in_buffer, in_buffer_length, inout_pos, inout_success, &second);
 
 	// validate
 	if (*inout_success)

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -28,26 +28,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141_xp</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -87,8 +87,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);comDISABLE_TIMEOUTS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>.\include;..\..\Include;..\..\DroneOS\Include;..\..\DroneOS\Drivers\Include;..\..\DroneOS\HAL\Include;..\..\DroneOS\HAL\Win32\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions);comDISABLE_TIMEOUTS;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.\include;..\..\Include;..\..\DroneOS\Include;..\..\DroneOS\Drivers\Include;..\..\DroneOS\HAL\Include;..\..\DroneOS\HAL\Win32\Include;..\..\Navigation\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -162,18 +162,22 @@
     <ClCompile Include="..\..\DroneOS\Source\roxStorage.c" />
     <ClCompile Include="..\..\DroneOS\Source\crcCITT16.c" />
     <ClCompile Include="..\..\DroneOS\Source\crcMD5.c" />
-    <ClCompile Include="..\..\DroneOS\Source\strString.c" />
     <ClCompile Include="..\..\DroneOS\Source\sysDateTime.c" />
+    <ClCompile Include="..\..\DroneOS\Source\sysString.c" />
     <ClCompile Include="..\..\DroneOS\Source\sysTimer.c" />
-    <ClCompile Include="..\..\Source\cfcSystemInit.c" />
+    <ClCompile Include="..\..\Navigation\Source\naviOccupancyGrid.c" />
+    <ClCompile Include="..\..\Navigation\Source\naviPathPlannerFlooding.c" />
+    <ClCompile Include="..\..\Navigation\Source\naviRasterMap.c" />
+    <ClCompile Include="..\..\Source\sysInitialize.c" />
     <ClCompile Include="..\..\Source\fileSystemFilesStorage.c" />
+    <ClCompile Include="naviOccupancyGridCompression.c" />
+    <ClCompile Include="roxTelemetry.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\DroneOS\Drivers\Include\drvUDP.h" />
     <ClInclude Include="..\..\DroneOS\Drivers\Win32\Include\drvIODefinitions.h" />
     <ClInclude Include="..\..\DroneOS\HAL\Include\halRTC.h" />
     <ClInclude Include="..\..\DroneOS\HAL\Include\halUART.h" />
-    <ClInclude Include="..\..\DroneOS\HAL\Win32\Include\halIODefinitions.h" />
     <ClInclude Include="..\..\DroneOS\Include\cfgStorage.h" />
     <ClInclude Include="..\..\DroneOS\Include\comUART.h" />
     <ClInclude Include="..\..\DroneOS\Include\fileTransfer.h" />
@@ -201,6 +205,8 @@
     <ClInclude Include="..\..\DroneOS\Include\imuCommunication.h" />
     <ClInclude Include="..\..\DroneOS\Include\imuTask.h" />
     <ClInclude Include="..\..\DroneOS\Include\crcCITT16.h" />
+    <ClInclude Include="..\..\DroneOS\Include\roxStorage.h" />
+    <ClInclude Include="..\..\DroneOS\Include\roxTelemetry.h" />
     <ClInclude Include="..\..\DroneOS\Include\sysDateTime.h" />
     <ClInclude Include="..\..\DroneOS\Include\sysHighresTimer.h" />
     <ClInclude Include="..\..\DroneOS\Include\sysInitialize.h" />
@@ -208,10 +214,15 @@
     <ClInclude Include="..\..\DroneOS\Include\sysPackedStructEnd.h" />
     <ClInclude Include="..\..\DroneOS\Include\sysPackedStructStart.h" />
     <ClInclude Include="..\..\DroneOS\Include\sysRTOS.h" />
-    <ClInclude Include="..\..\DroneOS\Include\strString.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysRTOS_Win32.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysString.h" />
     <ClInclude Include="..\..\DroneOS\Include\sysTimer.h" />
     <ClInclude Include="..\..\DroneOS\Include\sysTypes.h" />
+    <ClInclude Include="..\..\Navigation\Include\naviOccupancyGridCompression.h" />
+    <ClInclude Include="..\..\Navigation\Include\naviRasterMap.h" />
+    <ClInclude Include="..\..\Navigation\Include\naviOccupancyGrid.h" />
     <ClInclude Include="include\cfgConstants.h" />
+    <ClInclude Include="include\halIODefinitions.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="include\cfgDefault.inl" />

@@ -5,7 +5,7 @@
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 
 /*****************************************************************************/
@@ -129,7 +129,6 @@ static void drvPPMThread(void* in_param)
 	}
 }
 
-
 /*****************************************************************************/
 /* Callback functions                                                        */
 /*****************************************************************************/
@@ -140,7 +139,7 @@ void halPPMDelayExpiredCallback(void* in_interrupt_param)
 {
 	switch(l_state)
 	{
-		// gap detected -> start frame receiveing
+		// gap detected -> start frame receiving
 		case drvPPM_ST_WaitForGap:
 			l_state = drvPPM_ST_WaitForPulse;
 			halPPMStartDelay(drvPPM_MAX_FRAME_LENGTH);

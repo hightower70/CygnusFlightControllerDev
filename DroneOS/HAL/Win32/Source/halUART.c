@@ -5,7 +5,7 @@
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 
 /*****************************************************************************/
@@ -49,7 +49,7 @@ static halUARTDriverInfo l_uart_info[halUART_MAX_COUNT] = { 0 };
 /* Local functions                                                           */
 /*****************************************************************************/
 static void halUARTShutdown(void);
-static void halUARTThread(void* in_param);
+static sysTaskRetval halUARTThread(sysTaskParam in_param);
 static void halUARTInitOneUART(uint8_t in_uart_index);
 
 
@@ -80,7 +80,6 @@ static void halUARTInitOneUART(uint8_t in_uart_index)
 
 	if (in_uart_index >= halUART_MAX_COUNT)
 		return;
-
 
 	if (l_system_is_running_event == NULL)
 	{
@@ -208,7 +207,7 @@ bool halUARTSendBlock(uint8_t in_uart_index, uint8_t* in_buffer, uint16_t in_buf
 
 ///////////////////////////////////////////////////////////////////////////////
 // UART1 Thread function
-static void halUARTThread(void* in_param)
+static sysTaskRetval halUARTThread(sysTaskParam in_param)
 {
   HANDLE handles[2];
   DWORD event_mask = 0;

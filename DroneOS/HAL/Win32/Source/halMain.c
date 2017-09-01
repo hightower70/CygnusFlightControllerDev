@@ -1,17 +1,18 @@
 /*****************************************************************************/
-/* Main Entry Function for Win32 application                                 */
+/* Main Entry Function for Win32 console application                         */
 /*                                                                           */
 /* Copyright (C) 2015 Laszlo Arvai                                           */
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 
 ///////////////////////////////////////////////////////////////////////////////
 // Includes
 #include <sysRTOS.h>
 #include <sysInitialize.h>
+#include <halHelpers.h>
 #include <stdio.h>
 #include <conio.h>
 
@@ -24,18 +25,17 @@ char** g_argv;
 /*****************************************************************************/
 /* Module local variables                                                    */
 /*****************************************************************************/
-static CRITICAL_SECTION l_critical_section;
+
 
 ///////////////////////////////////////////////////////////////////////////////
-// Main entry function
+/// @brief  Win32 console emulation main entry function
 int main(int argc, char* argv[])
 {
 	g_argc = argc;
 	g_argv = argv;
 
-	InitializeCriticalSection(&l_critical_section);
-
 	// initialize system
+	halInitialize();
 	sysInitialize();
 	sysCreateTasks();
 
@@ -51,17 +51,7 @@ int main(int argc, char* argv[])
 	// wait for threads to exit
 	Sleep(100);
 
-	DeleteCriticalSection(&l_critical_section);
+	halDeinitialize();
 
 	return 0;
-}
-
-void sysCriticalSectionBegin(void)
-{
-	EnterCriticalSection(&l_critical_section);
-}
-
-void sysCriticalSectionEnd(void)
-{
-	LeaveCriticalSection(&l_critical_section);
 }

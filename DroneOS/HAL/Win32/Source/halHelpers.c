@@ -5,24 +5,60 @@
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 
-///////////////////////////////////////////////////////////////////////////////
-// Includes
+/*****************************************************************************/
+/* Includes                                                                  */
+/*****************************************************************************/
 #include <sysRTOS.h>
 #include <stdio.h>
 
 #pragma comment(lib,"Winmm.lib")
 
-///////////////////////////////////////////////////////////////////////////////
-// Constants
+/*****************************************************************************/
+/* Constants                                                                 */
+/*****************************************************************************/
 #define sysTASK_STOP_FUNCTION_COUNT 128
 
-///////////////////////////////////////////////////////////////////////////////
-// Module global variables
+/*****************************************************************************/
+/* Module global variables                                                   */
+/*****************************************************************************/
+static CRITICAL_SECTION l_critical_section;
 static sysTaskStopFunction l_task_stop_functions[sysTASK_STOP_FUNCTION_COUNT];
 static uint8_t l_task_stop_function_count = 0;
+
+/*****************************************************************************/
+/* Function implementations                                                  */
+/*****************************************************************************/
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Initializes HAL layer
+void halInitialize(void)
+{
+	InitializeCriticalSection(&l_critical_section);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Deinitializes HAL layer (releases all resources)
+void halDeinitialize(void)
+{
+	DeleteCriticalSection(&l_critical_section);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Enters int ocritical section
+void sysCriticalSectionBegin(void)
+{
+	EnterCriticalSection(&l_critical_section);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Leavs critical section
+void sysCriticalSectionEnd(void)
+{
+	LeaveCriticalSection(&l_critical_section);
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Creates task under Win32
@@ -107,6 +143,22 @@ uint8_t sysGetCPUUsage(void)
 	prev_user = user;
 
 	return cpu_usage;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Gets system timer current value in ms (current timestamp)
+/// @return System timer value in ms
+sysTick sysGetSystemTick(void)
+{
+	return GetTickCount();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+/// @brief Waits for the given time in ms
+/// @return Delay time in ms
+void sysDelay(uint32_t in_delay_in_ms)
+{
+	Sleep(in_delay_in_ms);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -5,7 +5,7 @@
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 
 /*****************************************************************************/
@@ -14,7 +14,7 @@
 #include <sysRTOS.h>
 #include <halUART.h>
 #include <drvUDP.h>
-#include <strString.h>
+#include <sysString.h>
 #include <comUDP.h>
 #include <cfgStorage.h>
 #include <comManager.h>
@@ -239,15 +239,9 @@ static uint16_t l_data_size;
 static uint16_t l_data_expected_size;
 
 // uart variable
-static uint8_t l_uart_index = 3;
-
-
-
-
+static uint8_t l_uart_index = 1;
 
 uint16_t l_last_prompt_pos;
-
-
 
 /*****************************************************************************/
 /* Module global variables                                                   */
@@ -658,13 +652,13 @@ static void drvESP8266ProcessResponse(void)
 						drvESP8266CopyStringFromReceivedBlock(l_parser_buffer, drvESP8266_PARSER_BUFFER_LENGTH, data_length);
 						parser_buffer_pos = 14;
 
-						strStringToByte(l_parser_buffer, drvESP8266_PARSER_BUFFER_LENGTH, &parser_buffer_pos, &success, &byte1);
-						strCheckForSeparator(l_parser_buffer, drvESP8266_PARSER_BUFFER_LENGTH, &parser_buffer_pos, &success, '.');
-						strStringToByte(l_parser_buffer, drvESP8266_PARSER_BUFFER_LENGTH, &parser_buffer_pos, &success, &byte2);
-						strCheckForSeparator(l_parser_buffer, drvESP8266_PARSER_BUFFER_LENGTH, &parser_buffer_pos, &success, '.');
-						strStringToByte(l_parser_buffer, drvESP8266_PARSER_BUFFER_LENGTH, &parser_buffer_pos, &success, &byte3);
-						strCheckForSeparator(l_parser_buffer, drvESP8266_PARSER_BUFFER_LENGTH, &parser_buffer_pos, &success, '.');
-						strStringToByte(l_parser_buffer, drvESP8266_PARSER_BUFFER_LENGTH, &parser_buffer_pos, &success, &byte4);
+						sysStringToByte(l_parser_buffer, drvESP8266_PARSER_BUFFER_LENGTH, &parser_buffer_pos, &success, &byte1);
+						sysCheckForSeparator(l_parser_buffer, drvESP8266_PARSER_BUFFER_LENGTH, &parser_buffer_pos, &success, '.');
+						sysStringToByte(l_parser_buffer, drvESP8266_PARSER_BUFFER_LENGTH, &parser_buffer_pos, &success, &byte2);
+						sysCheckForSeparator(l_parser_buffer, drvESP8266_PARSER_BUFFER_LENGTH, &parser_buffer_pos, &success, '.');
+						sysStringToByte(l_parser_buffer, drvESP8266_PARSER_BUFFER_LENGTH, &parser_buffer_pos, &success, &byte3);
+						sysCheckForSeparator(l_parser_buffer, drvESP8266_PARSER_BUFFER_LENGTH, &parser_buffer_pos, &success, '.');
+						sysStringToByte(l_parser_buffer, drvESP8266_PARSER_BUFFER_LENGTH, &parser_buffer_pos, &success, &byte4);
 
 						if (success)
 							l_local_ip_address = (((uint32_t)byte1) << 24) + (byte2 << 16) + (byte3 << 8) + byte4;
@@ -724,11 +718,11 @@ static void drvESP8266ProcessCommunicationState(void)
 		case drvESP8266_CS_Initialized:
 			l_communication_state = drvESP8266_CS_WifiConnecting;
 
-			pos = strCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, 0, (sysConstString)"AT+CWJAP=\"");
-			pos = strCopyString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, cfgGetStringValue(cfgVAL_WIFI_SSID));
-			pos = strCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (sysConstString)"\",\"");
-			pos = strCopyString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, cfgGetStringValue(cfgVAL_WIFI_PWD));
-			pos = strCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (sysConstString)"\"");
+			pos = sysCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, 0, (sysConstString)"AT+CWJAP=\"");
+			pos = sysCopyString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, cfgGetStringValue(cfgVAL_WIFI_SSID));
+			pos = sysCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (sysConstString)"\",\"");
+			pos = sysCopyString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, cfgGetStringValue(cfgVAL_WIFI_PWD));
+			pos = sysCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (sysConstString)"\"");
 
 			drvESP8266CommandFlush(20000);
 			break;
@@ -837,12 +831,12 @@ static void drvESP8266HandleTransmitter(void)
 				{
 					l_transmitter_mode = drvESP8266_TM_SendingCommand;
 
-					pos = strCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, 0, (sysConstString)"AT+CIPSEND=0,");
-					pos = strWordToStringPos(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, l_transmitter_data_buffer_length, 0, 0, 0);
-					pos = strCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (sysConstString)",\"");
+					pos = sysCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, 0, (sysConstString)"AT+CIPSEND=0,");
+					pos = sysWordToStringPos(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, l_transmitter_data_buffer_length, 0, 0, 0);
+					pos = sysCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (sysConstString)",\"");
 					pos = drvESP8266AppendIPAddresToCommand(pos, l_transmitter_ip_address);
-					pos = strCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (sysConstString)"\",");
-					pos = strWordToStringPos(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, cfgGetUInt16Value(cfgVAL_WIFI_REMOTE), 0, 0, 0);
+					pos = sysCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (sysConstString)"\",");
+					pos = sysWordToStringPos(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, cfgGetUInt16Value(cfgVAL_WIFI_REMOTE), 0, 0, 0);
 
 					l_transmitter_command_buffer_length = pos;
 
@@ -893,13 +887,13 @@ static void drvESP8266UDPConnectionPrepareCallback(uint8_t* inout_communication_
 	if (in_reason != drvESP8266_CCR_CommandPrepare)
 		return;
 
-	pos = strCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, 0, (sysConstString)"AT+CIPSTART=0,\"UDP\",\"");
+	pos = sysCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, 0, (sysConstString)"AT+CIPSTART=0,\"UDP\",\"");
 	pos = drvESP8266AppendIPAddresToCommand(pos, drvESP8266_MAKE_BROADCAST_ADDRESS(l_local_ip_address));		// remote IP (any IP addres on the same subnet)
-	pos = strCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (sysConstString)"\",");
-	pos = strWordToStringPos(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos,  cfgGetUInt16Value(cfgVAL_WIFI_REMOTE), 0, 0, 0); // remote port
-	pos = strCopyCharacter(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, ',');
-	pos = strWordToStringPos(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, cfgGetUInt16Value(cfgVAL_WIFI_LOCAL), 0, 0, 0);
-	pos = strCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (sysConstString)",0");
+	pos = sysCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (sysConstString)"\",");
+	pos = sysWordToStringPos(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos,  cfgGetUInt16Value(cfgVAL_WIFI_REMOTE), 0, 0, 0); // remote port
+	pos = sysCopyCharacter(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, ',');
+	pos = sysWordToStringPos(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, cfgGetUInt16Value(cfgVAL_WIFI_LOCAL), 0, 0, 0);
+	pos = sysCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (sysConstString)",0");
 }
 
 // </editor-fold>
@@ -1047,7 +1041,7 @@ void drvESP8266UARTRxCallback(uint8_t in_char, void* in_interrupt_param)
 				success = true;
 				pos = 0;
 				size = 0;
-				strStringToWord(l_data_header_parser_buffer, drvESP8266_DATA_HEADER_PARSER_BUFFER_LENGTH, &pos, &success, &size);
+				sysStringToWord(l_data_header_parser_buffer, drvESP8266_DATA_HEADER_PARSER_BUFFER_LENGTH, &pos, &success, &size);
 
 				// prepare for data receiveing
 				l_data_size = 0;
@@ -1454,7 +1448,7 @@ static uint16_t drvESP8266ReceivedBlockGetLength(void)
 /// @brief Send command string to the ESP8266
 static void drvESP8266CommandSend(sysConstString in_command)
 {
-	strCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, 0, in_command);
+	sysCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, 0, in_command);
 
 	// send command
 	drvESP8266CommandFlush(drvESP8266_COMMAND_TIMEOUT);
@@ -1464,7 +1458,7 @@ static void drvESP8266CommandSend(sysConstString in_command)
 /// @brief Send command string to the ESP8266 with the specified timeout
 static void drvESP8266CommandSendWithTimeout(sysConstString in_command, uint32_t in_timeout)
 {
-	strCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, 0, in_command);
+	sysCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, 0, in_command);
 
 	// send command
 	drvESP8266CommandFlush(in_timeout);
@@ -1477,7 +1471,7 @@ static void drvESP8266CommandFlush(uint32_t in_timeout)
 	sysStringLength pos;
 
 	// terminate command
-	pos = strAppendConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, "\r\n");
+	pos = sysAppendConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, "\r\n");
 	l_transmitter_command_buffer_length = pos;
 
 	// setup timeout
@@ -1522,7 +1516,7 @@ static void drvESP8266SequenceCommandSend(drvESP8266CommandTableEntry* in_comman
 	if (l_command_sequence_table[in_sequence_index].Command[0] != '\0')
 	{
 		// if command specified then copy into the transmit buffer
-		strCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, 0, l_command_sequence_table[in_sequence_index].Command);
+		sysCopyConstString(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, 0, l_command_sequence_table[in_sequence_index].Command);
 	}
 	else
 	{
@@ -1548,13 +1542,13 @@ sysStringLength drvESP8266AppendIPAddresToCommand(sysStringLength in_pos, uint32
 {
 	sysStringLength pos = in_pos;
 
-	pos = strWordToStringPos(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (in_ip >> 24) & 0xff, 0, 0, 0);
-	pos = strCopyCharacter(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, '.');
-	pos = strWordToStringPos(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (in_ip >> 16) & 0xff, 0, 0, 0);
-	pos = strCopyCharacter(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, '.');
-	pos = strWordToStringPos(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (in_ip >> 8) & 0xff, 0, 0, 0);
-	pos = strCopyCharacter(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, '.');
-	pos = strWordToStringPos(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (in_ip) & 0xff, 0, 0, 0);
+	pos = sysWordToStringPos(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (in_ip >> 24) & 0xff, 0, 0, 0);
+	pos = sysCopyCharacter(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, '.');
+	pos = sysWordToStringPos(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (in_ip >> 16) & 0xff, 0, 0, 0);
+	pos = sysCopyCharacter(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, '.');
+	pos = sysWordToStringPos(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (in_ip >> 8) & 0xff, 0, 0, 0);
+	pos = sysCopyCharacter(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, '.');
+	pos = sysWordToStringPos(l_transmitter_command_buffer, drvESP8266_TRANSMITTER_COMMAND_BUFFER_LENGTH, pos, (in_ip) & 0xff, 0, 0, 0);
 
 	return pos;
 }

@@ -5,7 +5,7 @@
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 
 /*****************************************************************************/
@@ -41,8 +41,8 @@
 #define MDM_GPIO_Port GPIOA
 #define AIN3_Pin GPIO_PIN_5
 #define AIN3_GPIO_Port GPIOA
-#define AIn2_Pin GPIO_PIN_6
-#define AIn2_GPIO_Port GPIOA
+#define AIN2_Pin GPIO_PIN_6
+#define AIN2_GPIO_Port GPIOA
 #define AIN1_Pin GPIO_PIN_7
 #define AIN1_GPIO_Port GPIOA
 #define VBAT_Pin GPIO_PIN_0

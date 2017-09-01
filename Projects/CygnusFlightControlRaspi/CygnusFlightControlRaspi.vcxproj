@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EFDA279F-92B4-4214-A440-909C6090E498}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeIncludeSearchPath>c:\sysgcc\raspberry\arm-linux-gnueabihf\include\c++\4.6;c:\sysgcc\raspberry\arm-linux-gnueabihf\include\c++\4.6\arm-linux-gnueabihf;c:\sysgcc\raspberry\arm-linux-gnueabihf\include\c++\4.6\backward;c:\sysgcc\raspberry\lib\gcc\arm-linux-gnueabihf\4.6\include;c:\sysgcc\raspberry\lib\gcc\arm-linux-gnueabihf\4.6\include-fixed;c:\sysgcc\raspberry\arm-linux-gnueabihf\include;c:\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include\arm-linux-gnueabihf;c:\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include;../../DroneOS/Include;../../DroneOS/HAL/Include;../../DroneOS/Drivers/Include;include;C:\SysGCC\raspberry\arm-linux-gnueabihf\include\c++\4.9;C:\SysGCC\raspberry\arm-linux-gnueabihf\include\c++\4.9\tr1;C:\SysGCC\raspberry\arm-linux-gnueabihf\sysroot\usr\include\linux;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeForcedIncludes>$(ProjectDir)\gcc_Debug.h;$(VISUALGDB_DIR)\gcc_compat.h;$(NMakeForcedIncludes)</NMakeForcedIncludes>
+    <NMakeBuildCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /build "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /clean "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /rebuild "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeReBuildCommandLine>
+    <NMakeOutput>$(ProjectDir)CygnusFlightControlRaspi-Debug.vgdbsettings</NMakeOutput>
+    <IncludePath />
+    <ReferencePath />
+    <LibraryPath />
+    <NMakePreprocessorDefinitions>__VisualGDB_CFG_Debug;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeIncludeSearchPath>c:\sysgcc\raspberry\arm-linux-gnueabihf\include\c++\4.6;c:\sysgcc\raspberry\arm-linux-gnueabihf\include\c++\4.6\arm-linux-gnueabihf;c:\sysgcc\raspberry\arm-linux-gnueabihf\include\c++\4.6\backward;c:\sysgcc\raspberry\lib\gcc\arm-linux-gnueabihf\4.6\include;c:\sysgcc\raspberry\lib\gcc\arm-linux-gnueabihf\4.6\include-fixed;c:\sysgcc\raspberry\arm-linux-gnueabihf\include;c:\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include\arm-linux-gnueabihf;c:\sysgcc\raspberry\arm-linux-gnueabihf\sysroot\usr\include;$(NMakeIncludeSearchPath)</NMakeIncludeSearchPath>
+    <NMakeForcedIncludes>$(ProjectDir)\gcc_Release.h;$(VISUALGDB_DIR)\gcc_compat.h;$(NMakeForcedIncludes)</NMakeForcedIncludes>
+    <NMakePreprocessorDefinitions>__VisualGDB_CFG_Release;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeBuildCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /build "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeBuildCommandLine>
+    <NMakeCleanCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /clean "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeCleanCommandLine>
+    <NMakeReBuildCommandLine>"$(VISUALGDB_DIR)\VisualGDB.exe" /rebuild "$(ProjectPath)" "/solution:$(SolutionPath)" "/config:$(Configuration)" "/platform:$(Platform)"</NMakeReBuildCommandLine>
+    <NMakeOutput>$(ProjectDir)CygnusFlightControlRaspi-Release.vgdbsettings</NMakeOutput>
+    <IncludePath />
+    <ReferencePath />
+    <LibraryPath />
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="CygnusFlightControlRaspi-Debug.vgdbsettings" />
+    <None Include="CygnusFlightControlRaspi-Release.vgdbsettings" />
+    <None Include="debug.mak" />
+    <None Include="include\cfgDefault.inl" />
+    <None Include="include\cfgValueInfo.inl" />
+    <None Include="include\cfgXML.inl" />
+    <None Include="Makefile" />
+    <None Include="release.mak" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\DroneOS\HAL\RaspberryPI\Source\halEEPROM.c" />
+    <ClCompile Include="..\..\DroneOS\HAL\RaspberryPI\Source\halHelpers.c" />
+    <ClCompile Include="..\..\DroneOS\HAL\RaspberryPI\Source\halMain.c" />
+    <ClCompile Include="..\..\DroneOS\HAL\RaspberryPI\Source\halRTC.c" />
+    <ClCompile Include="..\..\DroneOS\HAL\RaspberryPI\Source\halUART.c" />
+    <ClCompile Include="..\..\DroneOS\HAL\RaspberryPI\Source\halUDP.c" />
+    <ClCompile Include="..\..\DroneOS\Source\cfgStorage.c" />
+    <ClCompile Include="..\..\DroneOS\Source\comManager.c" />
+    <ClCompile Include="..\..\DroneOS\Source\comPacketBuilder.c" />
+    <ClCompile Include="..\..\DroneOS\Source\comPacketQueue.c" />
+    <ClCompile Include="..\..\DroneOS\Source\comSLIP.c" />
+    <ClCompile Include="..\..\DroneOS\Source\comUART.c" />
+    <ClCompile Include="..\..\DroneOS\Source\comUDP.c" />
+    <ClCompile Include="..\..\DroneOS\Source\crcCITT16.c" />
+    <ClCompile Include="..\..\DroneOS\Source\crcMD5.c" />
+    <ClCompile Include="..\..\DroneOS\Source\fileSystemFile.c" />
+    <ClCompile Include="..\..\DroneOS\Source\fileTransfer.c" />
+    <ClCompile Include="..\..\DroneOS\Source\roxStorage.c" />
+    <ClCompile Include="..\..\DroneOS\Source\sysDateTime.c" />
+    <ClCompile Include="..\..\DroneOS\Source\sysString.c" />
+    <ClCompile Include="..\..\DroneOS\Source\sysTimer.c" />
+    <ClCompile Include="source\cfcSystemInit.c" />
+    <ClCompile Include="source\fileSystemFilesStorage.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\DroneOS\HAL\Include\halColorGraphics.h" />
+    <ClInclude Include="..\..\DroneOS\HAL\Include\halGraphicsDisplay.h" />
+    <ClInclude Include="..\..\DroneOS\HAL\Include\halHelpers.h" />
+    <ClInclude Include="..\..\DroneOS\HAL\Include\halRTC.h" />
+    <ClInclude Include="..\..\DroneOS\HAL\Include\halUART.h" />
+    <ClInclude Include="..\..\DroneOS\Include\cfgStorage.h" />
+    <ClInclude Include="..\..\DroneOS\Include\comHID.h" />
+    <ClInclude Include="..\..\DroneOS\Include\comInterfaces.h" />
+    <ClInclude Include="..\..\DroneOS\Include\comManager.h" />
+    <ClInclude Include="..\..\DroneOS\Include\comPacketBuilder.h" />
+    <ClInclude Include="..\..\DroneOS\Include\comPacketQueue.h" />
+    <ClInclude Include="..\..\DroneOS\Include\comSLIP.h" />
+    <ClInclude Include="..\..\DroneOS\Include\comSystemPacketDefinitions.h" />
+    <ClInclude Include="..\..\DroneOS\Include\comUART.h" />
+    <ClInclude Include="..\..\DroneOS\Include\comUDP.h" />
+    <ClInclude Include="..\..\DroneOS\Include\crcCITT16.h" />
+    <ClInclude Include="..\..\DroneOS\Include\crcMD5.h" />
+    <ClInclude Include="..\..\DroneOS\Include\fileSystemFiles.h" />
+    <ClInclude Include="..\..\DroneOS\Include\fileTransfer.h" />
+    <ClInclude Include="..\..\DroneOS\Include\FreeRTOSConfig.h" />
+    <ClInclude Include="..\..\DroneOS\Include\guiColorGraphics.h" />
+    <ClInclude Include="..\..\DroneOS\Include\guiColors.h" />
+    <ClInclude Include="..\..\DroneOS\Include\guiCommon.h" />
+    <ClInclude Include="..\..\DroneOS\Include\guiTypes.h" />
+    <ClInclude Include="..\..\DroneOS\Include\imuCommunication.h" />
+    <ClInclude Include="..\..\DroneOS\Include\imuTask.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysDateTime.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysHighresTimer.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysInitialize.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysPackedStructEnd.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysPackedStructStart.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysRTOS.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysRTOS_FreeRTOS.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysRTOS_Linux.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysRTOS_Win32.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysString.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysTimer.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysTypes.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysUserInput.h" />
+    <ClInclude Include="..\..\DroneOS\Include\sysVirtualKeyboardCodes.h" />
+    <ClInclude Include="include\cfgConstants.h" />
+    <ClInclude Include="include\halIODefinitions.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

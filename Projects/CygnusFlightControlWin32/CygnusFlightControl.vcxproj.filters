@@ -40,11 +40,17 @@
     <Filter Include="DroneOS\HAL Files\Header Files">
       <UniqueIdentifier>{7c767a8f-5e4b-46e1-a65c-0389775c2d7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Navigation">
+      <UniqueIdentifier>{20da04b8-e253-44ba-833e-8d074924b1ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Navigation\Header Files">
+      <UniqueIdentifier>{232429a4-38a1-4eb4-8d9d-bc9c9ee66cc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Navigation\Source Files">
+      <UniqueIdentifier>{f816814f-8ae4-4d4a-aea9-52eb9c48c254}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Source\cfcSystemInit.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\DroneOS\Source\comSLIP.c">
       <Filter>DroneOS\Source Files</Filter>
     </ClCompile>
@@ -70,9 +76,6 @@
       <Filter>DroneOS\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\DroneOS\Source\crcMD5.c">
-      <Filter>DroneOS\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\DroneOS\Source\strString.c">
       <Filter>DroneOS\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\DroneOS\Source\sysDateTime.c">
@@ -106,6 +109,27 @@
       <Filter>DroneOS\HAL Files\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\DroneOS\Source\comUDP.c">
+      <Filter>DroneOS\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\sysInitialize.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\DroneOS\Source\sysString.c">
+      <Filter>DroneOS\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Navigation\Source\naviOccupancyGrid.c">
+      <Filter>Navigation\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Navigation\Source\naviRasterMap.c">
+      <Filter>Navigation\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Navigation\Source\naviPathPlannerFlooding.c">
+      <Filter>Navigation\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="naviOccupancyGridCompression.c">
+      <Filter>Navigation\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="roxTelemetry.c">
       <Filter>DroneOS\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\DroneOS\Drivers\Source\drvESP8266.c">
@@ -182,9 +206,6 @@
     <ClInclude Include="..\..\DroneOS\Include\sysHighresTimer.h">
       <Filter>DroneOS\Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\DroneOS\HAL\Win32\Include\halIODefinitions.h">
-      <Filter>DroneOS\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\DroneOS\Include\comPacketBuilder.h">
       <Filter>DroneOS\Header Files</Filter>
     </ClInclude>
@@ -204,9 +225,6 @@
       <Filter>DroneOS\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\DroneOS\Include\crcMD5.h">
-      <Filter>DroneOS\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\DroneOS\Include\strString.h">
       <Filter>DroneOS\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\DroneOS\Include\crcCITT16.h">
@@ -241,6 +259,30 @@
     </ClInclude>
     <ClInclude Include="..\..\DroneOS\Drivers\Include\drvUDP.h">
       <Filter>DroneOS\Driver Files\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\halIODefinitions.h">
+      <Filter>DroneOS\HAL Files\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\sysString.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\sysRTOS_Win32.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Navigation\Include\naviOccupancyGrid.h">
+      <Filter>Navigation\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Navigation\Include\naviRasterMap.h">
+      <Filter>Navigation\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Navigation\Include\naviOccupancyGridCompression.h">
+      <Filter>Navigation\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\roxTelemetry.h">
+      <Filter>DroneOS\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\DroneOS\Include\roxStorage.h">
+      <Filter>DroneOS\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

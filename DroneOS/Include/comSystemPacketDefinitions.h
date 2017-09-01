@@ -5,7 +5,7 @@
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 
 #ifndef __PacketDefinitions_h
@@ -14,7 +14,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Includes
 #include <sysTypes.h>
+#include <sysTimer.h>
 #include <crcMD5.h>
+
+
+#define roxTOTAL_OBJECT_COUNT 5
 
 ///////////////////////////////////////////////////////////////////////////////
 // Constants
@@ -171,11 +175,19 @@ typedef struct
 /* File transfer class packets                                               */
 /*****************************************************************************/
 
+//////////////////////////
+// Header for file packets
+typedef struct
+{
+	comPacketHeader Header;
+	uint8_t ID;
+} comPacketFileHeader;
+
 ////////////////////
 // File info request
 typedef struct
 {
-	comPacketHeader Header;
+	comPacketFileHeader Header;
 
 	sysChar FileName[comFILENAME_LENGTH];
 
@@ -185,11 +197,11 @@ typedef struct
 // File info response
 typedef struct
 {
-	comPacketHeader Header;
+	comPacketFileHeader Header;
 
-	uint8_t FileID;
-	uint32_t FileLength;
-	uint8_t FileHash[crcMD5_HASH_SIZE];
+	sysChar FileName[comFILENAME_LENGTH];
+	uint32_t Length;
+	uint8_t Hash[crcMD5_HASH_SIZE];
 
 } comPacketFileInfoResponse;
 
@@ -197,11 +209,10 @@ typedef struct
 // File data request
 typedef struct
 {
-	comPacketHeader Header;
+	comPacketFileHeader Header;
 
-	uint8_t FileID;
-	uint32_t FilePos;
-	uint8_t Length;
+	uint32_t Pos;
+	uint16_t Length;
 
 } comPacketFileDataReadRequest;
 
@@ -209,10 +220,10 @@ typedef struct
 // File data response (header only)
 typedef struct
 {
-	comPacketHeader Header;
+	comPacketFileHeader Header;
 
-	uint8_t FileID;
-	uint32_t FilePos;
+	uint32_t Pos;
+	uint16_t Length;
 
 } comFileDataReadResponseHeader;
 
@@ -220,11 +231,10 @@ typedef struct
 // File data request
 typedef struct
 {
-	comPacketHeader Header;
+	comPacketFileHeader Header;
 
-	uint8_t FileID;
-	uint32_t FilePos;
-	uint8_t DataLength;
+	uint32_t Pos;
+	uint16_t Length;
 
 } comPacketFileDataWriteRequestHeader;
 
@@ -232,9 +242,8 @@ typedef struct
 // File data response (header only)
 typedef struct
 {
-	comPacketHeader Header;
+	comPacketFileHeader Header;
 
-	uint8_t FileID;
 	uint8_t Error;
 
 } comPacketFileDataWriteResponse;
@@ -243,26 +252,52 @@ typedef struct
 // File operation finished request
 typedef struct
 {
-	comPacketHeader Header;
+	comPacketFileHeader Header;
 
-	uint8_t FileID;
 	uint8_t FinishMode;
 
 } comPacketFileOperationFinishedRequest;
 
 ////////////////////////////////////
-// File operation finished response
+// File operation: Finished response
 typedef struct
 {
-	comPacketHeader Header;
+	comPacketFileHeader Header;
 
-	uint8_t FileID;
 	uint8_t FinishMode;
 	uint8_t Error;
 
 } comPacketFileOperationFinishedResponse;
 
+
+////////////////////////////////////
+// File operation: Get changes request
+typedef struct
+{
+	comPacketFileHeader Header;
+
+	sysTick Timestamp;
+	uint32_t Pos;
+	uint32_t Length;
+
+} comPacketFileOperationGetChangesRequest;
+
+////////////////////////////////////
+// File operation: Get changes response
+typedef struct
+{
+	comPacketFileHeader Header;
+
+	sysTick Timestamp;
+	uint32_t FilePos;
+	uint32_t Lenth;
+
+} comPacketFileOperationGetChangesResponse;
+
 // Ends packed struct
 #include <sysPackedStructEnd.h>
+
+
+
 
 #endif

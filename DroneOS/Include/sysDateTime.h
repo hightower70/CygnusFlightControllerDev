@@ -5,7 +5,7 @@
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 
 #ifndef __sysDateTime_h
@@ -15,7 +15,7 @@
 /* Includes                                                                  */
 /*****************************************************************************/
 #include <sysTypes.h>
-#include <strString.h>
+#include <sysString.h>
 
 /*****************************************************************************/
 /* Types                                                                     */

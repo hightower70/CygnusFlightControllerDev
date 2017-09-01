@@ -5,7 +5,7 @@
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 #ifndef __fileSystemFiles_h
 #define __fileSystemFiles_h
@@ -30,13 +30,14 @@
 /// File handler callback request reasons
 typedef enum
 {
-	fileCF_GetLength,
-	fileCF_GetMD5,
-	fileCF_GetContent,
-	fileCF_ReadBlock,
-	fileCF_WriteBlock,
-	fileCF_FinishSuccess,
-	fileCF_FinishCancel
+	fileCF_GetLength,						// gets length of the file
+	fileCF_GetMD5,							// gets MD5 checksum of the file
+	fileCF_GetContent,					// gets pointer to the file content
+	fileCF_IsChangedSince,			// check if the given portion of the file was changed
+	fileCF_ReadBlock,						// reads block from the file
+	fileCF_WriteBlock,					// writes block to the file
+	fileCF_FinishSuccess,				// finishes file block operation (read/write) with success status
+	fileCF_FinishCancel					// finishes file block operation (read/write) with failed status
 } fileCallbackRequest;
 
 /// File request callback function

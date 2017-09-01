@@ -5,14 +5,14 @@
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 
 /*****************************************************************************/
 /* Includes                                                                  */
 /*****************************************************************************/
 #include <fileSystemFiles.h>
-#include <strString.h>
+#include <sysString.h>
 
 /*****************************************************************************/
 /* Function implementation                                                   */
@@ -29,7 +29,7 @@ uint8_t fileSystemFileGetIndex(sysString in_file_name)
 	index = 0;
 	while (g_system_files_info_table[index].Name != sysNULL)
 	{
-		if (strCompareConstStringNoCase(in_file_name, g_system_files_info_table[index].Name) == 0)
+		if (sysCompareConstStringNoCase(in_file_name, g_system_files_info_table[index].Name) == 0)
 		{
 			return index;
 		}

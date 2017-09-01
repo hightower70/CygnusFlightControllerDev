@@ -5,7 +5,7 @@
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 
 /*****************************************************************************/
@@ -78,7 +78,7 @@ static sysTick l_last_heartbeat_timestamp;
 /*****************************************************************************/
 /* Local function prototypes                                                 */
 /*****************************************************************************/
-static void comManagerTask(void* in_param);
+static sysTaskRetval comManagerTask(sysTaskParam in_param);
 static bool comManagerSendDeviceHeartbeat(void);
 static void comManagerTransmitPacket(void);
 static void comManagerProcessReceivedPackets(void);
@@ -96,6 +96,8 @@ void comManagerInit(void)
 	sysTask task_handle;
 	
 	sysMemZero(g_com_interfaces, sizeof(g_com_interfaces));
+
+	sysTaskNotifyCreate(l_task_event);
 
 	// initialize communication tasks
 	sysTaskCreate( comManagerTask, "comManager", sysDEFAULT_STACK_SIZE, sysNULL, comManager_TASK_PRIORITY, &task_handle, comManagerTaskStop);
@@ -138,11 +140,9 @@ void comManagerTaskStop(void)
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Communication manager task function
-static void comManagerTask(void* in_param)
+static sysTaskRetval comManagerTask(sysTaskParam in_param)
 {
 	sysTick difference;
-
-	sysTaskNotifyCreate(l_task_event);
 
 	// initialize
 	comPacketQueueInitialize(&l_receiver_queue, l_receiver_packet_buffer, comManager_RECEIVER_PACKET_QUEUE_LENGTH);
@@ -179,9 +179,6 @@ static void comManagerTask(void* in_param)
 		// handle pending transmitter messages
 		comManagerTransmitPacket();
 	}
-
-	sysTaskNotifyDelete(l_task_event);
-	l_task_event = sysNULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -495,7 +492,7 @@ static void comProcessCommunicationPacket(comPacketInfo* in_packet_info, uint8_t
 			if (response_packet != sysNULL)
 			{
 				// fill packet data members
-				strCopyString(response_packet->Name, comDEVICE_NAME_LENGTH, 0, cfgGetStringValue(cfgVAL_SYS_NAME));
+				sysCopyString(response_packet->Name, comDEVICE_NAME_LENGTH, 0, cfgGetStringValue(cfgVAL_SYS_NAME));
 				response_packet->UniqueID = cfgGetUInt32Value(cfgVAL_SYS_UID);
 
 				// start packet transmission

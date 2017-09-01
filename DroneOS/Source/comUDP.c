@@ -5,7 +5,7 @@
 /* All rights reserved.                                                      */
 /*                                                                           */
 /* This software may be modified and distributed under the terms             */
-/* of the BSD license.  See the LICENSE file for details.                    */
+/* of the GNU General Public License.  See the LICENSE file for details.     */
 /*****************************************************************************/
 
 /*****************************************************************************/
@@ -18,7 +18,7 @@
 #include <comSystemPacketDefinitions.h>
 #include <crcCITT16.h>
 #include <drvUDP.h>
-#include <strString.h>
+#include <sysString.h>
 #include <comPacketBuilder.h>
 #include <cfgStorage.h>
 
@@ -197,7 +197,7 @@ static void comUDPSendDeviceAnounce(uint8_t* in_transmit_buffer)
 	comFillPacketHeader(&info->Header, comPT_DEVICE_ANNOUNCE, sizeof(comPacketDeviceAnnounce));
 
 	// fill packet data members
-	strCopyString(info->Name, comDEVICE_NAME_LENGTH, 0, cfgGetStringValue(cfgVAL_SYS_NAME));
+	sysCopyString(info->Name, comDEVICE_NAME_LENGTH, 0, cfgGetStringValue(cfgVAL_SYS_NAME));
 	info->UniqueID = cfgGetUInt32Value(cfgVAL_SYS_UID);
 	info->Address = ip_address;
 
